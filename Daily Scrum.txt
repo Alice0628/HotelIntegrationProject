@@ -1,12 +1,9 @@
 # Integration Project - Team 6
 
 2023/02/17 Wei Wu
-
 1. Done / not done since last scrum:
-
 - discussed with team mates to decide on the database structure
 - discussed with team mates to finish the proposal
-
 2. To do until next Scrum:
 - proposal approval 
 - initiliaze project
@@ -15,6 +12,15 @@
 - N/A
  
 2023/02/17 Lei Zhou
+1. Done / not done since last scrum:
+-   	Initial meeting (done)
+-   	Git connection
+-   	Trello setup
+-   	Database design (done)
+2. To do until next Scrum:
+-  	Allocation of jobs
+3. Need assistance / figure things out
+-   	Extra functions
  
 2023/02/17 Xiao Zhang
 1. Done / not done since last scrum:
@@ -38,3 +44,4 @@
 - try connect and CRUD with MongoDB database
 3. Need assistance / figure things out
 - N/A
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
