@@ -1,6 +1,14 @@
 # Integration Project - Team 6
 
 2023/02/17 Wei Wu
+1. Done / not done since last scrum:
+-   Initial meeting (done)
+-   Database design (done)
+-	Github initial setup (done)
+2. To do until next Scrum:
+- initialize project tasks
+3. Need assistance / figure things out
+N/A
  
 2023/02/17 Lei Zhou
  
