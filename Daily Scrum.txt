@@ -1,1 +1,18 @@
+# Integration Project - Team 6
 
+2023/02/17 Wei Wu
+ 
+2023/02/17 Lei Zhou
+ 
+2023/02/17 Xiao Zhang
+
+2023/02/01 Qichen Zhu
+1. Done / not done since last scrum:
+- create trello board
+- discussed with team mates to decide on the database structure
+- discussed with team mates to finish the proposal
+2. To do until next Scrum:
+- initialize project tasks
+- try connect and CRUD with MongoDB database
+3. Need assistance / figure things out
+- N/A
