@@ -2,18 +2,13 @@
 {
     public class Motel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-
-        public string City { get; set; }
-
-        public string Province { get; set; }
-
-        public string PostalCode { get; set; }
-
-        public string ImageUrl { get; set; }
-
-        public double? Score { get; set; }
+        public int Id { get; set; } = default;
+        public string Name { get; set; } = String.Empty;
+        public string Address { get; set; } = String.Empty;
+        public string City { get; set; } = String.Empty;
+        public string Province { get; set; } = String.Empty;
+        public string PostalCode { get; set; } = String.Empty;
+        public string ImageUrl { get; set; } = String.Empty;
+        public double? Score { get; set; } = default;
     }
 }

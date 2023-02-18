@@ -2,12 +2,10 @@
 {
     public class Booking
     {
-        public int Id { get; set; }
-        public AppUser AppUser { get; set; }
-        public string ConfirmCode { get; set; }
-
-        public DateTime PayTime { get; set; }
-
-        public decimal TotalAmount { get; set; }
+        public int Id { get; set; } = default;
+        public AppUser AppUser { get; set; } = new AppUser();
+        public string ConfirmCode { get; set; } = String.Empty;
+        public DateTime PayTime { get; set; } = DateTime.Now;
+        public decimal TotalAmount { get; set; } = default;
     }
 }

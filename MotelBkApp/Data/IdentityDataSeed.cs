@@ -7,7 +7,7 @@ namespace MotelBkApp.Data
     public class IdentityDataSeed
     {
 
-        public static async Task InitializeAsync(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public static Task InitializeAsync(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             string[] roleNamesList = new string[] { "Admin", "User", "Staff" };
             foreach (string roleName in roleNamesList)
@@ -55,6 +55,8 @@ namespace MotelBkApp.Data
                     //FIXME: log the error
                 }
             }
+
+            return Task.CompletedTask;
         }
     }
 }

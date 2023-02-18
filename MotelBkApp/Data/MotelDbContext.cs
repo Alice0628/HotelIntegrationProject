@@ -13,7 +13,6 @@ namespace MotelBkApp.Data
           : base(options)
         {
         }
-
         public DbSet<BookedRecord> BookedRecords { get; set; }
         public DbSet<BookingCart> BookingCarts { get; set; }
         public DbSet<Booking> Bookings { get; set; }

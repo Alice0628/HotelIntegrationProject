@@ -180,7 +180,7 @@ namespace MotelBkApp.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MotelId")
+                    b.Property<int?>("MotelId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("NormalizedEmail")
@@ -502,9 +502,7 @@ namespace MotelBkApp.Data.Migrations
                 {
                     b.HasOne("MotelBkApp.Models.Motel", "Motel")
                         .WithMany()
-                        .HasForeignKey("MotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MotelId");
 
                     b.Navigation("Motel");
                 });
