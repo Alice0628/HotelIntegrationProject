@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <a class="btn btn-outline-warning my-2 my-sm-0" asp-controller="" asp-action="Index">
+        <i class="bi bi-box-arrow-in-right"></i> Start
+    </a>
+    <span style="padding: 5px;"></span>
+    <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Login">
+        <i class="bi bi-box-arrow-in-right"></i> Log in
+    </a>
+    <span style="padding: 5px;"></span>
+    <a class="btn btn-outline-primary my-2 my-sm-0" asp-controller="Account" asp-action="Register">
+        <i class="bi bi-person-plus"></i> Register
+    </a>
+}
+else
+{
+    @*User profile section*@
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link notranslate" style="color:deepskyblue;" asp-controller="Profile"
+               asp-action="Index">
+               @*@UserManager.GetUserAsync(User).Result.UserName*@
+               </a>
+            </li>
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Motels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Bookings</a>
+                </li>
+            }
+            else if (User.IsInRole("User"))
+            {
+                @if (ViewBag.count == null)
+                {
+                    ViewBag.count = 0;
+                }
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Cart(0)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="" asp-action="" 
+                    @*asp-route-id="@UserManager.GetUserAsync(User).Result.Id"*@
+                    >History</a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Motel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Rooms</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Bookings</a>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <span style="padding: 5px;"></span>
+    <div class="navbar-brand">
+        <form asp-controller="Account" asp-action="Logout">
+            <button class="btn btn-outline-danger my-2 my-sm-0">
+                <i class="bi bi-box-arrow-in-right"></i> Log out
+            </button>
+        </form>
+    </div>
+}

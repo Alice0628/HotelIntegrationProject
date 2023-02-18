@@ -12,7 +12,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<MotelDbContext>();
  
 
-
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<MotelDbContext>()
     .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider)
