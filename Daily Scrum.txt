@@ -55,11 +55,13 @@
 
 2023/02/19 Zhou Lei
 1. Done / not done since last scrum:
--
+-  worked outone algorithm to book rooms based on availability list(done)
+-  created layout for index/search and search result pages (done)
 2. To do until next Scrum:
-- 
+-  create layout for booking rooms and carts
+-  learn about automatic update of availability list in database 
 3. Need assistance / figure things out
--
+-  compare two approaches (roomtype-booking approach/ roomtype-availability list approach )
 
 2023/02/19 Zhang Xiao
 1. Done / not done since last scrum:
@@ -74,9 +76,12 @@
 
 2023/02/19 Zhu Qichen
 1. Done / not done since last scrum:
--
+- learned Azure CosmosDb for NoSql backup option
+- tried to save EF Identity tables into CosmosDb(failed)
+- create login/register layout for after use
 2. To do until next Scrum:
--
+- Jira Tutorial, create a board with sprint
+- create layout for admin(data?)
 3. Need assistance / figure things out
 -
  
