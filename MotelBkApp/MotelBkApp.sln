@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotelBkApp", "MotelBkApp.csproj", "{53F6F48D-CFEC-46AC-A6D6-9E4ED10F7618}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotelBkApp", "MotelBkApp.csproj", "{53F6F48D-CFEC-46AC-A6D6-9E4ED10F7618}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCHotel", "..\..\MVCHotel\MVCHotel\MVCHotel.csproj", "{D7F98674-7867-402E-88CE-97E971C194B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{53F6F48D-CFEC-46AC-A6D6-9E4ED10F7618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53F6F48D-CFEC-46AC-A6D6-9E4ED10F7618}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53F6F48D-CFEC-46AC-A6D6-9E4ED10F7618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7F98674-7867-402E-88CE-97E971C194B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7F98674-7867-402E-88CE-97E971C194B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7F98674-7867-402E-88CE-97E971C194B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7F98674-7867-402E-88CE-97E971C194B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
