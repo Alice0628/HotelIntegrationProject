@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Staff";
+}
+
+@if (TempData["StaffOption"] != null)
+{
+    <div class="col-md-12 alert alert-danger">
+        @TempData["StaffOption"]
+    </div>
+}
+
+<a class="btn btn-outline-primary my-2 my-sm-0" asp-controller="AdminStaff" asp-action="Create">
+    <i class="bi bi-person-plus"></i> Create Staff
+</a>
