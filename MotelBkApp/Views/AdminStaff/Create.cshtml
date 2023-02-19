@@ -1,5 +1,5 @@
 ﻿@using MotelBkApp.Data.ViewModels;
-@model RegisterVM;
+@model NewStaffVM;
 
 @{
     ViewData["Title"] = "Create Staff";
@@ -28,9 +28,14 @@
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="col-4">
-                        <label asp-for="Motel.Id" class="control-label mt-2"></label>
-                        <input asp-for="Motel.Id" class="form-control" />
-                        <span asp-validation-for="Motel.Id" class="text-danger"></span>
+                        <label asp-for="Motel" class="control-label mt-2"></label>
+                        <select asp-for="Motel" class="form-control">
+                            @foreach (Motel a in Model.MotelList)
+                            {
+                                <option value=@a.Id>@a.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Motel" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">

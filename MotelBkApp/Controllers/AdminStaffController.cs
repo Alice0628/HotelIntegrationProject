@@ -21,53 +21,70 @@ namespace MotelBkApp.Controllers
         {
             return View();
         }
-       
-        public IActionResult Create() => View(new RegisterVM());
+
+        public IActionResult Create()
+        {
+            List<Motel> motelList = _context.Motels.ToList();
+            if (motelList.Count == 0)
+            {
+                TempData["StaffOption"] = "Please add airline first";
+            }
+
+            NewStaffVM newStaff = new NewStaffVM();
+            newStaff.MotelList = motelList;
+            return View(newStaff); 
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Create(RegisterVM registerVM)
+        public async Task<IActionResult> Create(NewStaffVM newStaff)
         {
-            if (!ModelState.IsValid) return View(registerVM);
+            List<Motel> motelList = await _context.Motels.ToListAsync();
+            newStaff.MotelList = motelList;
 
-            var user = await _userManager.FindByEmailAsync(registerVM.Email);
+            // validation first
+            if (!ModelState.IsValid) return View(newStaff);
+
+            // staff exists
+            AppUser user = await _userManager.FindByEmailAsync(newStaff.Email);
             if (user != null)
             {
                 TempData["StaffCreate"] = "This email address is already in use";
-                return View(registerVM);
+                return View(newStaff);
             }
-
-            //if (Motel.Id == 0)
-            //{
-            //    TempData["StaffCreate"] = "Please choose a motel to sign to.";
-            //    return View(registerVM);
-            //}
+            
+            Motel motel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == newStaff.Motel);
 
             var newUser = new AppUser()
             {
-                Email = registerVM.Email,
-                UserName = registerVM.UserName,
-                PhoneNumber = registerVM.PhoneNumber,
-                FirstName = registerVM.FirstName,
-                LastName = registerVM.LastName,
-                DOB = registerVM.DOB,
-                //Motel.Id = registerVM.Motel.Id,
+                Email = newStaff.Email,
+                UserName = newStaff.UserName,
+                PhoneNumber = newStaff.PhoneNumber,
+                FirstName = newStaff.FirstName,
+                LastName = newStaff.LastName,
+                DOB = newStaff.DOB,
+                Motel = motel,
             };
 
-            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+            var newUserResponse = await _userManager.CreateAsync(newUser, newStaff.Password);
 
             if (newUserResponse.Succeeded)
             {
                 // sign user to "Staff"
                 var signToStaff = await _userManager.AddToRoleAsync(newUser, "Staff");
-                TempData["StaffOption"] = "Staff Created.";
-                return RedirectToAction("Index", "AdminStaff");
+                // set EmailConfirmation to true
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                var result = await _userManager.ConfirmEmailAsync(newUser, code);
+                if (result.Succeeded)
+                {
+                    TempData["StaffOption"] = "Staff Created.";
+                    return RedirectToAction("Index", "AdminStaff");
+                }
             }
             foreach (var error in newUserResponse.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-            return View(registerVM);
-
+            return View(newStaff);
         }
     }
 }
