@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject UserManager<IdentityUser> UserManager
+@*@inject UserManager<IdentityUser> UserManager*@
 
 @if (!User.Identity.IsAuthenticated)
 {
@@ -48,9 +48,9 @@ else
                     <a class="nav-link text-dark" asp-controller="" asp-action="">Cart(0)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="" 
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">History</a>
                     @*asp-route-id="@UserManager.GetUserAsync(User).Result.Id"*@
-                    >History</a>
+                   
                 </li>
             }
             else
