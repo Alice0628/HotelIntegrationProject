@@ -1,8 +1,45 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
+
+
+
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <div class="container border border-orange-2 px-3 py-2">
+        <form>
+            <div class="row">
+                <div class="col-lg-3 mb-3">
+                    <select class="form-select" id="city" name="city">
+                        <option value="montreal">Montreal</option>
+                        <option value="toronto">Toronto</option>
+                        <option value="vancouver">Vancouver</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <input type="date" class="form-control" id="check-in" name="check-in">
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <input type="date" class="form-control" id="check-out" name="check-out">
+                </div>
+                <div class="col-lg-2 mb-3">
+                    <select class="form-select" id="room-type" name="room-type">
+                        <option value="1adult">1 Adult</option>
+                        <option value="2adults">2 Adults</option>
+                        <option value="1adult1kid">1 Adult 1 Kid</option>
+                        <option value="family">Family</option>
+                    </select>
+                </div>
+                <div class="col-lg-1 mb-3">
+                    <button type="submit" class="btn btn-primary" style="background-color: navy; color: white;">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
 </div>
+
