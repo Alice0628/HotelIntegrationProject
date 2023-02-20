@@ -17,7 +17,7 @@
                     <span><b>Sorry!</b> - @TempData["StaffInfo"] </span>
                 </div>
             }
-            <h3 class="py-3">Staff Information</h3>
+            <h3 class="pt-4 pb-2">Staff Information</h3>
             <div class="form-container">
                 <form>
                     <div class="row">
@@ -62,7 +62,7 @@
                     <div class="form-group my-4">
                         <a class="btn btn-outline-success" asp-controller="AdminStaff" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                         <a class="btn btn-outline-danger" asp-controller="AdminStaff" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-                        <a class="btn btn-outline-secondary" asp-controller="AdminStaff" asp-action="Index">Back</a>
+                        <a class="btn btn-outline-secondary" asp-controller="AdminStaff" asp-action="StaffList">Back</a>
                     </div>
                 </form>
             </div>
