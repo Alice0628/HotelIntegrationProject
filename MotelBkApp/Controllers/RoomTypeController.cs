@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace TravelBooking.Controllers
 {
-    [Authorize(Roles="Admin")]
     public class RoomTypeController : Controller
     {
         private readonly MotelDbContext _context;

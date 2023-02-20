@@ -1,5 +1,5 @@
 ﻿@using MotelBkApp.Data.ViewModels;
-@model NewStaffVM;
+@model EditStaffVM;
 
 @{
     ViewData["Title"] = "Staff Info";
@@ -10,24 +10,27 @@
         <div class="container col-md-8">
             <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
         </div>
-        <div class="container col-md-8">
-            @if (TempData["StaffInfo"] != null)
-            {
-                <div class="col-md-12 alert alert-danger">
-                    <span><b>Sorry!</b> - @TempData["StaffInfo"] </span>
-                </div>
-            }
+        <br />
+        @if (TempData["StaffInfo"] != null)
+        {
+            <div id="StaffInfo" class="container col-md-8 flash alert alert-warning">
+                @TempData["StaffInfo"]
+            </div>
+        }
+        <div class="container col-md-8">  
             <h3 class="pt-4 pb-2">Staff Information</h3>
-            <div class="form-container">
+            <div class="form-container">             
                 <form>
-                    <div class="row">
-                        <div class="col-4" hidden>
+                    <div class="row" hidden>
+                        <div class="col-12">
                             <label asp-for="Id" class="control-label mt-2"></label>
                             <input asp-for="Id" class="form-control" readonly />
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-4">
                             <label asp-for="FirstName" class="control-label mt-2"></label>
-                            <input asp-for="FirstName" class="form-control" readonly/>
+                            <input asp-for="FirstName" class="form-control" readonly />
                         </div>
                         <div class="col-4">
                             <label asp-for="LastName" class="control-label mt-2"></label>
@@ -35,7 +38,12 @@
                         </div>
                         <div class="col-4">
                             <label asp-for="Motel" class="control-label mt-2"></label>
-                            <input asp-for="Motel" class="form-control" readonly />
+                            <select asp-for="Motel" class="form-control" readonly>
+                                @foreach (Motel a in Model.MotelList)
+                                {
+                                    <option value=@a.Id hidden>@a.Name</option>
+                                }
+                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -45,20 +53,20 @@
                         </div>
                         <div class="col-6">
                             <label asp-for="DOB" class="control-label mt-2"></label>
-                            <input asp-for="DOB" class="form-control" readonly />
+                            <input type="date" asp-for="DOB" class="form-control" value="@Model.DOB" readonly />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <label asp-for="Email" class="control-label mt-2"></label>
-                            <input asp-for="Email" class="form-control" readonly/>
+                            <input asp-for="Email" class="form-control" readonly />
                         </div>
                         <div class="col-6">
                             <label asp-for="PhoneNumber" class="control-label mt-2"></label>
                             <input asp-for="PhoneNumber" class="form-control" readonly />
                         </div>
                     </div>
-               
+
                     <div class="form-group my-4">
                         <a class="btn btn-outline-success" asp-controller="AdminStaff" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                         <a class="btn btn-outline-danger" asp-controller="AdminStaff" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
@@ -69,3 +77,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("StaffInfo").style.display = "none";
+    }, 3000);
+</script>

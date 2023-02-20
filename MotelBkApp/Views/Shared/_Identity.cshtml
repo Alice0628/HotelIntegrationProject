@@ -14,18 +14,20 @@ else
     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link notranslate" style="color:deepskyblue;" asp-controller="Profile"
-               asp-action="Index">
+                <a class="nav-link notranslate" style="color:deepskyblue;" asp-controller="" asp-action="">
                @*@UserManager.GetUserAsync(User).Result.UserName*@
                </a>
             </li>
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Customers</a>
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Customer</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Motels</a>
+                    <a class="nav-link text-dark" asp-controller="" asp-action="">Motel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="AdminStaff" asp-action="StaffList">Staff</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="" asp-action="">Bookings</a>
