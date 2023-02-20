@@ -5,6 +5,8 @@ namespace MotelBkApp.Data.ViewModels
 {
     public class NewStaffVM
     {
+        public int Id { get; set; } = default;
+
         [Display(Name = "User Name")]
         [Required(ErrorMessage = "User name is required")]
         public string UserName { get; set; } = string.Empty;
