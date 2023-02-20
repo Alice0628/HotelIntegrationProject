@@ -25,7 +25,7 @@ namespace MotelBkApp.Controllers
         public async Task<IActionResult> Detail(int? id)
         {
             var user = await _context.Users.Include("Motel").FirstOrDefaultAsync(u => u.Id == id);
-            if(user == null)
+            if (user == null)
             {
                 TempData["StaffInfo"] = "Staff not exists";
             }
@@ -53,7 +53,7 @@ namespace MotelBkApp.Controllers
 
             NewStaffVM newStaff = new NewStaffVM();
             newStaff.MotelList = motelList;
-            return View(newStaff); 
+            return View(newStaff);
         }
 
         [HttpPost]
@@ -72,7 +72,7 @@ namespace MotelBkApp.Controllers
                 TempData["StaffCreate"] = "This email address is already in use";
                 return View(newStaff);
             }
-            
+
             Motel motel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == newStaff.Motel);
 
             var newUser = new AppUser()
@@ -119,16 +119,8 @@ namespace MotelBkApp.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                // Search by fullname
-                //List<string> fullNameList = new List<string>();
-                //foreach (var staff in staffList)
-                //{
-                //    string fullName = staff.FirstName.ToLower() + " " + staff.LastName.ToLower();
-                //    fullNameList.Add(fullName);
-                //}
-
-                staffList = await _context.Users.Include("Motel").Where(
-                    s => s.Motel.Name.ToLower().Contains(searchString.ToLower()) ||
+                staffList = await _context.Users.Include("Motel").Where(s => s.Motel != null).Where(s =>
+                    s.Motel.Name.ToLower().Contains(searchString.ToLower()) ||
                     s.FirstName.ToLower().Contains(searchString.ToLower()) ||
                     s.LastName.ToLower().Contains(searchString.ToLower())
                     ).ToListAsync();
@@ -136,7 +128,9 @@ namespace MotelBkApp.Controllers
                 if (staffList.Count <= 0)
                 {
                     TempData["StaffListOption"] = "No Staff Found!";
+                    return View(staffList);
                 }
+                return View(staffList);
             }
             return View(staffList);
         }
