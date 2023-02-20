@@ -3,9 +3,9 @@ using MotelBkApp.Models;
 
 namespace MotelBkApp.Data.ViewModels
 {
-    public class NewStaffVM
+    public class EditStaffVM
     {
-        public int Id { get; set; } = default;
+        public int Id { get; set; }
 
         [Display(Name = "User Name")]
         [Required(ErrorMessage = "User name is required")]
@@ -35,18 +35,7 @@ namespace MotelBkApp.Data.ViewModels
         [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Exactly 10 digit numbers allowed.")]
         public string PhoneNumber { get; set; } = string.Empty;
 
-        [Display(Name = "Password")]
-        [Required(ErrorMessage = "Password is required")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = string.Empty;
-
-        [Display(Name = "Confirm password")]
-        [Required(ErrorMessage = "Confirm password is required")]
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Passwords do not match")]
-        public string ConfirmPassword { get; set; } = string.Empty;
-
+       
         public int Motel { get; set; }
 
         public List<Motel>? MotelList { get; set; }
