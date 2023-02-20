@@ -68,7 +68,7 @@
 - created user stories in trello and distributed tasks among team members;
 - implemented Models and basic configuration to initiliaze project 
 - learned amz DynamoDb and S3 buckets
-- succeeded to connect to amz DynamoDb and S3 buckets in our app
+- succeeded to connect to amz DynamoDb and S3 buckets in test app
 2. To do until next Scrum:
 - learned amz deploy 
 3. Need assistance / figure things out
@@ -93,7 +93,13 @@
 
 
 2023/02/19 Zhang Xiao
-
+1. Done / not done since last scrum:
+- succeeded in deployment of .net core app on amz ec2 instance
+- complete roomtype views and basic functions
+2. To do until next Scrum:
+- amz elastic beanstalk + pipeline + codebuild to implement ci/cd
+3. Need assistance / figure things out
+-
 
 2023/02/19 Zhu Qichen
 1. Done / not done since last scrum:

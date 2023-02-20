@@ -55,7 +55,6 @@ namespace MotelBkApp.Data
                     //FIXME: log the error
                 }
             }
-
             return Task.CompletedTask;
         }
     }
