@@ -1,0 +1,149 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <div class="container border border-orange-2 px-3 py-2">
+        <form>
+            <div class="row">
+                <div class="col-lg-3 mb-3">
+                    <select class="form-select" id="city" name="city">
+                        <option value="montreal">Montreal</option>
+                        <option value="toronto">Toronto</option>
+                        <option value="vancouver">Vancouver</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <input type="date" class="form-control" id="check-in" name="check-in">
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <input type="date" class="form-control" id="check-out" name="check-out">
+                </div>
+                <div class="col-lg-2 mb-3">
+                    <select class="form-select" id="room-type" name="room-type">
+                        <option value="1adult">1 Adult</option>
+                        <option value="2adults">2 Adults</option>
+                        <option value="1adult1kid">1 Adult 1 Kid</option>
+                        <option value="family">Family</option>
+                    </select>
+                </div>
+                <div class="col-lg-1 mb-3">
+                    <button type="submit" class="btn btn-primary" style="background-color: navy; color: white;">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="slider">
+    <img src="images/slider.jpg" class="imag">
+</div>
+<div class="check">
+
+    <div class="checklb">
+        <lable class="checklb">Choose a City:</lable>
+        <select class="secroom" name="rooms" id="rooms">
+            <option value="">Select a city</option>
+            <option value="Montreal">Montreal</option>
+            <option value="Ottawa">Ottawa</option>
+        </select>
+    </div>
+
+
+    <div class="checklb">
+        <lable>Check In</lable>
+        <input type="date" name="" value="check-in" class="checkinp" id="">
+    </div>
+    <div class="checklb">
+        <lable>Check Out</lable>
+        <input type="date" name="" value="check-out" class="checkinp" id="">
+    </div>
+    <div class="checklb">
+        <lable class="checklb">Rooms</lable>
+        <select class="secroom" name="rooms" id="rooms">
+            <option class="optroom" value="royal room">Royal Room</option>
+            <option class="optroom" value="delux room">Delux Room</option>
+            <option class="optroom" value="double room">Double Room</option>
+            <option class="optroom" value="single room">Single Room</option>
+        </select>
+    </div>
+
+    <input type="button" value="SEARCH" id="sbtn">
+</div>
+
+<div class="col p-4 mb-4 ">
+    <a type="submit" asp-page="/Guest/Bookings/BookingList" class="btn btn-secondary flex-md-shrink-1">Already have a booking, click here to check</a>
+</div>
+
+
+</div>
+<div class="rooms">
+    <h1>OUR ROOMS</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, reprehenderit!</p>
+    <div class="roomimages">
+        <span class="innerimg">
+            <img src="images/room-1.jpg" class="img2">
+            <p class="h11">DELUX ROOM</p>
+            <p class="pricetag">89$ / Night</p>
+        </span>
+        <span class="innerimg">
+            <img src="images/room-2.jpg" class="img2">
+            <p class="h11">DELUX ROOM</p>
+            <p class="pricetag">89$ / Night</p>
+        </span>
+        <span class="innerimg">
+            <img src="images/room-3.jpg" class="img2">
+            <p class="h11">DELUX ROOM</p>
+            <p class="pricetag">89$ / Night</p>
+        </span>
+        <span class="innerimg">
+            <img src="images/room-4.jpg" class="img2">
+            <p class="h11">DELUX ROOM</p>
+            <p class="pricetag">89$ / Night</p>
+        </span>
+        <span class="innerimg">
+            <img src="images/room-5.jpg" class="img2">
+            <p class="h11">DELUX ROOM</p>
+            <p class="pricetag">89$ / Night</p>
+        </span>
+        <span class="innerimg">
+            <img src="images/room-6.jpg" class="img2">
+            <p class="h11">DELUX ROOM</p>
+            <p class="pricetag">89$ / Night</p>
+        </span>
+    </div>
+</div>
+<div class="room-deal">
+    <img src="images/room-deal.jpg" id="imgdeal">
+</div>
+<div class="about">
+    <img src="images/about-us-2.jpg">
+    <div class='about-p'>
+        <h1>WHY CHOOSE US</h1>
+        <p>Kevin pastrami tri-tip prosciutto ham hock pork belly bacon pork loin salami pork chop shank corned beef tenderloin meatball cow. Pork bresaola meatloaf tongue, landjaeger tail andouille strip steak tenderloin sausage chicken tri-tip. Incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+        <ol>
+            <li>Pork bresaola meatloaf tongue, landjaeger tail andouille.</li>
+            <li>Pork bresaola meatloaf tongue, landjaeger tail andouille.</li>
+            <li>Pork bresaola meatloaf tongue, landjaeger tail andouille.</li>
+            <li>Pork bresaola meatloaf tongue, landjaeger tail andouille.</li>
+            <li>Pork bresaola meatloaf tongue, landjaeger tail andouille.</li>
+        </ol>
+    </div>
+</div>
+<div class="clirev">
+    <span class="espan"><i class="fspan fa-4x far fa-smile-beam"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
+    <span class="espan"><i class="fspan fa-4x far fa-heart"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
+    <span class="espan"><i class="fspan fa-4x far fa-thumbs-up"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
+    <span class="espan"><i class="fspan fa-4x far fa-star"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
+</div>
+<div class="staff">
+    <h1>OUR TEAM MEMBERS</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, labore?</p>
+    <div class="divimg">
+        <img src="images/team-2-1.jpg" alt="">
+        <img src="images/team-2-2.jpg" alt="">
+        <img src="images/team-2-3.jpg" alt="">
+    </div>
+</div>
+
