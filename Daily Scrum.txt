@@ -86,13 +86,19 @@
 -
  
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-2023/02/19 Wu Wei
+2023/02/20 Wu Wei
 
 
-2023/02/19 Zhou Lei
+2023/02/20 Zhou Lei
+1. Done / not done since last scrum:
+-  available list and details view (motel detail and room list) (done)
+-  study on model and search approach ( may return to booking-room approach) (done)
+2. To do until next Scrum:
+-  work out the searching-booking in room model
+3. Need assistance / figure things out
+-  choice between booking-room approach or booking-roomtype approach?
 
-
-2023/02/19 Zhang Xiao
+2023/02/20 Zhang Xiao
 1. Done / not done since last scrum:
 - succeeded in deployment of .net core app on amz ec2 instance
 - complete roomtype views and basic functions
@@ -101,7 +107,7 @@
 3. Need assistance / figure things out
 -
 
-2023/02/19 Zhu Qichen
+2023/02/20 Zhu Qichen
 1. Done / not done since last scrum:
 - Jira Tutorial, create a board with sprint
 - admin can create staff
