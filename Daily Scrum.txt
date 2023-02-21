@@ -136,10 +136,10 @@
 3. Need assistance / figure things out
 --
 
-2023/02/20 Zhou Lei
+2023/02/21 Zhou Lei
 
 
-2023/02/20 Zhang Xiao
+2023/02/21 Zhang Xiao
 1. Done / not done since last scrum:
 - motel staff can view and edite room staff 
 - test crud with dynamoDb
@@ -149,7 +149,7 @@
 - booked rooms list view 
 3. Need assistance / figure things out
 
-2023/02/20 Zhu Qichen
+2023/02/21 Zhu Qichen
 1. Done / not done since last scrum:
 - admin can edit staff
 - successfully display motel name in the staff page
