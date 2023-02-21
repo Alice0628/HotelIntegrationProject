@@ -114,7 +114,7 @@ namespace MotelBookingApp.Controllers
                         var credential = new System.Net.NetworkCredential
                         {
                             UserName = "zhukris9@gmail.com",  // replace with valid value
-                            Password = "jbzhodonlwicjoeg"  // replace with valid value (SMTP generated password)
+                            Password = "uvbbkqadyiogmtxb"  // replace with valid value (SMTP generated password)
                         };
                         smtp.Credentials = credential;
                         smtp.Host = "smtp.gmail.com";
@@ -211,7 +211,7 @@ namespace MotelBookingApp.Controllers
                     var credential = new System.Net.NetworkCredential
                     {
                         UserName = "zhukris9@gmail.com",  // replace with valid value
-                        Password = "jbzhodonlwicjoeg"  // replace with valid value (SMTP generated password)
+                        Password = "uvbbkqadyiogmtxb"  // replace with valid value (SMTP generated password)
                     };
                     smtp.Credentials = credential;
                     smtp.Host = "smtp.gmail.com";
