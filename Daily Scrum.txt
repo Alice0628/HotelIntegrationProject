@@ -118,3 +118,27 @@
 - profile page layout?
 3. Need assistance / figure things out
 -
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2023/02/20 Wu Wei
+
+
+2023/02/20 Zhou Lei
+
+
+2023/02/20 Zhang Xiao
+
+
+2023/02/20 Zhu Qichen
+1. Done / not done since last scrum:
+- admin can edit staff
+- successfully display motel name in the staff page
+- help with register/login function and make layouts
+2. To do until next Scrum:
+- admin can delete staff
+- finish other staff-related function for admin
+- maybe start create motel if have time
+3. Need assistance / figure things out
+-
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
