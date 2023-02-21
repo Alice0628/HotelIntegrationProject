@@ -1,0 +1,94 @@
+@model List<RoomType>
+@{
+    ViewData["Title"] = "List of room types";
+}
+
+<div class="container">
+    <h2 class="text-center">List of Airports</h2>
+    <br>
+    <!-- Search Bar -->
+    <div class="container d-flex justify-content-center">
+        <div class="col-8">
+            <form class="form-inline my-2 my-lg-0" method="post" asp-controller="AdminAirport" asp-action="Index">
+                <div class="input-group">
+                    <input type="search" name="searchWord" class="form-control rounded" placeholder="Search..." />
+                    <button type="submit" class="btn btn-outline-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <!-- Airports List -->
+    <div class="container d-flex justify-content-center">
+        <div class="col-8">
+            <a class="btn btn-primary" style="margin-bottom: 10px;" asp-controller="AdminAirport"
+                asp-action="Create">Add an airport</a>
+            @if (TempData["AirportOption"] != null)
+            {
+                <div id="AirportOption" class="flash alert alert-warning">
+                    @TempData["AirportOption"]
+                </div>
+            }
+            <div class="card text-black bg-light">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-3 text-center">Id</th>
+                                <th class="col-3 text-center">Name</th>
+                                <th class="col-3 text-center">Price</th>
+                                <th class="col-3 text-center">Image</th>
+                                <th class="col-3 text-center">sleep</th>
+                                <th class="col-3 text-center">Amount</th>
+                                <th class="col-3 text-center">Description</th>
+                               
+                        
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var rt in Model)
+                            {
+                                <tr>
+                                    <td>@rt.Id</td>
+                                    <td>@rt.Name</td>
+                                    <td>@rt.Price</td>
+                                    <td><img src=@rt.ImageUrl alt="airport logo" width="150" height="150" /></td>
+                                    <td>@rt.Sleep</td>
+                                    <td>@rt.Amount</td>
+                                    <td>@rt.Description</td>
+
+                                    <th class="d-flex justify-content-center">
+                        
+                                        <a class="btn btn-sm btn-info" style="margin-right:4px;"
+                                        asp-controller="RoomType" asp-action="Edit"
+                                        asp-route-id="@rt.Id">Edit</a>
+                                        <a class="btn btn-sm btn-danger" asp-controller="RoomType" asp-action="Delete"
+                                        asp-route-id="@rt.Id">Delete</a>
+                                    </th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("AirportOption").style.display = "none";
+    }, 3000);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
