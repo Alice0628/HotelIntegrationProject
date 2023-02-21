@@ -1,5 +1,5 @@
-﻿@*@using Microsoft.AspNetCore.Identity;*@
-@*@inject SignInManager<AppUser> signInManager;*@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<AppUser> signInManager;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +36,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container" style="max-width:1080px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
