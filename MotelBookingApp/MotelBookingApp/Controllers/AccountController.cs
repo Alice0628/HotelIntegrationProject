@@ -14,11 +14,13 @@ namespace MotelBookingApp.Controllers
         private readonly MotelDbContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, MotelDbContext context)
+        private readonly IConfiguration _config;
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, MotelDbContext context, IConfiguration config)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
             _context = context;
+            _config = config;
         }
 
         public async Task<IActionResult> Users()
@@ -113,8 +115,8 @@ namespace MotelBookingApp.Controllers
                         var message = new MailMessage();
                         var credential = new System.Net.NetworkCredential
                         {
-                            UserName = "zhukris9@gmail.com",  // replace with valid value
-                            Password = "uvbbkqadyiogmtxb"  // replace with valid value (SMTP generated password)
+                            UserName = _config["MyGmail"],  // replace with valid value
+                            Password = _config["SMTP"]  // replace with valid value (SMTP generated password)
                         };
                         smtp.Credentials = credential;
                         smtp.Host = "smtp.gmail.com";
@@ -197,7 +199,7 @@ namespace MotelBookingApp.Controllers
                 }
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { code = code }, protocol: HttpContext.Request.Scheme);
 
                 var body = $@"<p>Thank you for visiting our booking system!</p>
                             <p>Your Username is: <br/>{user.UserName}</p>
@@ -210,8 +212,8 @@ namespace MotelBookingApp.Controllers
                     var message = new MailMessage();
                     var credential = new System.Net.NetworkCredential
                     {
-                        UserName = "zhukris9@gmail.com",  // replace with valid value
-                        Password = "uvbbkqadyiogmtxb"  // replace with valid value (SMTP generated password)
+                        UserName = _config["MyGmail"],  // replace with valid value
+                        Password = _config["SMTP"]  // replace with valid value (SMTP generated password)
                     };
                     smtp.Credentials = credential;
                     smtp.Host = "smtp.gmail.com";
