@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using MotelBookingApp.Data;
 using MotelBookingApp.Models;
 using Microsoft.EntityFrameworkCore;
- 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +11,9 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<MotelDbContext>();
 
+//user Secrets
+var secretEmail = builder.Configuration["MyGmail"];
+var secretSMTP = builder.Configuration["SMTP"];
 
 
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)

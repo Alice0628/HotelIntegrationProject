@@ -4,9 +4,23 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>39972dc8-dffb-4d05-bdd4-968b1992d2a4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Views\AdminMotel\Create.cshtml" />
+    <None Include="Views\AdminMotel\Delete.cshtml" />
+    <None Include="Views\AdminMotel\Edit.cshtml" />
+    <None Include="Views\AdminMotel\Index.cshtml" />
+    <None Include="Views\AdminMotel\View.cshtml" />
+    <None Include="Views\AdminPayment\Index.cshtml" />
+    <None Include="Views\AdminStaff\Create.cshtml" />
+    <None Include="Views\AdminStaff\CustomerList.cshtml" />
+    <None Include="Views\AdminStaff\Delete.cshtml" />
+    <None Include="Views\AdminStaff\Detail.cshtml" />
+    <None Include="Views\AdminStaff\Edit.cshtml" />
+    <None Include="Views\AdminStaff\Index.cshtml" />
+    <None Include="Views\AdminStaff\StaffList.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
@@ -28,6 +42,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

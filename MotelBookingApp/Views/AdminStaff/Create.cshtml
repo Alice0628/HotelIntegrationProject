@@ -18,9 +18,9 @@
                     <span><b>Sorry!</b> - @TempData["StaffCreate"] </span>
                 </div>
             }
-            <h3 class="pt-4 pb-2">Create Staff</h3>
+            <h3 class="py-3">Create Staff</h3>
             <div class="form-container">
-                <form asp-controller="AdminStaff" asp-action="Create">
+                <form style="padding-top:10px;" asp-controller="AdminStaff" asp-action="Create">
                     <div class="row">
                         <div class="col-4">
                             <label asp-for="FirstName" class="control-label mt-2"></label>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="form-group my-4">
-                        <input class="btn btn-outline-success float-right" type="submit" value="Create" />
+                        <input class="btn btn-outline-success float-right" style="margin-right:5px;" type="submit" value="Create" />
                         <a class="btn btn-outline-secondary" asp-controller="AdminStaff" asp-action="StaffList">Cancel</a>
                     </div>
                 </form>
