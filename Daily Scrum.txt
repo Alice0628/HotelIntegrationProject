@@ -103,7 +103,7 @@
 - succeeded in deployment of .net core app on amz ec2 instance
 - complete roomtype views and basic functions
 2. To do until next Scrum:
-- amz elastic beanstalk + pipeline + codebuild to implement ci/cd
+- aws elastic beanstalk + pipeline + codebuild to implement ci/cd
 3. Need assistance / figure things out
 -
 
@@ -127,7 +127,14 @@
 
 
 2023/02/20 Zhang Xiao
-
+1. Done / not done since last scrum:
+- motel staff can view and edite room staff 
+- test crud with dynamoDb
+- modified app directory
+2. To do until next Scrum:
+- try aws ci/cd
+- booked rooms list view 
+3. Need assistance / figure things out
 
 2023/02/20 Zhu Qichen
 1. Done / not done since last scrum:
