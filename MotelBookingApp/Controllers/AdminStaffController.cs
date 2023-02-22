@@ -186,7 +186,7 @@ namespace MotelBookingApp.Controllers
                 await _context.SaveChangesAsync();
 
                 TempData["StaffInfo"] = "Staff Updated";
-                return RedirectToAction($"Detail", "AdminStaff", new {id = id});
+                return RedirectToAction($"Detail", "AdminStaff", new { id = id });
             }
             catch (SystemException ex)
             {
@@ -195,10 +195,64 @@ namespace MotelBookingApp.Controllers
             }
         }
 
+        // GET: AdminStaff/Delete/id
+        public async Task<IActionResult> Delete(int? id)
+        {
+            try
+            {
+                var deleteStaff = await _context.Users.FirstOrDefaultAsync(s => s.Id == id);
+                if (deleteStaff == null)
+                {
+                    return NotFound();
+                }
+                return View(deleteStaff);
+            }
+            catch (SystemException ex)
+            {
+                TempData["StaffDeleteOption"] = $"{ex.Message}";
+                return View();
+            }
+        }
+
+        // POST: AdminStaff/Delete/id
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmDelete(int id)
+        {
+            try
+            {
+                var deleteStaff = await _context.Users.FindAsync(id);
+                if (deleteStaff == null)
+                {
+                    TempData["StaffDeleteInfo"] = "Staff error!";
+                    return View(deleteStaff);
+                }
+                _context.Users.Remove(deleteStaff);
+                await _context.SaveChangesAsync();
+
+                TempData["StaffListOption"] = $"Staff has been deleted successfully";
+                return RedirectToAction($"StaffList", "AdminStaff");
+            }
+            catch (SystemException ex)
+            {
+                TempData["StaffDeleteInfo"] = $"{ex.Message}";
+                return View();
+            }
+        }
+
 
         public async Task<IActionResult> StaffList(string searchString)
         {
-            var staffList = await _context.Users.Include("Motel").Where(s => s.Motel.Id != null).ToListAsync();
+            var roleId = _context.Roles.Where(r => r.Name == "Staff").FirstOrDefault().Id;
+            var roleList = await _context.UserRoles.Where(ur => ur.RoleId == roleId).ToListAsync();
+
+            List<AppUser> staffList = new List<AppUser>();
+            for (int i = 0; i < roleList.Count; i++)
+            {
+                var staff = _context.Users.Include("Motel").Where(s => s.Id == roleList[i].UserId).FirstOrDefault();
+                staffList.Add(staff);
+            }
+
             if (staffList == null)
             {
                 TempData["StaffListOption"] = "No Staff Exist!";
@@ -222,5 +276,6 @@ namespace MotelBookingApp.Controllers
             }
             return View(staffList);
         }
+
     }
 }

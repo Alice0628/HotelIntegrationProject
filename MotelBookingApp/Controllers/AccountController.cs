@@ -252,7 +252,7 @@ namespace MotelBookingApp.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                TempData["ResetPassError"] = "Wrong email. Please use the link and try again!";
+                TempData["ResetPassError"] = "Wrong email. Please try again!";
                 return RedirectToAction("ResetPassword", "Account", new { code = model.Code });
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);

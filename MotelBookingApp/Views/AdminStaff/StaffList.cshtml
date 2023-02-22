@@ -6,64 +6,77 @@
     ViewData["Title"] = "List of Staffs";
 }
 
-<div class="container mt-4">
-    <!-- Search Bar -->
-    <div class="container d-flex justify-content-center">
-        <div class="col-10 row">
-            <h3 class="col-4 px-1" style="margin:auto;">Staff List</h3>
-            <div class="col-5 px-1">
-            <form class="form-inline my-2 my-lg-0" method="Get" asp-controller="AdminStaff" asp-action="StaffList">
-                <div class="input-group">
-                    <input type="search" name="SearchString" class="form-control rounded"
-                           placeholder="Search by Motel or Name..." />
-                    <button type="submit" asp-controller="AdminStaff" class="btn btn-outline-primary">Search</button>
-                </div>
-            </form>
-            </div>
-            <div class="col-3 px-1 d-flex justify-content-end" style="margin:auto;">
-                <a class="btn btn-success" asp-controller="AdminStaff" asp-action="Create">
-                     Create
-                </a>
-            </div>
+<div class="col-12 justify-content-center">
+    <div class="register-photo">
+        <div class="container col-md-8">
+            <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
         </div>
     </div>
-    <br>
-    <!-- Staff List -->
-    <div class="container d-flex justify-content-center">
-        <div class="col-10">
-            @if (TempData["StaffListOption"] != null)
-            {
-                <div id="notfound" class="flash alert alert-warning">
-                    @TempData["StaffListOption"]
+    <div>
+        <!-- Search Bar -->
+        <div class="container d-flex justify-content-center">
+            <div class="col-10 row">
+                <h3 class="col-4 px-1" style="margin:auto;">Staff List</h3>
+                <div class="col-5 px-1">
+                    <form class="form-inline my-2 my-lg-0" method="Get" asp-controller="AdminStaff" asp-action="StaffList">
+                        <div class="input-group">
+                            <input type="search" name="SearchString" class="form-control rounded"
+                                   placeholder="Search..." />
+                            <button type="submit" asp-controller="AdminStaff" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </form>
                 </div>
-            }
-            <div class="card text-black bg-light">
-                <div class="card-body">
-                    <table class="table table-hover" id="stafflist">
-                        <thead>
-                            <tr>
-                                <th class="col-2">Motel</th>
-                                <th class="col-4">Full Name</th>
-                                <th class="col-4">Phone</th>
-                                <th class="col-2 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var staff in Model)
-                            {
+                <div class="col-3 px-1 d-flex justify-content-end" style="margin:auto;">
+                    <a class="btn btn-success" asp-controller="AdminStaff" asp-action="Create">
+                        Create
+                    </a>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- Staff List -->
+        <div class="container d-flex justify-content-center">
+            <div class="col-10">
+                @if (TempData["StaffListOption"] != null)
+                {
+                    <div id="StaffListOption" class="flash alert alert-warning">
+                        @TempData["StaffListOption"]
+                    </div>
+                }
+                <div class="card text-black bg-light">
+                    <div class="card-body">
+                        <table class="table table-hover" id="stafflist">
+                            <thead>
                                 <tr>
-                                    <td class="notranslate">@staff.Motel.Name</td>
-                                    <td class="notranslate">@staff.FirstName @staff.LastName</td>
-                                    <td class="notranslate">@staff.PhoneNumber</td>
-                                    <td class="d-flex justify-content-center">
-                                        <a class="btn btn-sm btn-primary" style="margin-right:4px;" asp-controller="AdminStaff" asp-action="Detail" asp-route-id="@staff.Id">Details</a>
-                                    </td>
+                                    <th class="col-3"><i class="fa-solid fa-hotel"></i> Motel</th>
+                                    <th class="col-3"><i class="fa-solid fa-user-tie"></i> Name</th>
+                                    <th class="col-3"><i class="fa-solid fa-phone"></i> Phone</th>
+                                    <th class="col-3 text-center"><i class="fa-solid fa-hand"></i> Actions</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var staff in Model)
+                                {
+                                    <tr>
+                                        <td class="notranslate">@staff.Motel.Name</td>
+                                        <td class="notranslate">@staff.FirstName @staff.LastName</td>
+                                        <td class="notranslate">@staff.PhoneNumber</td>
+                                        <td class="d-flex justify-content-center">
+                                            <a class="btn btn-sm btn-primary" style="margin-right:4px;" asp-controller="AdminStaff" asp-action="Detail" asp-route-id="@staff.Id">Details</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("StaffListOption").style.display = "none";
+    }, 3000);
+</script>

@@ -17,13 +17,13 @@ else
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
                 <a class="nav-link notranslate" style="color:deepskyblue;" asp-controller="" asp-action="">
-                    @UserManager.GetUserName(User)
+                    <i class="fa-solid fa-user"></i> @UserManager.GetUserName(User)
                 </a>
             </li>
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Customer</a>
+                    <a class="nav-link text-dark" asp-controller="AdminCustomer" asp-action="CustomerList">Customer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="" asp-action="">Motel</a>

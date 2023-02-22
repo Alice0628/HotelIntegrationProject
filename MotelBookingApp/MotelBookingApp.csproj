@@ -15,7 +15,7 @@
     <None Include="Views\AdminMotel\View.cshtml" />
     <None Include="Views\AdminPayment\Index.cshtml" />
     <None Include="Views\AdminStaff\Create.cshtml" />
-    <None Include="Views\AdminStaff\CustomerList.cshtml" />
+    <None Include="Views\AdminCustomer\CustomerList.cshtml" />
     <None Include="Views\AdminStaff\Delete.cshtml" />
     <None Include="Views\AdminStaff\Detail.cshtml" />
     <None Include="Views\AdminStaff\Edit.cshtml" />

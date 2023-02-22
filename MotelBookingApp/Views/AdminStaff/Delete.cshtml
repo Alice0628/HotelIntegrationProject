@@ -1,5 +1,80 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AppUser;
+
 @{
+    ViewData["Title"] = "Delete Staff";
 }
+
+<div class="col-12 justify-content-center">
+    <div class="register-photo">
+        <div class="container col-md-8">
+            <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
+        </div>
+        <br />
+        @if (TempData["StaffDeleteInfo"] != null)
+        {
+            <div id="StaffDeleteInfo" class="container col-md-8 flash alert alert-warning">
+                @TempData["StaffDeleteInfo"]
+            </div>
+            <br />
+        }
+        <div class="container col-md-8">
+            <div class="flash alert alert-danger">
+                <h4 class="text-center"><i class="fa-solid fa-circle-exclamation"></i> Are you sure you want to delete <span style="color:cornflowerblue">Staff @Model.Id</span> ?</h4>
+            </div>
+            <div class="form-container">
+                <form method="post" asp-controller="AdminStaff" asp-action="Delete">
+                    <div class="row" hidden>
+                        <div class="col-12">
+                            <label asp-for="Id" class="notranslate control-label mt-2"></label>
+                            <input asp-for="Id" class="notranslate form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label asp-for="FirstName" class="control-label mt-2"></label>
+                            <input asp-for="FirstName" class="notranslate form-control" readonly />
+                        </div>
+                        <div class="col-4">
+                            <label asp-for="LastName" class="control-label mt-2"></label>
+                            <input asp-for="LastName" class="notranslate form-control" readonly />
+                        </div>
+                        <div class="col-4">
+                            <label asp-for="Motel" class="control-label mt-2"></label>
+                            <input asp-for="Motel" class="notranslate form-control" value="@Model.Id" readonly />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="UserName" class="control-label mt-2"></label>
+                            <input asp-for="UserName" class="notranslate form-control" readonly />
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="DOB" class="notranslate control-label mt-2"></label>
+                            <input type="date" asp-for="DOB" class="notranslate form-control" value="@Model.DOB" readonly />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="Email" class="control-label mt-2"></label>
+                            <input asp-for="Email" class="notranslate form-control" readonly />
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="PhoneNumber" class="control-label mt-2">Phone</label>
+                            <input asp-for="PhoneNumber" class="notranslate form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group my-4">
+                        <button type="submit" class="btn btn-outline-danger" asp-route-id="@Model.Id">Confirm</button>
+                        <a class="btn btn-outline-secondary" asp-controller="AdminStaff" asp-action="Detail" asp-route-id="@Model.Id">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("StaffDeleteInfo").style.display = "none";
+    }, 3000);
+</script>
