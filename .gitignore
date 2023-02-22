@@ -3,9 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-.sqlite
-.sqlite-shm
-.sqlite-wal
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 .vscode/
 Migrations/
 
