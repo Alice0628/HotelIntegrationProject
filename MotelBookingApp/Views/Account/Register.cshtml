@@ -18,6 +18,7 @@
             <div class="form-container">
                 <div class="image-holder"></div>
                 <form asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="row">
                         <div class="col-6">
                             <label asp-for="FirstName" class="control-label mt-2"></label>

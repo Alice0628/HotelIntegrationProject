@@ -98,39 +98,51 @@ namespace MotelBookingApp.Controllers
             {
                 // sign user to "User"
                 var signToUser = await _userManager.AddToRoleAsync(newUser, "User");
-                if (signToUser.Succeeded)
+
+                /* ****************** TEST USE  ***************** */
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                var result = await _userManager.ConfirmEmailAsync(newUser, code);
+
+                if (result.Succeeded)
                 {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = newUser.Id, code = code }, protocol: HttpContext.Request.Scheme);
-
-                    var body = $@"<p>Thank you for registering our booking system!</p>
-                            <p>Your Username is: <br/>{newUser.UserName}</p>
-                            <p>Please use your Email {newUser.Email} to Login.<br/></p>
-                            <a href='{callbackUrl}'>
-                            Please click here to confirm your email</a>";
-
-                    // send confirmation email(GMAIL SMTP)
-                    using (var smtp = new SmtpClient())
-                    {
-                        var message = new MailMessage();
-                        var credential = new System.Net.NetworkCredential
-                        {
-                            UserName = _config["MyGmail"],  // replace with valid value
-                            Password = _config["SMTP"]  // replace with valid value (SMTP generated password)
-                        };
-                        smtp.Credentials = credential;
-                        smtp.Host = "smtp.gmail.com";
-                        smtp.Port = 587;
-                        smtp.EnableSsl = true;
-                        message.To.Add(newUser.UserName); // replace with registered email (newUser.Email)
-                        message.Subject = "Your Booking from Motel Booking System";
-                        message.Body = body;
-                        message.IsBodyHtml = true;
-                        message.From = new MailAddress("example@gmail.com");
-                        await smtp.SendMailAsync(message);
-                    }
-                    return View("RegisterCompleted");
+                    TempData["LoginFlash"] = "Registration Successfully, Please Login!";
+                    return RedirectToAction("Login", "Account");
                 }
+                /* **************** TEST USE END **************** */
+
+                //if (signToUser.Succeeded)
+                //{
+                //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                //    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = newUser.Id, code = code }, protocol: HttpContext.Request.Scheme);
+
+                //    var body = $@"<p>Thank you for registering our booking system!</p>
+                //            <p>Your Username is: <br/>{newUser.UserName}</p>
+                //            <p>Please use your Email {newUser.Email} to Login.<br/></p>
+                //            <a href='{callbackUrl}'>
+                //            Please click here to confirm your email</a>";
+
+                //    // send confirmation email(GMAIL SMTP)
+                //    using (var smtp = new SmtpClient())
+                //    {
+                //        var message = new MailMessage();
+                //        var credential = new System.Net.NetworkCredential
+                //        {
+                //            UserName = _config["MyGmail"],  // replace with valid value
+                //            Password = _config["SMTP"]  // replace with valid value (SMTP generated password)
+                //        };
+                //        smtp.Credentials = credential;
+                //        smtp.Host = "smtp.gmail.com";
+                //        smtp.Port = 587;
+                //        smtp.EnableSsl = true;
+                //        message.To.Add(newUser.UserName); // replace with registered email (newUser.Email)
+                //        message.Subject = "Your Booking from Motel Booking System";
+                //        message.Body = body;
+                //        message.IsBodyHtml = true;
+                //        message.From = new MailAddress("example@gmail.com");
+                //        await smtp.SendMailAsync(message);
+                //    }
+                //    return View("RegisterCompleted");
+                //}
                 else
                 {
                     //FIXME: delete the user since role assignment failed, log the event, show error to user
