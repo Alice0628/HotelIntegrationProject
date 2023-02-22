@@ -8,6 +8,7 @@ using MotelBookingApp.Data;
 using MotelBookingApp.Models;
 using MotelBookingApp.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Drawing.Drawing2D;
 
 
 namespace MotelBookingApp.Controllers
@@ -163,9 +164,18 @@ namespace MotelBookingApp.Controllers
             try
             {
                 var roomType = await _context.Types.Include("Motel").FirstOrDefaultAsync(f => f.Id == id);
-              
+                var editType = new NewTypeVM
+                {
+                    ImageUrl = roomType.ImageUrl,
+                    Name = roomType.Name,
+                    Price = roomType.Price,
+                    Sleep = roomType.Sleep,
+                    Amount = roomType.Amount,
+                    Description = roomType.Description,
+                    Image = null
+                };
 
-                return View(roomType);
+                return View(editType);
             }
             catch (SystemException ex)
             {
@@ -176,25 +186,26 @@ namespace MotelBookingApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(RoomType roomType, int id)
+        public async Task<IActionResult> Edit(NewTypeVM newType, int id)
         {
+             
             if (!ModelState.IsValid)
             {
-                return View(roomType);
+                return View(newType);
             }
             try
             {
-                roomType = _context.Types.Include("Motel").FirstOrDefault(a => a.Id == id);
-                List<RoomType> roomTypesList = _context.Types.Include("Motel").ToList<RoomType>();
-                roomTypesList.Remove(roomType);
-                // if Number exists
-                RoomType ifTypeName = roomTypesList.Find(a => a.Name == roomType.Name );
-                if (ifTypeName != null)
-                {
-                    TempData["roomTypeEditOption"] = $"roomType Name {roomType.Name} has already existed";
-                    return View(roomType);
-                }
-             
+                //roomType = _context.Types.Include("Motel").FirstOrDefault(a => a.Id == id);
+                //List<RoomType> roomTypesList = _context.Types.Include("Motel").ToList<RoomType>();
+                //roomTypesList.Remove(roomType);
+                //// if Number exists
+                //RoomType ifTypeName = roomTypesList.Find(a => a.Name == roomType.Name );
+                //if (ifTypeName != null)
+                //{
+                //    TempData["roomTypeEditOption"] = $"roomType Name {roomType.Name} has already existed";
+                //    return View(roomType);
+                //}
+
                 //to do
                 // Create a BlobClient using the Blob storage connection string
                 //if (roomType.LogoImage != null)
@@ -216,22 +227,42 @@ namespace MotelBookingApp.Controllers
                 //    }
 
 
-                    //    var image = new BlobDto
-                    //           {
-                    //             FileName = newroomType.LogoImage.FileName,
-                    //             ContentType = newroomType.LogoImage.ContentType,
-                    //             URL = client.Uri.ToString()
-                    //           };
-                     
-         
+                //    var image = new BlobDto
+                //           {
+                //             FileName = newroomType.LogoImage.FileName,
+                //             ContentType = newroomType.LogoImage.ContentType,
+                //             URL = client.Uri.ToString()
+                //           };
+                RoomType roomType = await  _context.Types.FirstOrDefaultAsync(a => a.Id == id);
+                if (newType.Image != null && newType.Image.Length > 0)
+                {
+                    var fileName = Path.GetFileName(newType.Image.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await newType.Image.CopyToAsync(fileStream);
+                    }
+                    string ImageUrl = Url.Content("~/images/" + fileName);
+                    roomType.ImageUrl = ImageUrl;
+                }  
+                    roomType.Name = newType.Name;
+                    roomType.Price = newType.Price;
+                    roomType.Sleep = newType.Sleep;
+                    roomType.Amount = newType.Amount;
+                    //Description = newType.Description,
+                    // to do
+                    //Motel = new Motel()
+               
 
                 _context.Types.Update(roomType);
                 await _context.SaveChangesAsync();
                 TempData["RoomTypeOption"] = $"{roomType.Name} has been Edited successfully";
                 return RedirectToAction(nameof(Index));
             }
-
-
             catch (SystemException ex)
             {
                 TempData["roomTypeEditOption"] = $"{ex.Message}";

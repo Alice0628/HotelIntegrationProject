@@ -1,15 +1,16 @@
+@using MotelBookingApp.Data.ViewModels;
 @model List<RoomType>
 @{
     ViewData["Title"] = "List of room types";
 }
 
 <div class="container">
-    <h2 class="text-center">List of Airports</h2>
+    <h2 class="text-center">List of Room Types</h2>
     <br>
     <!-- Search Bar -->
     <div class="container d-flex justify-content-center">
         <div class="col-8">
-            <form class="form-inline my-2 my-lg-0" method="post" asp-controller="AdminAirport" asp-action="Index">
+            <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
                 <div class="input-group">
                     <input type="search" name="searchWord" class="form-control rounded" placeholder="Search..." />
                     <button type="submit" class="btn btn-outline-primary">Search</button>
@@ -23,10 +24,10 @@
         <div class="col-8">
             <a class="btn btn-primary" style="margin-bottom: 10px;"  
                 asp-action="Create">Add a Room Type</a>
-            @if (TempData["AirportOption"] != null)
+            @if (TempData["TypeOption"] != null)
             {
                 <div id="AirportOption" class="flash alert alert-warning">
-                    @TempData["AirportOption"]
+                    @TempData["TypeOption"]
                 </div>
             }
             <div class="card text-black bg-light">
@@ -52,7 +53,7 @@
                                     <td>@rt.Id</td>
                                     <td>@rt.Name</td>
                                     <td>@rt.Price</td>
-                                    <td><img src=@rt.ImageUrl alt="airport logo" width="150" height="150" /></td>
+                                    <td><img src=@rt.ImageUrl alt="room picture" width="150" height="150" /></td>
                                     <td>@rt.Sleep</td>
                                     <td>@rt.Amount</td>
                                     <td>@rt.Description</td>
