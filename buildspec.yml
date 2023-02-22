@@ -4,7 +4,7 @@ version: 0.2
 env:
    variables:
      PROJECT: MotelBookingApp
-     DOTNET_CORE_RUNTIME: 3.1
+     DOTNET_CORE_RUNTIME: 7.0
 
 phases:   
   install:
