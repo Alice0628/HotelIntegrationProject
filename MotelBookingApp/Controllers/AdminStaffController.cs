@@ -101,8 +101,8 @@ namespace MotelBookingApp.Controllers
                 var result = await _userManager.ConfirmEmailAsync(newUser, code);
                 if (result.Succeeded)
                 {
-                    TempData["StaffOption"] = "Staff Created.";
-                    return RedirectToAction("Index", "AdminStaff");
+                    TempData["StaffListOption"] = "Staff Created.";
+                    return RedirectToAction("StaffList", "AdminStaff");
                 }
             }
             foreach (var error in newUserResponse.Errors)

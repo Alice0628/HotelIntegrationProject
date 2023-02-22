@@ -19,7 +19,6 @@
     <None Include="Views\AdminStaff\Delete.cshtml" />
     <None Include="Views\AdminStaff\Detail.cshtml" />
     <None Include="Views\AdminStaff\Edit.cshtml" />
-    <None Include="Views\AdminStaff\Index.cshtml" />
     <None Include="Views\AdminStaff\StaffList.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
