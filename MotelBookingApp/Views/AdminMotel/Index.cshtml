@@ -1,5 +1,80 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Motel>;
 @{
+    ViewData["Title"] = "All motels";
 }
+
+@if (TempData["noImage"] != null)
+{
+    <div>@TempData["noImage"] </div>
+}
+
+@if (TempData["no result"] != null)
+{
+    <div>@TempData["no result"]</div>
+}
+<div class="container">
+    <h2 class="text-center">List of Motels</h2>
+    <br>
+    <!-- Search Bar -->
+    <div class="container d-flex justify-content-center">
+        <div class="col-8">
+            <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
+                <div class="input-group">
+                    <input type="search" name="searchKeyWord" class="form-control rounded" placeholder="Search..." />
+                    <button type="submit" class="btn btn-outline-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+
+    <div class="container d-flex justify-content-center">
+        <div class="col-8">
+            <a class="btn btn-primary" style="margin-bottom: 10px;"
+               asp-action="Create">Add a Motel</a>
+            @if (TempData["MotelOption"] != null)
+            {
+                <div id="AirportOption" class="flash alert alert-warning">
+                    @TempData["MotelOption"]
+                </div>
+            }
+
+            <div class="card text-black bg-light">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-2">Image</th>
+                                <th class="col-2">Name</th>
+                                <th class="col-2">City</th>
+                                <th class="col-2 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var motel in Model)
+                            {
+                                <tr>
+                                    <td><img src=@motel.ImageUrl width="50" height="50" alt="motel picture" /></td>
+                                    <td>@motel.Name</td>
+                                    <td>@motel.City </td>
+                                    <td class="d-flex justify-content-center">
+                                        <a class="btn btn-sm btn-warning" style="margin-right:4px;"
+                                       asp-action="Detail"
+                                       asp-route-id="@motel.Id">Detail</a>
+                                        <a class="btn btn-sm btn-info" style="margin-right:4px;"
+                                       asp-action="Edit"
+                                       asp-route-id="@motel.Id">Edit</a>
+                                        <a class="btn btn-sm btn-danger"
+                                       asp-action="Delete" asp-route-id="@motel.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\AdminMotel\Create.cshtml" />
-    <None Include="Views\AdminMotel\Delete.cshtml" />
-    <None Include="Views\AdminMotel\Edit.cshtml" />
-    <None Include="Views\AdminMotel\Index.cshtml" />
-    <None Include="Views\AdminMotel\View.cshtml" />
     <None Include="Views\AdminPayment\Index.cshtml" />
     <None Include="Views\AdminStaff\Create.cshtml" />
     <None Include="Views\AdminCustomer\CustomerList.cshtml" />

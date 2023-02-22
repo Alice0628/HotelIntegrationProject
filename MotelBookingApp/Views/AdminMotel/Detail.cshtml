@@ -1,23 +1,32 @@
-@model RoomType
+﻿
+@using MotelBookingApp.Data.ViewModels
+@model MotelInputModel
 @{
-    ViewData["Title"] = "Detail of motel";
+    ViewData["Title"] = "Delete a motel";
 }
 
-<div class="container">
+
+<div class="container col-10">
+    @if (TempData["AirportDeleteOption"] != null)
+    {
+            <div id="AirportDeleteOption" class="flash alert alert-warning">
+            @TempData["AirportDeleteOption"]
+            </div>
+    }
+
+
+    @{
+        ViewData["Title"] = "Detail of motel";
+    }
+</div>
+<div class="row">
     <div class="col-md-8 offset-2">
         <h2>RoomType Detail</h2>
-     
+        <div class="container">
             <div class="d-flex justify-content-around align-content-center">
-                 <div style="margin:1rem 0"> 
-                    <img width="400" height="250" src=@Model.ImageUrl />
-                    <div class="form-group text-center" style="margin-top: 0.5rem;">
-                        <a class="btn btn-primary float-right" asp-control="RoomType" asp-action="Edit"
-                            asp-route-id="@Model.Id">Update</a>
-                        <a class="btn btn-secondary" asp-controller="RoomType" asp-action="Index">Back To List</a>
-                    </div>
-                </div>
 
                 <div>
+
                     <dl>
                         <dt>Id</dt>
                         <dd>@Model.Id</dd>
@@ -27,27 +36,18 @@
                         <dd>@Model.Name</dd>
                     </dl>
                     <dl>
-                        <dt>Price</dt>
-                        <dd>@Model.Price</dd>
+                        <dt>Address</dt>
+                        <dd>@Model.Address, @Model.City, @Model.Province, @Model.PostalCode </dd>
                     </dl>
-                    <dl>
-                        <dt>Sleep</dt>
-                        <dd>@Model.Sleep</dd>
-                    </dl>
-                    <dl>
-                        <dt>Amount</dt>
-                        <dd>@Model.Amount</dd>
-                    </dl>
-                    <dl>
-                        <dt>Motel</dt>
-                        <dd>@Model.Motel.Name</dd>
-                    </dl>
-                    <dl>
-                        <dt>Description</dt>
-                        <dd>@Model.Description</dd>
-                    </dl>
+
                 </div>
-               
+                <div> <img width="400" height="250" src=@Model.ImageUrl />
+                    <div class="form-group text-center" style="margin-top: 0.5rem;">
+                        <a class="btn btn-primary float-right" asp-control="RoomType" asp-action="Edit"
+                            asp-route-id="@Model.Id">Update</a>
+                        <a class="btn btn-secondary" asp-action="Index">Back To List</a>
+                    </div>
+                </div>
             </div>
             @*<div id="map" style="height: 500px; width: 100%;"></div>
                 <script>
@@ -73,10 +73,14 @@
                     }
                 </script>
                 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"></script>*@
+
+
+        </div>
     </div>
-        
-       
 </div>
+
+
+
 
 
 

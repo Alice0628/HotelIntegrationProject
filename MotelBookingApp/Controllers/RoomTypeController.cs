@@ -33,9 +33,13 @@ namespace MotelBookingApp.Controllers
         // GET: AdminroomType
         public async Task<IActionResult> Index()
         {
-            return _context.Types != null ?
-                       View(await _context.Types.Include("Motel").ToListAsync()) :
-                       Problem("Entity set  is null.");
+            var roomTypes = await _context.Types.Include("Motel").ToListAsync();
+            foreach (var rt in roomTypes)
+            {
+                rt.ImageUrl = Url.Content("~/images/" + rt.ImageUrl);
+            }
+            return View(roomTypes);
+
         }
 
         [HttpPost]
@@ -45,17 +49,19 @@ namespace MotelBookingApp.Controllers
             if (searchWord == null)
             {   
                 //to do
-                return _context.Types != null ?
-                           View(await _context.Types.Include("Motel").Where(a => a.Motel.Name == "to do").ToListAsync()) :
-                           Problem("Entity set is null.");
+               return RedirectToAction("Index");
             }
             else
             {
                 searchWord = searchWord.ToLower();
-                List<RoomType> searcheRes = await _context.Types.Where(a => a.Name.ToLower().Contains(searchWord)).ToListAsync();
+                List<RoomType> searcheRes = await _context.Types.Where(a => a.Name.ToLower().Contains(searchWord) || a.Sleep.ToString().Equals(searchWord)).ToListAsync();
                 if (searcheRes.Count == 0)
                 {
                     TempData["RoomTypeOption"] = "No search results";
+                }
+                foreach (var rt in searcheRes)
+                {
+                    rt.ImageUrl = Url.Content("~/images/" + rt.ImageUrl);
                 }
                 return View(searcheRes);
             }
@@ -87,6 +93,7 @@ namespace MotelBookingApp.Controllers
                 //ViewData["APIKey"] = "AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4";
                 //ViewData["Latitude"] = lat;
                 //ViewData["Longitude"] = lng;
+                roomType.ImageUrl = Url.Content("~/images/" + roomType.ImageUrl);
                 return View(roomType);
             }
             catch (SystemException ex)
@@ -100,6 +107,7 @@ namespace MotelBookingApp.Controllers
         public IActionResult Create()
         {   
             return View(new NewTypeVM());
+            
         }
 
         // POST: AdminroomType/Create
@@ -122,7 +130,6 @@ namespace MotelBookingApp.Controllers
                 {
                     return View(newType);
                 }
-                var ImageUrl = "";
                 if (newType.Image != null && newType.Image.Length > 0)
                 {
                     var fileName = Path.GetFileName(newType.Image.FileName);
@@ -131,20 +138,22 @@ namespace MotelBookingApp.Controllers
                     {
                         await newType.Image.CopyToAsync(fileStream);
                     }
-                     ImageUrl = Url.Content("~/images/" + fileName);
 
-                RoomType roomType = new RoomType()
-                {
+                    Motel curMotel = await _context.Motels.FirstOrDefaultAsync(m => m.Name == "to do");
 
-                    Name = newType.Name,
-                    Price = newType.Price,
-                    ImageUrl = ImageUrl,
-                    Sleep = newType.Sleep,
-                    Amount = newType.Amount,
-                    Description = newType.Description,
-                    // to do
-                    //Motel = new Motel()
-                };
+                    RoomType roomType = new RoomType()
+                    {
+
+                        Name = newType.Name,
+                        Price = newType.Price,
+                        ImageUrl = newType.Image.FileName,
+                        Sleep = newType.Sleep,
+                        Amount = newType.Amount,
+                        Motel = curMotel,
+                        Description = newType.Description
+                        // to do
+                        //Motel = new Motel()
+                    };
                     _context.Types.Add(roomType);
                     await _context.SaveChangesAsync();
                 }
@@ -166,7 +175,7 @@ namespace MotelBookingApp.Controllers
                 var roomType = await _context.Types.Include("Motel").FirstOrDefaultAsync(f => f.Id == id);
                 var editType = new NewTypeVM
                 {
-                    ImageUrl = roomType.ImageUrl,
+                    ImageUrl = Url.Content("~/images/" + roomType.ImageUrl),
                     Name = roomType.Name,
                     Price = roomType.Price,
                     Sleep = roomType.Sleep,
@@ -195,69 +204,29 @@ namespace MotelBookingApp.Controllers
             }
             try
             {
-                //roomType = _context.Types.Include("Motel").FirstOrDefault(a => a.Id == id);
-                //List<RoomType> roomTypesList = _context.Types.Include("Motel").ToList<RoomType>();
-                //roomTypesList.Remove(roomType);
-                //// if Number exists
-                //RoomType ifTypeName = roomTypesList.Find(a => a.Name == roomType.Name );
-                //if (ifTypeName != null)
-                //{
-                //    TempData["roomTypeEditOption"] = $"roomType Name {roomType.Name} has already existed";
-                //    return View(roomType);
-                //}
-
-                //to do
-                // Create a BlobClient using the Blob storage connection string
-                //if (roomType.LogoImage != null)
-                //{
-                //    string fileName = roomType.LogoImage.FileName.Trim();
-                //    //var blobClient = new BlobClient( _storageConnectionString,  _storageContainerName, newroomType.LogoImage.FileName);
-                //    // BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
-                //    BlobClient file = _client.GetBlobClient(roomType.ImageUrl);
-
-                //    await file.DeleteAsync();
-
-                //    BlobClient newfile = _client.GetBlobClient(fileName);
-                //    // Upload the image data to the Blob storage
-
-                //    // Upload the image data to the Blob storage
-                //    using (var stream = editroomType.LogoImage.OpenReadStream())
-                //    {
-                //        await newfile.UploadAsync(stream);
-                //    }
-
-
-                //    var image = new BlobDto
-                //           {
-                //             FileName = newroomType.LogoImage.FileName,
-                //             ContentType = newroomType.LogoImage.ContentType,
-                //             URL = client.Uri.ToString()
-                //           };
+      
                 RoomType roomType = await  _context.Types.FirstOrDefaultAsync(a => a.Id == id);
                 if (newType.Image != null && newType.Image.Length > 0)
                 {
-                    var fileName = Path.GetFileName(newType.Image.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
-                    if (System.IO.File.Exists(filePath))
+                    var fileNameOld = Path.GetFileName(roomType.ImageUrl);
+                    var fileNameNew = Path.GetFileName(newType.Image.FileName);
+                    var filePathOld = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileNameOld);
+                    var filePathNew = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileNameNew);
+                    if (System.IO.File.Exists(filePathOld))
                     {
-                        System.IO.File.Delete(filePath);
+                        System.IO.File.Delete(filePathOld);
                     }
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    using (var fileStream = new FileStream(filePathNew, FileMode.Create))
                     {
                         await newType.Image.CopyToAsync(fileStream);
                     }
-                    string ImageUrl = Url.Content("~/images/" + fileName);
-                    roomType.ImageUrl = ImageUrl;
+                    roomType.ImageUrl = newType.Image.FileName;
                 }  
                     roomType.Name = newType.Name;
                     roomType.Price = newType.Price;
                     roomType.Sleep = newType.Sleep;
                     roomType.Amount = newType.Amount;
-                    //Description = newType.Description,
-                    // to do
-                    //Motel = new Motel()
-               
-
+             
                 _context.Types.Update(roomType);
                 await _context.SaveChangesAsync();
                 TempData["RoomTypeOption"] = $"{roomType.Name} has been Edited successfully";
@@ -276,18 +245,23 @@ namespace MotelBookingApp.Controllers
         {
             try
             {
-                var roomType = await _context.Types.Include("Motel")
-                    .FirstOrDefaultAsync(m => m.Id == id);
-                if (roomType == null)
+                var roomType = await _context.Types.Include("Motel").FirstOrDefaultAsync(f => f.Id == id);
+                var editType = new NewTypeVM
                 {
-                    return NotFound();
-                }
-                //roomType.ImageUrl = _client.Uri.ToString() + "/" + roomType.ImageUrl;
-                return View(roomType);
+                    ImageUrl = Url.Content("~/images/" + roomType.ImageUrl),
+                    Name = roomType.Name,
+                    Price = roomType.Price,
+                    Sleep = roomType.Sleep,
+                    Amount = roomType.Amount,
+                    Description = roomType.Description,
+                    Image = null
+                };
+
+                return View(editType);
             }
             catch (SystemException ex)
             {
-                TempData["TypeDeleteOption"] = $"{ex.Message}";
+                TempData["roomTypeEditOption"] = $"{ex.Message}";
                 return View();
             }
         }
@@ -319,6 +293,14 @@ namespace MotelBookingApp.Controllers
 
                     //await file.DeleteAsync();
 
+                    var fileNameOld = Path.GetFileName(roomType.ImageUrl);
+                   
+                    var filePathOld = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileNameOld);
+                   
+                    if (System.IO.File.Exists(filePathOld))
+                    {
+                        System.IO.File.Delete(filePathOld);
+                    }
                     _context.Types.Remove(roomType);
                     TempData["TypeOption"] = $"Room Type {roomType.Name} has been deleted successfully";
                     await _context.SaveChangesAsync();

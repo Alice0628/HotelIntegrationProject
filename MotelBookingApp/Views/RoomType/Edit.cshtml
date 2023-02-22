@@ -4,19 +4,14 @@
     ViewData["Title"] = "Edit a room type";
 }
 
-<div class="row">
-    <div class="col-md-8 offset-2">
-      @*  @if (TempData["AirportEditOption"] != null)
-        {
-            <div id="AirportEditOption" class="flash alert alert-warning">
-                @TempData["AirportEditOption"]
-            </div>
-        }*@
-        <h2>Edit Room Type</h2>
-        <div class="row">
-            <div class="col-md-8 offset-2">
-                <form method="post" asp-action="Edit" enctype="multipart/form-data">
-                    <div asp-validation-summary="All" class="text-danger"></div>
+<div>@TempData["id"]</div>
+<div class="container">
+    <div class="col-md-10 offset-2">
+        <h2>Edit room type</h2>
+        <form method="post" asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="d-flex justify-content-around align-content-center">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Id">Id</label>
                         <input asp-for="Id" class="form-control form-control-sm" />
@@ -32,13 +27,8 @@
                         <input asp-for="Price" class="form-control form-control-sm" />
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <img id="preview" src=@Model.ImageUrl alt="preview image" />
-                        <label asp-for="ImageUrl"></label>
-                        <input type="file" asp-for="Image" onchange="previewImage()" class="form-control form-control-sm" />
-                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                    </div>
-                
+
+
                     <div class="form-group">
                         <label asp-for="Sleep">Sleep</label>
                         <input asp-for="Sleep" class="form-control form-control-sm" />
@@ -48,33 +38,43 @@
                     <br>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" asp-controller="RoomType"
-                            asp-route-id="@Model.Id">Update</button>
+                                asp-route-id="@Model.Id">
+                            Update
+                        </button>
                         <a class="btn btn-secondary" asp-controller="RoomType" asp-action="Index">Cancel</a>
                     </div>
-                </form>
+                </div>
+                <div class="col-md-4 text-center" style="margin:4rem 1rem">
+                    <img id="preview" src="#" width="200" height="200" src=@Model.ImageUrl alt="preview image" />
+
+                    <input style="margin:1rem 1rem" type="file" asp-for="Image" onchange="previewImage()" class="form-control form-control-sm" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
             </div>
-        </div>
+        </form>
     </div>
 </div>
+
 
 <script>
     setTimeout(function () {
         document.getElementById("AirportEditOption").style.display = "none";
     }, 3000);
 
-        function previewImage() {
-            var preview = document.querySelector('#preview');
-            var file = document.querySelector('input[type=file]').files[0];
-            var reader = new FileReader();
+    function previewImage() {
+        var preview = document.querySelector('#preview');
+        var file = document.querySelector('input[type=file]').files[0];
+        var reader = new FileReader();
 
-            reader.onloadend = function () {
-                preview.src = reader.result;
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+        reader.onloadend = function () {
+            preview.src = reader.result;
         }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
 </script>
 
 

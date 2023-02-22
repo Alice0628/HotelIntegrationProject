@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using MotelBookingApp.Data;
 using MotelBookingApp.Models;
 using Microsoft.EntityFrameworkCore;
+using MotelBookingApp.Iservice;
+using MotelBookingApp.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,7 @@ builder.Services.AddDbContext<MotelDbContext>();
 var secretEmail = builder.Configuration["MyGmail"];
 var secretSMTP = builder.Configuration["SMTP"];
 
-
+builder.Services.AddScoped<IMotelService, MotelService>();
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<MotelDbContext>()
     .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider)
