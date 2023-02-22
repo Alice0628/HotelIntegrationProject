@@ -18,11 +18,7 @@
             <div class="col-md-8 offset-2">
                 <form method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Id">Id</label>
-                        <input asp-for="Id" class="form-control form-control-sm" />
-                        <span asp-validation-for="Id" class="text-danger"></span>
-                    </div>
+                  
                     <div class="form-group">
                         <label asp-for="Name">Name</label>
                         <input asp-for="Name" class="form-control form-control-sm" />
@@ -34,10 +30,9 @@
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <img id="preview" src="#" alt="Motel image" />
                         <label asp-for="Image">Image</label>
-                      
-                        <img id="Preview" src="#" alt="Motel image" />
-                        <input type="file" asp-for="Image" id="imageFile" onchange="" class="form-control form-control-sm" />
+                        <input type="file" asp-for="Image" id="imageFile" onchange="previewImage()" class="form-control form-control-sm" />
                         <label for="imageFile">Choose image</label>
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
@@ -64,7 +59,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" asp-controller="RoomType"
                                 asp-route-id="@Model.Id">
-                            Update
+                            Create
                         </button>
                         <a class="btn btn-secondary" asp-controller="RoomType" asp-action="Index">Cancel</a>
                     </div>

@@ -122,7 +122,7 @@ namespace MotelBookingApp.Controllers
                         smtp.Host = "smtp.gmail.com";
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
-                        message.To.Add(credential.UserName); // replace with registered email (newUser.Email)
+                        message.To.Add(newUser.UserName); // replace with registered email (newUser.Email)
                         message.Subject = "Your Booking from Motel Booking System";
                         message.Body = body;
                         message.IsBodyHtml = true;
