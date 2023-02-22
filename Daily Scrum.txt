@@ -168,3 +168,36 @@
 -
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2023/02/21 Wu Wei
+
+1. Done / not done since last scrum:
+--User profile optimize
+2. To do until next Scrum:
+-- User profile optimize
+3. Need assistance / figure things out
+--
+
+2023/02/21 Zhou Lei
+1. Done / not done since last scrum:
+-- Room CRUD : list and delete (done)
+-- Room CRUD: create/edit (not done)
+2. To do until next Scrum:
+-- Room CRUD: create/edit (not done)
+3. Need assistance / figure things out
+-- 
+
+2023/02/21 Zhang Xiao
+1. Done / not done since last scrum:
+- RoomTypes debug
+- completed Motel CRUD with aws dynamoDb
+- upload images to and read from aws s3
+2. To do until next Scrum:
+- make sure current content work correctly 
+- aws hosting
+3. Need assistance / figure things out
+
+2023/02/21 Zhu Qichen
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
