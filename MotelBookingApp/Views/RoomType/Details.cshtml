@@ -1,6 +1,6 @@
 @model RoomType
 @{
-    ViewData["Title"] = "Detail of airport";
+    ViewData["Title"] = "Detail of motel";
 }
 
 <div class="row">
@@ -46,7 +46,7 @@
                 <div> <img width="400" height="250" src=@Model.ImageUrl />
                     <div class="form-group text-center" style="margin-top: 0.5rem;">
                         <a class="btn btn-primary float-right" asp-control="RoomType" asp-action="Edit"
-                            asp-route-id="@Model.Id">Edit</a>
+                            asp-route-id="@Model.Id">Update</a>
                         <a class="btn btn-secondary" asp-controller="RoomType" asp-action="Index">Back To List</a>
                     </div>
                 </div>
@@ -81,22 +81,6 @@
     </div>
 </div>
 
-
-<script>
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 8,
-            center: { lat: @ViewData["Latitude"], lng: @ViewData["Longitude"] }
-        });
-
-        var marker = new google.maps.Marker({
-            position: { lat: @ViewData["Latitude"], lng: @ViewData["Longitude"] },
-            map: map
-        });
-    }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=@ViewData["APIKey"]&callback=initMap">
-</script>
 
 
 
