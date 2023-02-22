@@ -220,7 +220,7 @@ namespace MotelBookingApp.Controllers
                     smtp.Port = 587;
                     smtp.EnableSsl = true;
                     message.To.Add(credential.UserName); // replace with registered email (newUser.Email)
-                    message.Subject = "Travel Booking System from ZGZ";
+                    message.Subject = "Reset Password - Motel Booking System";
                     message.Body = body;
                     message.IsBodyHtml = true;
                     message.From = new MailAddress("example@gmail.com");
