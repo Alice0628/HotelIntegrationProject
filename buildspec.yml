@@ -4,12 +4,12 @@ version: 0.2
 env:
    variables:
      PROJECT: MotelBookingApp
-    
+     
 
 phases:   
   install:
     runtime-versions:
-      dotnet: 7.0
+      dotnet: 3.1
       
   pre_build:
     commands:
