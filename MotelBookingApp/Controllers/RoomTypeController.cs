@@ -9,24 +9,21 @@ using MotelBookingApp.Models;
 using MotelBookingApp.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Drawing.Drawing2D;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace MotelBookingApp.Controllers
 {
     public class RoomTypeController : Controller
     {
         private readonly MotelDbContext _context;
-        private readonly string _storageConnectionString;
-        private readonly string _storageContainerName;
-        private readonly ILogger<RoomTypeController> _logger;
+        private readonly UserManager<AppUser> _userManager; 
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-        public RoomTypeController(IConfiguration configuration, MotelDbContext context, ILogger<RoomTypeController> logger)
-        {
+        public RoomTypeController(MotelDbContext context, UserManager<AppUser> userManager)
+        { 
             _context = context;
-            _storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
-            _storageContainerName = configuration.GetValue<string>("BlobContainerName");
-            _logger = logger;
+            _userManager = userManager;
+
             
         }
 
@@ -130,16 +127,15 @@ namespace MotelBookingApp.Controllers
                 {
                     return View(newType);
                 }
-                if (newType.Image != null && newType.Image.Length > 0)
-                {
+             
                     var fileName = Path.GetFileName(newType.Image.FileName);
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await newType.Image.CopyToAsync(fileStream);
                     }
-
-                    Motel curMotel = await _context.Motels.FirstOrDefaultAsync(m => m.Name == "to do");
+                    AppUser user = await _context.Users.Include("Motel").FirstOrDefaultAsync(u => u.Id.ToString() == _userManager.GetUserId(User));
+                    Motel curMotel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == user.Motel.Id);
 
                     RoomType roomType = new RoomType()
                     {
@@ -155,10 +151,8 @@ namespace MotelBookingApp.Controllers
                         //Motel = new Motel()
                     };
                     _context.Types.Add(roomType);
-                    await _context.SaveChangesAsync();
-                }
-  
-                return RedirectToAction(nameof(Index));
+                    await _context.SaveChangesAsync();  
+                    return RedirectToAction(nameof(Index));
             }
             catch (SystemException ex)
             {
@@ -181,7 +175,6 @@ namespace MotelBookingApp.Controllers
                     Sleep = roomType.Sleep,
                     Amount = roomType.Amount,
                     Description = roomType.Description,
-                    Image = null
                 };
 
                 return View(editType);
@@ -248,6 +241,7 @@ namespace MotelBookingApp.Controllers
                 var roomType = await _context.Types.Include("Motel").FirstOrDefaultAsync(f => f.Id == id);
                 var editType = new NewTypeVM
                 {
+                    Id = roomType.Id,
                     ImageUrl = Url.Content("~/images/" + roomType.ImageUrl),
                     Name = roomType.Name,
                     Price = roomType.Price,

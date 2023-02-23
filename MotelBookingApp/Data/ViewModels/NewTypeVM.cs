@@ -19,7 +19,7 @@ namespace MotelBookingApp.Data.ViewModels
         [MaxLength(100, ErrorMessage ="the maximum length is 100")]
         public string Description { get; set; } = String.Empty;
 
-        [Required(ErrorMessage = "Please upload a image")]
+       
         public IFormFile? Image { get; set; } = null;
       
 

@@ -27,14 +27,22 @@
                         <input asp-for="Price" class="form-control form-control-sm" />
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
-
-
-                    <div class="form-group">
+                     <div class="form-group">
                         <label asp-for="Sleep">Sleep</label>
                         <input asp-for="Sleep" class="form-control form-control-sm" />
                         <span asp-validation-for="Sleep" class="text-danger"></span>
                     </div>
-
+                      <div class="form-group">
+                        <label asp-for="Amount">Amount</label>
+                        <input asp-for="Amount" class="form-control form-control-sm" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                      <div class="form-group">
+                        <label asp-for="Description">Description</label>
+                        <input asp-for="Description" class="form-control form-control-sm" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                 
                     <br>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" asp-controller="RoomType"
