@@ -23,12 +23,6 @@ namespace MotelBookingApp.Controllers
             _config = config;
         }
 
-        public async Task<IActionResult> Users()
-        {
-            var users = await _context.Users.ToListAsync();
-            return View(users);
-        }
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login() => View(new LoginVM());

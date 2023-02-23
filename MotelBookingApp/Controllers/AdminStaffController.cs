@@ -17,11 +17,6 @@ namespace MotelBookingApp.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> Detail(int? id)
         {
             var user = await _context.Users.Include("Motel").FirstOrDefaultAsync(u => u.Id == id);

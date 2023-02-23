@@ -2,24 +2,24 @@
 @model EditStaffVM;
 
 @{
-    ViewData["Title"] = "Staff Info";
+    ViewData["Title"] = "Customer Info";
 }
 
 <div class="col-12 justify-content-center">
     <div class="register-photo">
         <div class="container col-md-8">
-            <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
+            <img src="https://t4.ftcdn.net/jpg/03/81/89/61/360_F_381896172_z2QE8bV3z7FxzpGM6uzukJ3JAz6y6N0w.jpg" alt="" width="100%" />
         </div>
         <br />
-        @if (TempData["StaffInfo"] != null)
+        @if (TempData["CustomerInfo"] != null)
         {
-            <div id="StaffInfo" class="container col-md-8 flash alert alert-warning">
-                @TempData["StaffInfo"]
+            <div id="CustomerInfo" class="container col-md-8 flash alert alert-warning">
+                @TempData["CustomerInfo"]
             </div>
         }
-        <div class="container col-md-8">  
-            <h3 class="pt-4 pb-2">Staff Information</h3>
-            <div class="form-container">             
+        <div class="container col-md-8">
+            <h3 class="pt-4 pb-2">Customer Information</h3>
+            <div class="form-container">
                 <form>
                     <div class="row" hidden>
                         <div class="col-12">
@@ -28,23 +28,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-6">
                             <label asp-for="FirstName" class="control-label mt-2"></label>
                             <input asp-for="FirstName" class="form-control" readonly />
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <label asp-for="LastName" class="control-label mt-2"></label>
                             <input asp-for="LastName" class="form-control" readonly />
                         </div>
-                        <div class="col-4">
-                            <label asp-for="Motel" class="control-label mt-2"></label>
-                            <select asp-for="Motel" class="form-control" readonly>
-                                @foreach (Motel a in Model.MotelList)
-                                {
-                                    <option value=@a.Id hidden>@a.Name</option>
-                                }
-                            </select>
-                        </div>
+                        @*                        <div class="col-4" hidden>
+                        <label asp-for="Motel" class="control-label mt-2"></label>
+                        <input asp-for="Motel" class="form-control" readonly>
+                        </div>*@
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -68,9 +63,7 @@
                     </div>
 
                     <div class="form-group my-4">
-                        <a class="btn btn-outline-success" style="margin-right:5px;" asp-controller="AdminStaff" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                        <a class="btn btn-outline-danger" style="margin-right:5px;" asp-controller="AdminStaff" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-                        <a class="btn btn-outline-secondary" asp-controller="AdminStaff" asp-action="StaffList">Back</a>
+                        <a class="btn btn-outline-secondary" asp-controller="AdminCustomer" asp-action="CustomerList">Back</a>
                     </div>
                 </form>
             </div>
@@ -80,6 +73,6 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("StaffInfo").style.display = "none";
+        document.getElementById("CustomerInfo").style.display = "none";
     }, 3000);
 </script>
