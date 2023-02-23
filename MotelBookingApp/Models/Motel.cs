@@ -1,8 +1,12 @@
-﻿namespace MotelBookingApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MotelBookingApp.Models
 {
     public class Motel
     {
         public int Id { get; set; } = default;
+
+        
         public string Name { get; set; } = String.Empty;
         public string Address { get; set; } = String.Empty;
         public string City { get; set; } = String.Empty;

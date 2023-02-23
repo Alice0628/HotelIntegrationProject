@@ -20,8 +20,8 @@
     </div>
     <br>
     <!-- RoomTypes List -->
-    <div class="container d-flex justify-content-center">
-        <div class="col-8">
+    <div class="col-8" style="margin:auto">
+        
             <a class="btn btn-primary" style="margin-bottom: 10px;"  
                 asp-action="Create">Add a Room Type</a>
             @if (TempData["TypeOption"] != null)
@@ -35,31 +35,28 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-3 text-center">Id</th>
+                                <th class="col-3 text-center">Image</th>
                                 <th class="col-3 text-center">Name</th>
                                 <th class="col-3 text-center">Price</th>
-                                <th class="col-3 text-center">Image</th>
                                 <th class="col-3 text-center">sleep</th>
                                 <th class="col-3 text-center">Amount</th>
-                                <th class="col-3 text-center">Description</th>
-                               
-                        
+                             
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var rt in Model)
                             {
                                 <tr>
-                                    <td>@rt.Id</td>
+                                    <td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>                
                                     <td>@rt.Name</td>
                                     <td>@rt.Price</td>
-                                    <td><img src=@rt.ImageUrl alt="room picture" width="150" height="150" /></td>
                                     <td>@rt.Sleep</td>
                                     <td>@rt.Amount</td>
-                                    <td>@rt.Description</td>
-
+                             
                                     <th class="d-flex justify-content-center">
-                        
+                                        <a class="btn btn-sm btn-warning" style="margin-right:4px;"
+                                       asp-controller="RoomType" asp-action="Details"
+                                       asp-route-id="@rt.Id">Detail</a>
                                         <a class="btn btn-sm btn-info" style="margin-right:4px;"
                                         asp-controller="RoomType" asp-action="Edit"
                                         asp-route-id="@rt.Id">Edit</a>
@@ -72,7 +69,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        
     </div>
 </div>
 

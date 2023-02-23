@@ -178,7 +178,14 @@
 --
 
 2023/02/22 Zhou Lei
-
+1. Done / not done since last scrum:
+-- Standard RoomType and Motel Crud (done)
+-- RoomType and Room CRUD: (partially done)
+2. To do until next Scrum:
+-- RoomType and Room CRUD
+-- Booking Crud
+3. Need assistance / figure things out
+-- Scaffolding errors
  
 2023/02/22 Zhang Xiao
 1. Done / not done since last scrum:
@@ -202,3 +209,44 @@
 -
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2023/02/23 Wu Wei
+
+1. Done / not done since last scrum:
+----add location function in the google map
+2. To do until next Scrum:
+--add motel coordinate location in the google map
+3. Need assistance / figure things out
+--
+
+2023/02/23 Zhou Lei
+1. Done / not done since last scrum:
+- Room and booking crud
+- aws hosting of project
+2. To do until next Scrum:
+- Room-based searching and booking
+3. Need assistance / figure things out
+- View of available rooms based on room-searching
+
+ 
+2023/02/23 Zhang Xiao
+1. Done / not done since last scrum:
+- Motel CRUD and debug
+- aws hosting of project
+2. To do until next Scrum:
+- convert to Dynamodb entirely
+- start room type search function 
+3. Need assistance / figure things out
+-
+
+2023/02/23 Zhu Qichen
+1. Done / not done since last scrum:
+- admin can view customer list
+- admin can view customer info
+- create a bug submission form for peer test(02.21)
+2. To do until next Scrum:
+- watch tutorials for Stripe 
+- payment page layout?
+- Payment test with Stripe
+3. Need assistance / figure things out
+-
