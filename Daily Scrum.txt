@@ -210,16 +210,23 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-2023/02/22 Wu Wei
+2023/02/23 Wu Wei
 
 
-2023/02/22 Zhou Lei
+2023/02/23 Zhou Lei
 
  
-2023/02/22 Zhang Xiao
+2023/02/23 Zhang Xiao
+1. Done / not done since last scrum:
+- Motel CRUD and debug
+- aws hosting of project
+2. To do until next Scrum:
+- convert to Dynamodb entirely
+- start room type search function 
+3. Need assistance / figure things out
+-
 
-
-2023/02/22 Zhu Qichen
+2023/02/23 Zhu Qichen
 1. Done / not done since last scrum:
 - admin can view customer list
 - admin can view customer info
