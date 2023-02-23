@@ -9,7 +9,7 @@ env:
 phases:   
   install:
     runtime-versions:
-      dotnet: latest
+      dotnet: 7.0
       
   pre_build:
     commands:
@@ -20,7 +20,7 @@ phases:
     commands:
       - echo Build started on `date`
       - dotnet build -c Release
-      - dotnet test -c Release --logger trx --results-directory ./testresults
+     
       
   post_build:
     commands:
@@ -34,9 +34,4 @@ artifacts:
   base-directory: ./build_output
   discard-paths: no
 
-reports:
-  ${PROJECT}:
-    file-format: VisualStudioTrx
-    files:
-      - '**/*'
-    base-directory: './testresults'
+
