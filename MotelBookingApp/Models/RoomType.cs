@@ -1,14 +1,19 @@
-﻿namespace MotelBookingApp.Models
+﻿using Amazon.DynamoDBv2.DataModel;
+
+namespace MotelBookingApp.Models
 {
+    [DynamoDBTable("RoomTypes")]
     public class RoomType
     {
+        [DynamoDBHashKey]
         public int Id { get; set; } = default;
+        [DynamoDBProperty]
         public string Name { get; set; } = String.Empty;
-        public decimal Price { get; set; } = default;
-        public string? Description { get; set; } = String.Empty;
-        public string ImageUrl { get; set; } = String.Empty;
+        [DynamoDBProperty]
         public int Sleep { get; set; } = default;
-        public int Amount { get; set; } = default;
-        public Motel Motel { get; set; } = new Motel();
+        [DynamoDBProperty]
+        public string ImageUrl { get; set; } = String.Empty;
+        [DynamoDBProperty]
+        public string? Description { get; set; } = String.Empty;
     }
 }

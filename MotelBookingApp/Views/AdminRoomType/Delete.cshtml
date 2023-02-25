@@ -1,0 +1,47 @@
+
+@model RoomType
+@{
+    ViewData["Title"] = "Delete an RoomType";
+}
+
+
+<div class="container col-8">
+ @*   @if (TempData["roomTypeDeleteOption"] != null)
+    {
+        <div id="roomTypeDeleteOption" class="flash alert alert-warning">
+            @TempData["roomTypeDeleteOption"]
+        </div>
+    }*@
+    <div class="flash alert alert-success">
+        <p>Are you sure you want to delete roomType @Model.Id ?</p>
+        <form method="post">
+            <button type="submit" class="btn btn-danger" asp-route-id="@Model.Id">Delete</button>
+            <a class="btn btn-primary" asp-action="Index">Cancel</a>
+        </form>
+    </div>
+
+    <div>
+        <dl>
+            <dt></dt>
+            <dd><img src=@Model.ImageUrl alt="RoomType logo" width="150" height="150" /></dd>
+        </dl>
+        <dl>
+            <dt>Id</dt>
+            <dd>@Model.Id</dd>
+        </dl>
+        <dl>
+            <dt>Name</dt>
+            <dd>@Model.Name</dd>
+        </dl>
+        
+        <dl>
+            <dt>Sleep</dt>
+            <dd>@Model.Sleep</dd>
+        </dl>
+     
+        <dl>
+            <dt>Description</dt>
+            <dd>@Model.Description</dd>
+        </dl>
+    </div>
+</div>

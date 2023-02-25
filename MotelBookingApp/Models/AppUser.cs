@@ -8,5 +8,8 @@ namespace MotelBookingApp.Models
         public string LastName { get; set; } = String.Empty;
         public DateOnly DOB { get; set; } = DateOnly.FromDateTime(DateTime.Now);
         public Motel? Motel { get; set; }
+
+        public List<Motel> FavoriteMotels { get;private set; }
     }   
+
 }
