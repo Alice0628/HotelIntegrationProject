@@ -17,13 +17,13 @@
 //            _context = context;
 //        }
 
-        public async Task<IActionResult> Detail(int? id)
-        {
-            var user = await _context.Users.Include("Motel").FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
-            {
-                TempData["StaffInfo"] = "Staff not exists";
-            }
+        //public async Task<IActionResult> Detail(int? id)
+        //{
+        //    var user = await _context.Users.Include("Motel").FirstOrDefaultAsync(u => u.Id == id);
+        //    if (user == null)
+        //    {
+        //        TempData["StaffInfo"] = "Staff not exists";
+        //    }
 
 //            EditStaffVM editStaff = new EditStaffVM();
 
