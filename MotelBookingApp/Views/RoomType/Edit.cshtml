@@ -1,5 +1,5 @@
 @using MotelBookingApp.Data.ViewModels
-@model RoomTypeInputModel
+@model NewTypeVM
 @{
     ViewData["Title"] = "Edit a room type";
 }
@@ -22,13 +22,21 @@
                         <input asp-for="Name" class="form-control form-control-sm" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
-                 
+                    <div class="form-group">
+                        <label asp-for="Price">Price</label>
+                        <input asp-for="Price" class="form-control form-control-sm" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
                      <div class="form-group">
                         <label asp-for="Sleep">Sleep</label>
                         <input asp-for="Sleep" class="form-control form-control-sm" />
                         <span asp-validation-for="Sleep" class="text-danger"></span>
                     </div>
-                   
+                      <div class="form-group">
+                        <label asp-for="Amount">Amount</label>
+                        <input asp-for="Amount" class="form-control form-control-sm" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
                       <div class="form-group">
                         <label asp-for="Description">Description</label>
                         <input asp-for="Description" class="form-control form-control-sm" />
@@ -37,17 +45,17 @@
                  
                     <br>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary" 
+                        <button type="submit" class="btn btn-primary" asp-controller="RoomType"
                                 asp-route-id="@Model.Id">
                             Update
                         </button>
                         <a class="btn btn-secondary" asp-controller="RoomType" asp-action="Index">Cancel</a>
                     </div>
                 </div>
-                <div class="col-md-4 text-center" style="margin:2rem 1rem">
-                    <img id="preview" src=@Model.ImageUrl width="200" height="200" src=@Model.ImageUrl alt="preview image" />
+                <div class="col-md-4 text-center" style="margin:4rem 1rem">
+                    <img id="preview" src="#" width="200" height="200" src=@Model.ImageUrl alt="preview image" />
 
-                    <input style="margin:1rem 1rem" type="file" asp-for="TypeImage" onchange="previewImage()" class="form-control form-control-sm" />
+                    <input style="margin:1rem 1rem" type="file" asp-for="Image" onchange="previewImage()" class="form-control form-control-sm" />
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
 

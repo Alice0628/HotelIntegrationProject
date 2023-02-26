@@ -1,26 +1,35 @@
-﻿@using MotelBookingApp.Data.ViewModels;
+﻿@using Microsoft.AspNetCore.Identity
+@using MotelBookingApp.Data.ViewModels;
 @model EditStaffVM;
+@inject UserManager<AppUser> UserManager
 
 @{
-    ViewData["Title"] = "Edit Staff";
+    ViewData["Title"] = "Edit User";
 }
 
 <div class="col-12 justify-content-center">
     <div class="register-photo">
         <div class="container col-md-8">
-            <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
+            @if (User.IsInRole("User"))
+            {
+                <img src="https://t4.ftcdn.net/jpg/03/81/89/61/360_F_381896172_z2QE8bV3z7FxzpGM6uzukJ3JAz6y6N0w.jpg" alt="" width="100%" />
+            }
+            else
+            {
+                <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
+            }
         </div>
         <br />
-        @if (TempData["StaffEditOption"] != null)
+        @if (TempData["UserEditOption"] != null)
         {
-            <div id="StaffEditOption" class="container col-md-8 flash alert alert-warning">
-                @TempData["StaffEditOption"]
+            <div id="UserEditOption" class="container col-md-8 flash alert alert-warning">
+                @TempData["UserEditOption"]
             </div>
         }
-        <div class="container col-md-8">       
-            <h3 class="pt-4 pb-2">Edit Staff</h3>
+        <div class="container col-md-8">
+            <h3 class="pt-4 pb-2">Edit User</h3>
             <div class="form-container">
-                <form method="post" asp-controller="AdminStaff" asp-action="Edit">
+                <form method="post" asp-controller="Profile" asp-action="Edit">
                     <div class="row" hidden>
                         <div class="col-12">
                             <label asp-for="Id" class="control-label mt-2"></label>
@@ -28,25 +37,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-6">
                             <label asp-for="FirstName" class="control-label mt-2"></label>
                             <input asp-for="FirstName" class="form-control" />
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <label asp-for="LastName" class="control-label mt-2"></label>
                             <input asp-for="LastName" class="form-control" />
                             <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                        <div class="col-4">
-                            <label asp-for="Motel" class="control-label mt-2"></label>
-                            <select asp-for="Motel" class="form-control">
-                                @foreach (Motel a in Model.MotelList)
-                                {
-                                    <option value=@a.Id>@a.Name</option>
-                                }
-                            </select>
-                            <span asp-validation-for="Motel" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -73,11 +72,10 @@
                             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
-           
 
                     <div class="form-group my-4">
                         <button type="submit" class="btn btn-outline-success" asp-route-id="@Model.Id">Update</button>
-                        <a class="btn btn-outline-secondary" asp-controller="AdminStaff" asp-action="Detail" asp-route-id="@Model.Id">Back</a>
+                        <a class="btn btn-outline-secondary" asp-controller="Profile" asp-action="Detail" asp-route-id="@Model.Id">Back</a>
                     </div>
                 </form>
             </div>
@@ -87,6 +85,6 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("StaffEditOption").style.display = "none";
+        document.getElementById("UserEditOption").style.display = "none";
     }, 3000);
 </script>

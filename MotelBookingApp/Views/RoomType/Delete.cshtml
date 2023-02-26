@@ -1,6 +1,6 @@
 @model Room
 @{
-    ViewData["Title"] = "Delete an Room";
+    ViewData["Title"] = "Delete an RoomType";
 }
 
 <div class="container col-8">
@@ -19,30 +19,37 @@
     </div>
 
     <div>
-      @*  <dl>
+        <dl>
             <dt></dt>
             <dd><img src=@Model.ImageUrl alt="RoomType logo" width="150" height="150" /></dd>
-        </dl>*@
+        </dl>
         <dl>
             <dt>Id</dt>
             <dd>@Model.Id</dd>
         </dl>
         <dl>
-            <dt>Motel</dt>
-            <dd>@Model.Motel.Name</dd>
-        </dl>
-        <dl>
-            <dt>Room Number</dt>
-            <dd>@Model.RoomNum</dd>
+            <dt>Name</dt>
+            <dd>@Model.Name</dd>
         </dl>
         <dl>
             <dt>Price</dt>
             <dd>@Model.Price</dd>
         </dl>
         <dl>
-            <dt>Room Type</dt>
-            <dd>@Model.RoomType.Name</dd>
+            <dt>Sleep</dt>
+            <dd>@Model.Sleep</dd>
         </dl>
-        
+        <dl>
+            <dt>Amount</dt>
+            <dd>@Model.Amount</dd>
+        </dl>
+        <dl>
+            <dt>Motel</dt>
+            <dd>@Model.Motel.Name</dd>
+        </dl>
+        <dl>
+            <dt>Description</dt>
+            <dd>@Model.Description</dd>
+        </dl>
     </div>
 </div>

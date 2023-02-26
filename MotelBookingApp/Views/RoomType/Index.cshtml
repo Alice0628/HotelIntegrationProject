@@ -1,4 +1,4 @@
- 
+@using MotelBookingApp.Data.ViewModels;
 @model List<RoomType>
 @{
     ViewData["Title"] = "List of room types";
@@ -37,9 +37,9 @@
                             <tr>
                                 <th class="col-3 text-center">Image</th>
                                 <th class="col-3 text-center">Name</th>
-                               
+                                <th class="col-3 text-center">Price</th>
                                 <th class="col-3 text-center">sleep</th>
-                               
+                                <th class="col-3 text-center">Amount</th>
                              
                             </tr>
                         </thead>
@@ -47,18 +47,20 @@
                             @foreach (var rt in Model)
                             {
                                 <tr>
-                                <td><img src=https://motelbooking.s3.us-east-2.amazonaws.com/@rt.ImageUrl alt="room picture" width="50" height="50" /></td>
-                            <td>@rt.Name</td>
-                                
+                                    <td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>                
+                                    <td>@rt.Name</td>
+                                    <td>@rt.Price</td>
                                     <td>@rt.Sleep</td>
+                                    <td>@rt.Amount</td>
+                             
                                     <th class="d-flex justify-content-center">
                                         <a class="btn btn-sm btn-warning" style="margin-right:4px;"
-                                       asp-action="Detail"
+                                       asp-controller="RoomType" asp-action="Details"
                                        asp-route-id="@rt.Id">Detail</a>
                                         <a class="btn btn-sm btn-info" style="margin-right:4px;"
-                                        asp-action="Edit"
+                                        asp-controller="RoomType" asp-action="Edit"
                                         asp-route-id="@rt.Id">Edit</a>
-                                        <a class="btn btn-sm btn-danger" asp-action="Delete"
+                                        <a class="btn btn-sm btn-danger" asp-controller="RoomType" asp-action="Delete"
                                         asp-route-id="@rt.Id">Delete</a>
                                     </th>
                                 </tr>

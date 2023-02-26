@@ -1,6 +1,5 @@
-﻿
 
-namespace MotelBookingApp.Models
+﻿namespace MotelBookingApp.Models
 {
     public class Comment
     {
@@ -15,5 +14,7 @@ namespace MotelBookingApp.Models
         public string? Score { get; set; } = String.Empty;
 
         public Motel Motel { get; set; } = new Motel();
+
     }
+
 }
