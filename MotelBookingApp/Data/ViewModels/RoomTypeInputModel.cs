@@ -11,7 +11,7 @@ namespace MotelBookingApp.Data.ViewModels
         [Display(Name = "Type Name")]
         [Required(ErrorMessage = "Type name is required")]
         public string Name { get; set; } = String.Empty;
-  
+
 
         [Required]
         [MaxLength(100, ErrorMessage = "the maximum length is 100")]

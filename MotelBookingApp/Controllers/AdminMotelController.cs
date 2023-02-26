@@ -20,7 +20,7 @@ namespace MotelBookingApp.Controllers
         private readonly string _storageConnectionString;
         private readonly string _storageContainerName;
         private readonly BlobContainerClient _client;
-       
+
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
         public AdminMotelController(IConfiguration configuration, MotelDbContext context)
@@ -28,7 +28,7 @@ namespace MotelBookingApp.Controllers
             _context = context;
             _storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
             _storageContainerName = configuration.GetValue<string>("BlobContainerName");
-             
+
             _client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
         }
 
@@ -108,7 +108,7 @@ namespace MotelBookingApp.Controllers
         {
             try
             {
-               Motel ifMotel = await _context.Motels.FirstOrDefaultAsync(a => a.Name == newMotel.Name && a.City == newMotel.City);
+                Motel ifMotel = await _context.Motels.FirstOrDefaultAsync(a => a.Name == newMotel.Name && a.City == newMotel.City);
 
                 if (ifMotel != null)
                 {
@@ -201,7 +201,7 @@ namespace MotelBookingApp.Controllers
                     TempData["MotelEditOption"] = $"Airport Name {editMotel.Name} has already existed";
                     return View(editMotel);
                 }
-               
+
                 // Create a BlobClient using the Blob storage connection string
                 if (editMotel.MotelImage != null)
                 {
@@ -290,12 +290,12 @@ namespace MotelBookingApp.Controllers
                     //var blobClient = new BlobClient( _storageConnectionString,  _storageContainerName, newAirport.LogoImage.FileName);
 
 
-                    var bookedRecord = await _context.BookedRecords.Include("Room").FirstOrDefaultAsync(br => br.Room.Motel.Name == motel.Name && br.Room.Motel.City == motel.City && br.CheckoutDate > DateTime.Now) ;
+                    var bookedRecord = await _context.BookedRecords.Include("Room").FirstOrDefaultAsync(br => br.Room.Motel.Name == motel.Name && br.Room.Motel.City == motel.City && br.CheckoutDate > DateTime.Now);
 
-                    if (bookedRecord != null  )
+                    if (bookedRecord != null)
                     {
                         TempData["MotelDeleteOption"] = "There are rooms in use or will be in use related to this Motel, can not delete it";
-                       
+
                         string blobUrl = _client.Uri.ToString();
                         MotelInputModel newMotel = new MotelInputModel
                         {
@@ -308,7 +308,7 @@ namespace MotelBookingApp.Controllers
                             ImageUrl = blobUrl + "/" + motel.ImageUrl
                         };
                         return View(newMotel);
-                
+
                     }
 
                     BlobClient file = _client.GetBlobClient(motel.ImageUrl);

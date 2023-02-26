@@ -1,4 +1,3 @@
-﻿ 
 
 namespace MotelBookingApp.Models
 {
@@ -12,8 +11,8 @@ namespace MotelBookingApp.Models
       
         public int Sleep { get; set; } = default;
       
-        public string? ImageUrl { get; set; } = String.Empty;
+        public string? ImageUrl { get; set; }
       
-        public string? Description { get; set; } = String.Empty;
+        public string? Description { get; set; }
     }
 }

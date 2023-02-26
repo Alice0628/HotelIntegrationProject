@@ -1,22 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<AppUser> UserManager
 @inject SignInManager<AppUser> SignInManager
- 
 
- @if (!User.Identity.IsAuthenticated)
+
+@if (!User.Identity.IsAuthenticated)
 {
     <span style="padding: 0 5px;"></span>
     <a class="nav-link text-success" asp-controller="Account" asp-action="Login">Log in</a>
     <span style="padding: 0 5px;"></span>
     <a class="nav-link text-primary" asp-controller="Account" asp-action="Register">Register</a>
 }
-else 
+else
 {
-    @*user profile section*@
+    @*User profile section*@
     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link notranslate" style="color:deepskyblue;" asp-controller="" asp-action="">
+                <a class="nav-link notranslate" style="color:deepskyblue;" asp-controller="Profile" asp-action="Detail" asp-route-id="@UserManager.GetUserId(User)">
                     <i class="fa-solid fa-user"></i> @UserManager.GetUserName(User)
                 </a>
             </li>
@@ -42,10 +42,7 @@ else
                     ViewBag.count = 0;
                 }
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Cart">Cart(@ViewBag.cout)</a>
-                </li>
-                @*<li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="HistoryRecords" asp-route-id="@UserManager.GetUserId(User)">History Records</a>
+                    <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index" asp-route-id="@UserManager.GetUserId(User)">Cart(0)</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="Home" asp-action="Favorite Motels" asp-route-id="@UserManager.GetUserId(User)">Favorite Motels</a>

@@ -1,4 +1,4 @@
-@using MotelBookingApp.Data.ViewModels
+﻿@using MotelBookingApp.Data.ViewModels
 @model RoomInputModel
 @{
     ViewData["Title"] = "Add a Room";
@@ -12,14 +12,14 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="d-flex justify-content-around align-content-center">
                 <div class="col-md-6">
-                   
+
                     <div class="form-group">
                         <label asp-for="RoomNum"></label>
                         <input asp-for="RoomNum" class="form-control form-control-sm" />
                         <span asp-validation-for="RoomNum" class="text-danger"></span>
                     </div>
 
-                     <div class="form-group">
+                    <div class="form-group">
                         <label asp-for="Price">Price</label>
                         <input asp-for="Price" class="form-control form-control-sm"> </textarea>
                         <span asp-validation-for="Price" class="text-danger"></span>
@@ -30,7 +30,7 @@
                         <select asp-for="RoomType" class="form-control form-control-sm">
                             @foreach (RoomType r in Model.RoomTypeList)
                             {
-                                    <option value=@r.Id>@r.Name</option>
+                                <option value=@r.Id>@r.Name</option>
                             }
                         </select>
                         <span asp-validation-for="RoomType" class="text-danger"></span>
@@ -45,10 +45,10 @@
                     </div>
                 </div>
 
-               @* <div class="col-md-4 text-center" style="margin:1rem 1rem">
-                    <img id="preview" src="#" width="200" height="200" alt="room style image" />
-                    <input style="margin:1rem 1rem" type="file" asp-for="TypeImage" onchange="previewImage()" class="form-control form-control-sm" />
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                @* <div class="col-md-4 text-center" style="margin:1rem 1rem">
+                <img id="preview" src="#" width="200" height="200" alt="room style image" />
+                <input style="margin:1rem 1rem" type="file" asp-for="TypeImage" onchange="previewImage()" class="form-control form-control-sm" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>*@
 
             </div>
@@ -56,5 +56,5 @@
     </div>
 </div>
 
- 
+
 

@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using MotelBookingApp.Data;
 using MotelBookingApp.Models;
 using Microsoft.EntityFrameworkCore;
- 
-
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +28,6 @@ builder.Services.AddSession(options =>
 });
 
 
-
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<MotelDbContext>()
     .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider)
@@ -53,12 +50,14 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
+
 using (var scope = app.Services.CreateAsyncScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<MotelDbContext>();
 
     context.Database.EnsureCreated();
+    //context.Database.Migrate();
 
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();

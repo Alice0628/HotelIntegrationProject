@@ -1,5 +1,3 @@
-﻿
-using System.ComponentModel.DataAnnotations;
 
 namespace MotelBookingApp.Models
 {
@@ -19,9 +17,9 @@ namespace MotelBookingApp.Models
 
         public string PostalCode { get; set; } = String.Empty;
 
-        public string? ImageUrl { get; set; } = String.Empty;
+        public string? ImageUrl { get; set; }
 
-        public double? Score { get; set; } = default;
+        public double? Score { get; set; }
 
     }
 }

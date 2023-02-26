@@ -23,7 +23,8 @@ namespace MotelBookingApp.Data.ViewModels
 
         [Display(Name = "Date of Birth")]
         [Required(ErrorMessage = "DOB is required")]
-        public DateOnly DOB { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        [DataType(DataType.Date)]
+        public DateTime DOB { get; set; } = DateTime.Now;
 
         [Display(Name = "Email address")]
         [Required(ErrorMessage = "Email address is required")]

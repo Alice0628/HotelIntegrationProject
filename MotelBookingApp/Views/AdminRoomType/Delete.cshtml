@@ -1,16 +1,15 @@
-
-@model RoomType
+﻿@model RoomType
 @{
     ViewData["Title"] = "Delete an RoomType";
 }
 
 
 <div class="container col-8">
- @*   @if (TempData["roomTypeDeleteOption"] != null)
+    @*   @if (TempData["roomTypeDeleteOption"] != null)
     {
-        <div id="roomTypeDeleteOption" class="flash alert alert-warning">
-            @TempData["roomTypeDeleteOption"]
-        </div>
+    <div id="roomTypeDeleteOption" class="flash alert alert-warning">
+    @TempData["roomTypeDeleteOption"]
+    </div>
     }*@
     <div class="flash alert alert-success">
         <p>Are you sure you want to delete roomType @Model.Id ?</p>
@@ -33,12 +32,12 @@
             <dt>Name</dt>
             <dd>@Model.Name</dd>
         </dl>
-        
+
         <dl>
             <dt>Sleep</dt>
             <dd>@Model.Sleep</dd>
         </dl>
-     
+
         <dl>
             <dt>Description</dt>
             <dd>@Model.Description</dd>

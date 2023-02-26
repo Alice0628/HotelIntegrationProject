@@ -1,24 +1,33 @@
-﻿@using MotelBookingApp.Data.ViewModels;
+﻿@using Microsoft.AspNetCore.Identity
+@using MotelBookingApp.Data.ViewModels;
 @model EditStaffVM;
+@inject UserManager<AppUser> UserManager
 
 @{
-    ViewData["Title"] = "Customer Info";
+    ViewData["Title"] = "Profile";
 }
 
 <div class="col-12 justify-content-center">
     <div class="register-photo">
         <div class="container col-md-8">
-            <img src="https://t4.ftcdn.net/jpg/03/81/89/61/360_F_381896172_z2QE8bV3z7FxzpGM6uzukJ3JAz6y6N0w.jpg" alt="" width="100%" />
+            @if (User.IsInRole("User"))
+            {
+                <img src="https://t4.ftcdn.net/jpg/03/81/89/61/360_F_381896172_z2QE8bV3z7FxzpGM6uzukJ3JAz6y6N0w.jpg" alt="" width="100%" />
+            }
+            else
+            {
+                <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
+            }
         </div>
         <br />
-        @if (TempData["CustomerInfo"] != null)
+        @if (TempData["ProfileInfo"] != null)
         {
-            <div id="CustomerInfo" class="container col-md-8 flash alert alert-warning">
-                @TempData["CustomerInfo"]
+            <div id="ProfileInfo" class="container col-md-8 flash alert alert-warning">
+                @TempData["ProfileInfo"]
             </div>
         }
         <div class="container col-md-8">
-            <h3 class="pt-4 pb-2">Customer Information</h3>
+            <h3 class="pt-4 pb-2">Profile for <span style="color:deepskyblue;">@UserManager.GetUserName(User)</span></h3>
             <div class="form-container">
                 <form>
                     <div class="row" hidden>
@@ -59,7 +68,8 @@
                     </div>
 
                     <div class="form-group my-4">
-                        <a class="btn btn-outline-secondary" asp-controller="AdminCustomer" asp-action="CustomerList">Back</a>
+                        <a class="btn btn-outline-success" style="margin-right:5px;" asp-controller="Profile" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Back</a>
                     </div>
                 </form>
             </div>
@@ -69,6 +79,6 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("CustomerInfo").style.display = "none";
+        document.getElementById("ProfileInfo").style.display = "none";
     }, 3000);
 </script>

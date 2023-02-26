@@ -1,5 +1,4 @@
- 
-@model List<RoomType>
+﻿@model List<RoomType>
 @{
     ViewData["Title"] = "List of room types";
 }
@@ -21,53 +20,53 @@
     <br>
     <!-- RoomTypes List -->
     <div class="col-8" style="margin:auto">
-        
-            <a class="btn btn-primary" style="margin-bottom: 10px;"  
-                asp-action="Create">Add a Room Type</a>
-            @if (TempData["TypeOption"] != null)
-            {
-                <div id="AirportOption" class="flash alert alert-warning">
-                    @TempData["TypeOption"]
-                </div>
-            }
-            <div class="card text-black bg-light">
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th class="col-3 text-center">Image</th>
-                                <th class="col-3 text-center">Name</th>
-                               
-                                <th class="col-3 text-center">sleep</th>
-                               
-                             
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var rt in Model)
-                            {
-                                <tr>
-                                <td><img src=https://motelbooking.s3.us-east-2.amazonaws.com/@rt.ImageUrl alt="room picture" width="50" height="50" /></td>
-                            <td>@rt.Name</td>
-                                
-                                    <td>@rt.Sleep</td>
-                                    <th class="d-flex justify-content-center">
-                                        <a class="btn btn-sm btn-warning" style="margin-right:4px;"
-                                       asp-action="Detail"
-                                       asp-route-id="@rt.Id">Detail</a>
-                                        <a class="btn btn-sm btn-info" style="margin-right:4px;"
-                                        asp-action="Edit"
-                                        asp-route-id="@rt.Id">Edit</a>
-                                        <a class="btn btn-sm btn-danger" asp-action="Delete"
-                                        asp-route-id="@rt.Id">Delete</a>
-                                    </th>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+
+        <a class="btn btn-primary" style="margin-bottom: 10px;"
+           asp-action="Create">Add a Room Type</a>
+        @if (TempData["TypeOption"] != null)
+        {
+            <div id="AirportOption" class="flash alert alert-warning">
+                @TempData["TypeOption"]
             </div>
-        
+        }
+        <div class="card text-black bg-light">
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-3 text-center">Image</th>
+                            <th class="col-3 text-center">Name</th>
+
+                            <th class="col-3 text-center">sleep</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rt in Model)
+                        {
+                            <tr>
+                                <td><img src=https://motelbooking.s3.us-east-2.amazonaws.com/@rt.ImageUrl alt="room picture" width="50" height="50" /></td>
+                                <td>@rt.Name</td>
+
+                                <td>@rt.Sleep</td>
+                                <th class="d-flex justify-content-center">
+                                    <a class="btn btn-sm btn-warning" style="margin-right:4px;"
+                                   asp-action="Detail"
+                                   asp-route-id="@rt.Id">Detail</a>
+                                    <a class="btn btn-sm btn-info" style="margin-right:4px;"
+                                   asp-action="Edit"
+                                   asp-route-id="@rt.Id">Edit</a>
+                                    <a class="btn btn-sm btn-danger" asp-action="Delete"
+                                   asp-route-id="@rt.Id">Delete</a>
+                                </th>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 </div>
 
