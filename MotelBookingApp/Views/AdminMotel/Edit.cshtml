@@ -52,7 +52,7 @@
                 <div class="col-md-4 text-center" style="margin:4rem 1rem">
                     <img id="preview" src=@Model.ImageUrl width="200" height="200" alt="motel picture" />
 
-                    <input style="margin:1rem 1rem"  type="file" asp-for="MotelImage" id="chooseImg" onchange="previewImage()" class="form-control form-control-sm" />
+                    <input style="margin:1rem 1rem" value="@Model.ImageUrl" type="file" asp-for="MotelImage" id="chooseImg" onchange="previewImage()" class="form-control form-control-sm" />
 
                     <span asp-validation-for="MotelImage" class="text-danger"></span>
                 </div>

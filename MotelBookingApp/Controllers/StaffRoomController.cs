@@ -8,151 +8,259 @@ using MotelBookingApp.Data;
 using MotelBookingApp.Models;
 using MotelBookingApp.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using System.Drawing.Drawing2D;
-using Microsoft.AspNetCore.Identity;
-using MotelBookingApp.Iservice;
-using MotelBookingApp.Service;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace MotelBookingApp.Controllers
 {
+  
     public class StaffRoomController : Controller
     {
-        private readonly IStaffRoomService _staffRoomService;
-        private readonly IAdminRoomTypeService _adminRoomTypeService;
+        private readonly MotelDbContext _context;
+        private readonly string _storageConnectionString;
+        private readonly string _storageContainerName;
+        private readonly BlobContainerClient _client;
+       
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-        public StaffRoomController(IStaffRoomService repository,IAdminRoomTypeService adminRoomTypeService)
+        public StaffRoomController(IConfiguration configuration, MotelDbContext context)
         {
-            _staffRoomService = repository;
-            _adminRoomTypeService = adminRoomTypeService;
+            _context = context;
+            _storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
+            _storageContainerName = configuration.GetValue<string>("BlobContainerName");
+             
+            _client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
         }
 
-
-        [HttpGet]
+        // GET: AdminAirport
         public async Task<IActionResult> Index()
         {
-            var rooms = await _staffRoomService.GetAllRooms();
-            //foreach (RoomType r in rooms)
-            //{
-            //    r.ImageUrl = $"https://motelbooking.s3.us-east-2.amazonaws.com/{r.ImageUrl}";
-            //}
-            return View(rooms);
-
+            return _context.Rooms != null ?
+                       View(await _context.Rooms.Include("RoomType").Include("Motel").ToListAsync()):
+                       Problem("Entity set 'MotelBookingAppContext.Rooms'  is null.");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(string searchKeyWord)
+        public async Task<IActionResult> Index(string searchWord)
         {
-            List<Room> rooms = await _staffRoomService.SearchRoomAsync(searchKeyWord);
-            if (rooms == null)
+            if (searchWord == null)
             {
-                TempData["no result"] = $"no room type {searchKeyWord}";
+                return _context.Rooms != null ?
+                           View(await _context.Rooms.Include("RoomType").Include("Motel").ToListAsync()) :
+                           Problem("Entity set 'MotelDbContext.Rooms'  is null.");
+            }
+            else
+            {
+                searchWord = searchWord.ToLower();
+                List<Room> searcheRes = await _context.Rooms.Include("RoomType").Include("Motel").Where(a => a.RoomNum.ToLower().Contains(searchWord) || a.RoomType.Name.ToLower().Contains(searchWord) || a.Motel.Name.ToLower().Contains(searchWord)).ToListAsync();
+                
+                if (searcheRes.Count == 0)
+                {
+                    TempData["RoomOption"] = "No search results";
+                }
+                return View(searcheRes);
+            }
+        }
+        // GET: AdminAirport/Details/5
+        public async Task<IActionResult> Detail(int? id)
+        {
+            try
+            {
+                var room = await _context.Rooms.Include("RoomType").Include("Motel")
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (room == null)
+                {
+                    TempData["room not exist"] = $"room {id} does not exist";
+                    return View();
+                }
+                return View(room);
+            }
+            catch (SystemException ex)
+            {
+                TempData["RoomOption"] = $"{ex.Message}";
                 return View();
             }
-            //foreach (Room r in rooms)
-            //{
-            //    r.ImageUrl = $"https://motelbooking.s3.us-east-2.amazonaws.com/{r.ImageUrl}";
-            //}
-            return View(rooms);
-        }
-        // GET: AdminroomType/Details/5
-        public async Task<IActionResult> Detail(int id)
-        {
-            RoomInputModel newRoom = await _staffRoomService.GetEditRoom(id);
-
-            if (newRoom == null)
-                return View(new MotelInputModel());
-            else
-                //newRoom.ImageUrl = $"https://motelbooking.s3.us-east-2.amazonaws.com/{newRoomType.ImageUrl}";
-            return View(newRoom);
         }
 
-        // GET: AdminroomType/Create
-        public IActionResult Create()
+        // GET: AdminAirport/Create
+        public async Task<IActionResult> Create()
         {
+            List<RoomType> roomTypeList = await _context.RoomTypes.ToListAsync();
             RoomInputModel newRoom = new RoomInputModel();
-            List<RoomType> roomTypeList = _adminRoomTypeService.GetAllRoomTypes().Result;
-            newRoom.RoomTypeList = roomTypeList;
-            int maxIndex = _staffRoomService.FindMaxIndex().Result;
-            newRoom.Id = maxIndex + 1;
+            newRoom.RoomTypeList = roomTypeList;    
             return View(newRoom);
-
         }
 
-        // POST: AdminroomType/Create
+        // POST: AdminAirport/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RoomInputModel newRoom)
         {
- 
-            await _staffRoomService.AddRoom(newRoom);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                Room ifRoom = await _context.Rooms.FirstOrDefaultAsync(a => a.RoomNum == newRoom.RoomNum);
+
+                if (ifRoom != null)
+                {
+                    TempData["MotelCreateOption"] = $"Room {newRoom.RoomNum}has already existed";
+                    return View(newRoom);
+                }
+                if (!ModelState.IsValid)
+                {
+                    return View(newRoom);
+                }
+                RoomType roomType = await _context.RoomTypes.FirstOrDefaultAsync(rt => rt.Id == newRoom.RoomType);
+                Motel motel = await _context.Motels.FirstOrDefaultAsync(m => m.Name == "motel4");
+                Room room = new Room()
+                {
+                    RoomNum = newRoom.RoomNum,
+
+                    Price = newRoom.Price,
+
+                    RoomType = roomType,
+                    Motel = motel
+                };
+                _context.Rooms.Add(room);
+                await _context.SaveChangesAsync();
+                TempData["RoomOption"] = $"{room.RoomNum} has been created successfully";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (SystemException ex)
+            {
+                TempData["MotelCreateOption"] = $"{ex.Message}";
+                return View();
+            }
         }
 
-        // GET: AdminroomType/Edit/5
+        // GET: AdminAirport/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-      
-            RoomInputModel newRoom = await _staffRoomService.GetEditRoom(id);
+            try
+            {
+                var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
+                string blobUrl = _client.Uri.ToString();
+                List<RoomType> roomTypeList = await _context.RoomTypes.ToListAsync();
+                RoomInputModel newRoom = new RoomInputModel
+                {
+                    Id= room.Id,
+                    RoomNum = room.RoomNum,
+                    Price = room.Price,
+                    MotelName = room.Motel.Name,
+                    RoomType = room.RoomType.Id,
+                    RoomTypeList = roomTypeList,
 
-            if (newRoom == null)
-                return View(new RoomInputModel());
-            else
+            };
+
                 return View(newRoom);
+            }
+            catch (SystemException ex)
+            {
+                TempData["AirportEditOption"] = $"{ex.Message}";
+                return View();
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(RoomInputModel newRoom, int id)
+        public async Task<IActionResult> Edit(RoomInputModel editRoom, int id)
         {
-            bool res = _staffRoomService.UpdateRoom(newRoom).Result;
-            if (res)
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                return View(editRoom);
             }
-            else
+            try
             {
-                return View(newRoom);
+                var room = _context.Rooms.Include("RoomType").Include("Motel").FirstOrDefault(a => a.Id == id);
+                List<Room> roomsList = _context.Rooms.ToList<Room>();
+                roomsList.Remove(room);
+                // if Number exists
+                Room ifRoom = roomsList.Find(a => a.RoomNum == editRoom.RoomNum);
+                if (ifRoom != null)
+                {
+                    TempData["RoomEditOption"] = $"Room Name {editRoom.RoomNum} has already existed";
+                    return View(editRoom);
+                }
+                RoomType roomType = await _context.RoomTypes.FirstOrDefaultAsync(rt => rt.Id == editRoom.RoomType);
+                room.RoomNum = editRoom.RoomNum;
+                room.Price = editRoom.Price;
+                room. RoomType = roomType;
+                _context.Rooms.Update(room);
+                await _context.SaveChangesAsync();
+                TempData["RoomOption"] = $"{room.RoomNum} has been Edited successfully";
+                return RedirectToAction(nameof(Index));
             }
 
 
+            catch (SystemException ex)
+            {
+                TempData["RoomEditOption"] = $"{ex.Message}";
+                return View();
+            }
         }
 
 
-        // GET: AdminroomType/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        // GET: AdminAirport/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
-            Room room = await _staffRoomService.SingleRoom(id);
-
-            if (room == null)
-                return View(new Motel());
-            else
+            try
             {
-                //room.ImageUrl = $"https://motelbooking.s3.us-east-2.amazonaws.com/{roomType.ImageUrl}";
-
+                var room = await _context.Rooms.Include("RoomType").Include("Motel")
+                    .FirstOrDefaultAsync(m => m.Id == id);
+   
                 return View(room);
             }
-
-
+            catch (SystemException ex)
+            {
+                TempData["RoomDeleteOption"] = $"{ex.Message}";
+                return View();
+            }
         }
 
-        // POST: AdminroomType/Delete/5
+        // POST: StaffRoom/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var res = _staffRoomService.DeleteRoom(id).Result;
-            if (res)
-                return RedirectToAction("index");
-            else
-                return RedirectToAction("Delete");
+            try
+            {
+                var room = await _context.Rooms.Include("RoomType").Include("Motel").FirstOrDefaultAsync(a => a.Id == id);
+                if (room != null)
+                {
+                    //var blobClient = new BlobClient( _storageConnectionString,  _storageContainerName, newAirport.LogoImage.FileName);
 
+
+                    var bookedRecord = await _context.BookedRecords.Include("Room").FirstOrDefaultAsync(br => br.Room.RoomNum == room.RoomNum && br.CheckoutDate > DateTime.Now);
+
+                    if (bookedRecord != null)
+                    {
+                        TempData["RoomDeleteOption"] = "The room is in use or will be in use, can not delete it";
+                        return View(room);
+                    }
+                     
+                    _context.Rooms.Remove(room);
+                    TempData["RoomOption"] = $"Room {room.RoomNum} has been deleted successfully";
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+
+                TempData["RoomDeleteOption"] = $"Room {id} does not exist";
+                return View();
+
+            }
+            catch (SystemException ex)
+            {
+                TempData["AirportDeleteOption"] = $"{ex.Message}";
+                return View();
+            }
         }
+
     }
 }
+
 
 
 

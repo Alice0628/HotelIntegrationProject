@@ -1,4 +1,4 @@
-﻿using Amazon.DynamoDBv2.DataModel;
+﻿
 using MotelBookingApp.Models;
 
 namespace MotelBookingApp.Data.ViewModels
@@ -12,9 +12,9 @@ namespace MotelBookingApp.Data.ViewModels
      
         public int RoomType { get; set; } = default;
 
-        public string? Type { get; set; } = String.Empty;
-
-        public Motel? Motel { get; set; } = default;
+        public string? RoomTypeImage { get; set; } = String.Empty;
+ 
+        public string? MotelName { get; set; } = string.Empty;
 
         public List<RoomType> RoomTypeList { get; set; } = new List<RoomType>();
     }

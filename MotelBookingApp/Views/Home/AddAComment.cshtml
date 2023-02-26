@@ -1,0 +1,51 @@
+﻿@model Motel
+@{
+    ViewData["Title"] = "Add a comment";
+}
+
+<div onload="showScore()" class="container">
+    <div class="col-md-10 offset-2">
+        <h2>Create Type</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="col-md-8">
+
+                <div class="form-group">
+                    <label>Motel</label>
+                    <input readonly asp-for="Name" class="form-control form-control-sm" />
+
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea name="content" class="form-control form-control-sm"></textarea>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Give a score, the total is 10</label>
+                    <span name="score" id="score"></span><input id="scoreValue" type="range" onchange="showScore()" min="0" max="10" class="form-control form-control-sm" />
+                </div>
+
+            </div>
+
+            <div class="col-md-4 text-center" style="margin:1rem 1rem">
+                <button type="submit" class="btn btn-primary" asp-route-id="@Model.Id">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("AirportEditOption").style.display = "none";
+    }, 3000);
+
+
+    function showScore() {
+        var score = document.querySelector('#score');
+        var scoreValue = document.getElementById("scoreValue").value;
+        score.innerHTML = scoreValue
+       
+    }
+</script>

@@ -1,0 +1,28 @@
+﻿@model List<Motel>
+
+@{
+    ViewData["Title"] = "Motel search result";
+}
+<div class="container">
+    <span style="color:red">Carts:@ViewBag.count</span>
+    <div class="col-10">
+        @foreach (var m in Model)
+        {
+            <div class="d-flex m-1">
+
+                <div>
+                    <img src=https://motelbooking.s3.us-east-2.amazonaws.com/@m.ImageUrl width="150" heiht="150" alt="Motel picture" />
+
+                </div>
+                <div style="margin-right:1rem">
+                    <p>@m.Name</p>
+                    <p>@m.Address, @m.City, @m.Province, @m.PostalCode</p>
+                    <a class="btn btn-primary" asp-action="CityMotelDetail" asp-route-id="@m.Id">Detail</a>
+                </div>
+
+            </div>
+        }
+    </div>
+
+
+</div>

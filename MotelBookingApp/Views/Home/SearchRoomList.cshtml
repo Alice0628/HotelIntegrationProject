@@ -1,0 +1,37 @@
+﻿@model List<Room>
+
+@{
+    ViewData["Title"] = $"Rooms of Motel {Model[0].Motel.Name} ";
+}
+<div class="container">
+    <a asp-route-id="" asp-action="BookingCart"><span>Carts:@ViewBag.count </span></a>
+    <div class="col-10">
+        <form method="post">
+            @foreach (var r in Model)
+            {
+
+                <div class="d-flex m-1">
+                    @*<div>
+                <img src=$"https://motelbooking.s3.us-east-2.amazonaws.com/{@r.RoomType.ImageUrl}" width="150" heiht="150" alt="Motel picture" />
+                </div>*@
+                    <div style="margin-right:1rem">
+                        <p><a asp-action="searchRoomTypeDetail">Room Type: @r.RoomType.Name</a></p>
+                        <p>Room Number: @r.RoomNum</p>
+                        <p>Price: @r.Price</p>
+                        @if (r.IfAvailable == true)
+                        {
+                            <button class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@r.Id">Add to cart</button>
+                        }
+                        else
+                        {
+                            <button disabled class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@r.Id">Add to cart</button>
+                        }
+                    </div>
+                </div>
+
+            }
+        </form>
+    </div>
+
+
+</div>

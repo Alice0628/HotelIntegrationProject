@@ -6,30 +6,32 @@
     <h3>For Test User <span style="color:red">Notice</span></h3>
     <h5 class="my-4">Functions Completed: Homepage-Layout/Login/Register/ForgetPassword/CRUD for customer/staff/AdminMotel/RoomType</h5>
     <a class="btn btn-outline-primary" asp-controller="AdminStaff" asp-action="StaffList">Staff</a>
-    <a class="btn btn-outline-primary" asp-controller="AdminCustomer" asp-action="CustomerList">Customer</a>
+    <a class="btn btn-outline-primary" asp-controller="AdminCustomer" asp-action="CustomerList">AdminCustomer</a>
     <a class="btn btn-outline-primary" asp-controller="AdminMotel" asp-action="Index">Motel</a>
     <a class="btn btn-outline-primary" asp-controller="AdminRoomType" asp-action="Index">AdminRoomTypes</a>
     <a class="btn btn-outline-primary" asp-controller="StaffRoom" asp-action="Index">StaffRoom</a>
+    <a class="btn btn-outline-primary" asp-controller="Home" asp-action="CityMotelList">Search</a>
     <a class="btn btn-outline-danger" asp-controller="Test" asp-action="Index">Submit Bug</a>
 </div>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <div class="container border border-orange-2 px-3 py-2">
-        <form>
+        <form asp-for="Index" method="post">
             <div class="row">
                 <div class="col-lg-3 mb-3">
                     <select class="form-select" id="city" name="city">
-                        <option value="montreal">Montreal</option>
-                        <option value="toronto">Toronto</option>
-                        <option value="vancouver">Vancouver</option>
+                        <option value="Montreal">Montreal</option>
+                        <option value="Moronto">Toronto</option>
+                        <option value="Vancouver">Vancouver</option>
+                        <option value="Laval">Laval</option>
                     </select>
                 </div>
                 <div class="col-lg-3 mb-3">
-                    <input type="date" class="form-control" id="check-in" name="check-in">
+                    <input type="date" class="form-control" id="check-in" name="checkin">
                 </div>
                 <div class="col-lg-3 mb-3">
-                    <input type="date" class="form-control" id="check-out" name="check-out">
+                    <input type="date" class="form-control" id="check-out" name="checkout">
                 </div>
                 <div class="col-lg-2 mb-3">
                     <select class="form-select" id="room-type" name="room-type">

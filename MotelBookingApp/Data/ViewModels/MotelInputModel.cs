@@ -1,4 +1,4 @@
-﻿//using Amazon.DynamoDBv2.DataModel;
+﻿
 
 using System.ComponentModel.DataAnnotations;
 
@@ -29,8 +29,8 @@ namespace MotelBookingApp.Data.ViewModels
         public string PostalCode { get; set; }
 
         [Display(Name = "Motel Image")]
-        [Required(ErrorMessage = "Please upload motel image")]
-        public IFormFile MotelImage { get; set; }
+         
+        public IFormFile? MotelImage { get; set; }
 
         public string? ImageUrl { get; set; }
 

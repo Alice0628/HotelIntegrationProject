@@ -47,12 +47,10 @@
                             @foreach (var rt in Model)
                             {
                                 <tr>
-                                    <td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>                
-                                    <td>@rt.Name</td>
+                                <td><img src=https://motelbooking.s3.us-east-2.amazonaws.com/@rt.ImageUrl alt="room picture" width="50" height="50" /></td>
+                            <td>@rt.Name</td>
                                 
                                     <td>@rt.Sleep</td>
-                                     
-                             
                                     <th class="d-flex justify-content-center">
                                         <a class="btn btn-sm btn-warning" style="margin-right:4px;"
                                        asp-action="Detail"

@@ -17,26 +17,26 @@
 //            _context = context;
 //        }
 
-        public async Task<IActionResult> Detail(int? id)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
-            {
-                TempData["CustomerInfo"] = "Customer not exists";
-            }
+        //public async Task<IActionResult> Detail(int? id)
+        //{
+        //    var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        //    if (user == null)
+        //    {
+        //        TempData["CustomerInfo"] = "Customer not exists";
+        //    }
 
-            EditStaffVM viewCustomer = new EditStaffVM();
+        //    EditStaffVM viewCustomer = new EditStaffVM();
 
-            viewCustomer.Id = user.Id;
-            viewCustomer.FirstName = user.FirstName;
-            viewCustomer.LastName = user.LastName;
-            viewCustomer.UserName = user.UserName;
-            viewCustomer.Email = user.Email;
-            viewCustomer.DOB = DateOnly.Parse(user.DOB.ToString());
-            viewCustomer.PhoneNumber = user.PhoneNumber;
+        //    viewCustomer.Id = user.Id;
+        //    viewCustomer.FirstName = user.FirstName;
+        //    viewCustomer.LastName = user.LastName;
+        //    viewCustomer.UserName = user.UserName;
+        //    viewCustomer.Email = user.Email;
+        //    viewCustomer.DOB = DateOnly.Parse(user.DOB.ToString());
+        //    viewCustomer.PhoneNumber = user.PhoneNumber;
 
-            return View(viewCustomer);
-        }
+        //    return View(viewCustomer);
+        //}
 
 //        public async Task<IActionResult> CustomerList(string searchString)
 //        {

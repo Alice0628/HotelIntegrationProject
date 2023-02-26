@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Motel>;
+﻿
+@model IEnumerable<Motel>;
 @{
     ViewData["Title"] = "All motels";
 }
@@ -44,7 +45,7 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-2">Image</th>
+                                
                                 <th class="col-2">Name</th>
                                 <th class="col-2">City</th>
                                 <th class="col-2 text-center">Actions</th>
@@ -54,7 +55,6 @@
                             @foreach (var motel in Model)
                             {
                                 <tr>
-                                    <td><img src=@motel.ImageUrl width="50" height="50" alt="motel picture" /></td>
                                     <td>@motel.Name</td>
                                     <td>@motel.City </td>
                                     <td class="d-flex justify-content-center">

@@ -23,9 +23,9 @@
 //            _config = config;
 //        }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login() => View(new LoginVM());
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Login() => View(new LoginVM());
 
 //        [HttpPost]
 //        [AllowAnonymous]

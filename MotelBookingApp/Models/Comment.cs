@@ -1,8 +1,8 @@
-﻿using Amazon.DynamoDBv2.DataModel;
+﻿
 
 namespace MotelBookingApp.Models
 {
-    public class Comments
+    public class Comment
     {
         public int Id { get; set; } = default;
 
@@ -14,6 +14,6 @@ namespace MotelBookingApp.Models
       
         public string? Score { get; set; } = String.Empty;
 
-        public Motel Motel { get; set; }
+        public Motel Motel { get; set; } = new Motel();
     }
 }

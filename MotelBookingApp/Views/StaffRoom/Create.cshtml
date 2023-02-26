@@ -1,23 +1,18 @@
 @using MotelBookingApp.Data.ViewModels
 @model RoomInputModel
 @{
-    ViewData["Title"] = "Add a Room Type";
+    ViewData["Title"] = "Add a Room";
 }
 
 <div>@TempData["id"]</div>
 <div class="container">
     <div class="col-md-10 offset-2">
-        <h2>Create Type</h2>
+        <h2>Create Room</h2>
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="d-flex justify-content-around align-content-center">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="Id">Id</label>
-                        <input readonly asp-for="Id" class="form-control form-control-sm" />
-                        <span asp-validation-for="Id" class="text-danger"></span>
-                    </div>
-
+                   
                     <div class="form-group">
                         <label asp-for="RoomNum"></label>
                         <input asp-for="RoomNum" class="form-control form-control-sm" />

@@ -2,14 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using MotelBookingApp.Data;
 using MotelBookingApp.Models;
 using Microsoft.EntityFrameworkCore;
-using MotelBookingApp.Iservice;
-using MotelBookingApp.Service;
-using Amazon.DynamoDBv2;
-using Amazon.Runtime;
-using Amazon.S3;
-using Amazon;
-using Amazon.DynamoDBv2.DataModel;
+ 
 
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,31 +12,29 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-//builder.Services.AddDbContext<MotelDbContext>();
+builder.Services.AddDbContext<MotelDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string not found."));
+});
 
 //user Secrets
 var secretEmail = builder.Configuration["MyGmail"];
 var secretSMTP = builder.Configuration["SMTP"];
-builder.Services.AddTransient<IAdminMotelService, AdminMotelService>();
-builder.Services.AddTransient<IAdminRoomTypeService, AdminRoomTypeService>();
-builder.Services.AddTransient<IStaffRoomService, StaffRoomService>();
-builder.Services.AddScoped<IAdminMotelService, AdminMotelService>();
-builder.Services.AddScoped<IAdminRoomTypeService, AdminRoomTypeService>();
-builder.Services.AddScoped<IStaffRoomService, StaffRoomService>();
-var awsAccessKey = builder.Configuration.GetValue<string>("AWS:AccessKey");
-var awsSecretKey = builder.Configuration.GetValue<string>("AWS:SecretKey");
-var credentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
-var config = new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.USEast2 };
-var client = new AmazonDynamoDBClient(credentials, config);
-builder.Services.AddAWSService<IAmazonS3>();
-builder.Services.AddSingleton(new MotelDbContext(client, new DynamoDBContextConfig()));
  
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
-//builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<MotelDbContext>()
-//    .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider)
-//    .AddRoles<AppRole>();
+
+
+builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<MotelDbContext>()
+    .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider)
+    .AddRoles<AppRole>();
 
 var app = builder.Build();
 
@@ -57,25 +50,25 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-//using (var scope = app.Services.CreateAsyncScope())
-//{
-//    var services = scope.ServiceProvider;
-//    var context = services.GetRequiredService<MotelDbContext>();
+using (var scope = app.Services.CreateAsyncScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<MotelDbContext>();
 
-//    //context.Database.EnsureCreated();
+    context.Database.EnsureCreated();
 
-//    //context.Database.Migrate();
-
-//    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-//    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
-//    IdentityDataSeed.InitializeAsync(userManager, roleManager);
-//}
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+    IdentityDataSeed.InitializeAsync(userManager, roleManager);
+}
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseWebSockets();
 
 app.Run();

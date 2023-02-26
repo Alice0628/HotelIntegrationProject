@@ -1,0 +1,53 @@
+﻿@using MotelBookingApp.Data.ViewModels
+@model MotelDetailModel
+
+@{
+    ViewData["Title"] = "Motel search result";
+}
+<div class="container">
+    <span>Carts:@ViewBag.count </span>
+    <div class="col-10">
+        <div class="m-1">
+            <div>
+                <div>
+                    <img src=https://motelbooking.s3.us-east-2.amazonaws.com/@Model.Motel.ImageUrl width="150" heiht="150" alt="Motel picture" />
+                </div>
+                <div style="margin-right:1rem">
+                    <p>@Model.Motel.Name</p>
+                    <p>@Model.Motel.Address, @Model.Motel.City, @Model.Motel.Province, @Model.Motel.PostalCode</p>
+                    <a class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@Model.Motel.Id">View Rooms</a>
+                </div>
+            </div>
+
+            @*comments*@
+            <div>
+                @foreach (var c in Model.Comments)
+                {
+                    <div>
+                        <div>
+                            <span>
+                                Owner
+                            </span>
+                            <span>
+                                @c.CreateDate
+                            </span>
+                        </div>
+                        <div style="margin-right:1rem">
+                            <p>@c.Content</p>
+                        </div>
+
+                    </div>
+                }
+                <div>
+                    <a class="btn btn-primary" asp-action="AddAComment" asp-route-id="@Model.Motel.Id">Add a comment</a>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>

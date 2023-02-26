@@ -38,7 +38,7 @@ namespace MotelBookingApp.Data
                 user.EmailConfirmed = true;
                 user.FirstName = "AdminFirstName";
                 user.LastName = "AdminLastName";
-                user.DOB = DateOnly.Parse("1979-08-20");
+                user.DOB =DateTime.Parse("1979-08-20");
 
                 IdentityResult result = userManager.CreateAsync(user, adminPass).Result;
 
