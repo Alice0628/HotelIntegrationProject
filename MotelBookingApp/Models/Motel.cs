@@ -25,13 +25,19 @@ namespace MotelBookingApp.Models
         [DynamoDBProperty]
         public List<Comment>? Comments { get; set; } = new List<Comment>();
     }
-
+    
         public class Comment
         {
+        
         public int Id { get; set; } = default;
-        public AppUser User { get; set; } = new AppUser();
+
+       
+        public AppUser? User { get; set; } = new AppUser();
+        
         public string Content { get; set; } = String.Empty;
+       
         public DateTime CreateDate { get; set; } = DateTime.Now;
+        
         public string? Score {get; set; } = String.Empty;
         }
 }

@@ -14,8 +14,6 @@ namespace MotelBookingApp.Models
         [DynamoDBProperty]
         public DateTime CheckoutDate { get; set; } = DateTime.Now.AddDays(1);
         [DynamoDBProperty]
-        public string OccupantName { get; set; } = String.Empty;
-        [DynamoDBProperty]
         public string Notes { get; set; } = String.Empty;
         [DynamoDBProperty]
         public Room Room { get; set; } = new Room();
