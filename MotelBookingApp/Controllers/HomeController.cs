@@ -36,27 +36,31 @@ namespace MotelBookingApp.Controllers
         public IActionResult Index()
         {
             ViewBag.count = "0";
+          
             return View();
         }
 
         [HttpPost,ActionName("Index")]
-        public IActionResult LaunchSearch(string city, DateTime checkin, DateTime checkout)
-        { 
- 
+        public IActionResult LaunchSearch( DateTime checkin,string city, DateTime checkout)
+        {
+         
+            //if (string.IsNullOrEmpty(checkinStr) == true || string.IsNullOrEmpty(checkoutStr) == true) 
+            //{
+            //    TempData["chooseDate"] = "Please choose both check in and check out date";  
+            //    return View(); 
+            //}
             HttpContext.Session.SetString("city", city);
-            HttpContext.Session.SetString("chechin", checkin.ToString());
+            HttpContext.Session.SetString("checkin", checkin.ToString());
             HttpContext.Session.SetString("checkout",checkout.ToString());
-            if (HttpContext.Session.GetString("count") == null)
-            {
-            HttpContext.Session.SetString("count", "0");
-            }
-           
-            return RedirectToAction(nameof(CityMotelList) );
+            ViewBag.count = HttpContext.Session.GetString("count");
+            return RedirectToAction(nameof(CityMotelList));
+            
         }
 
         [HttpGet]
         public async Task<IActionResult> CityMotelList()
-        {  
+        {
+           
             ViewBag.count = HttpContext.Session.GetString("count");
             var searchCity = HttpContext.Session.GetString("city");
             List<Motel> motels = await _context.Motels.Where(m => m.City == searchCity).ToListAsync();
@@ -126,11 +130,13 @@ namespace MotelBookingApp.Controllers
             if(room == null)
                 return View(new List<Room>());
             BookingCart bookingCart = new BookingCart
-            {
+            { 
                 CheckinDate = DateTime.Parse(HttpContext.Session.GetString("checkin")),
                 CheckoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout")),
                 Room = room
             };
+
+
             _context.BookingCarts.Add(bookingCart);
             await _context.SaveChangesAsync();
             room.IfAvailable = false;

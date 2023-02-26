@@ -16,8 +16,16 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    @if(TempData["chooseDate"] != null)
+    {
+        <div class="flash alert alert-warning">
+            @TempData["chooseDate"]
+        </div>
+    }
+    <div>Cart: @ViewBag.count</div>
+    <div>Cart: @ViewBag.checkin</div>
     <div class="container border border-orange-2 px-3 py-2">
-        <form asp-for="Index" method="post">
+        <form method="post">
             <div class="row">
                 <div class="col-lg-3 mb-3">
                     <select class="form-select" id="city" name="city">
