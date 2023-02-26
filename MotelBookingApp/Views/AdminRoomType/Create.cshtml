@@ -1,5 +1,5 @@
-@using MotelBookingApp.Data.ViewModels
-@model NewTypeVM
+﻿@using MotelBookingApp.Data.ViewModels
+@model RoomTypeInputModel
 @{
     ViewData["Title"] = "Add a Room Type";
 }
@@ -12,16 +12,14 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="d-flex justify-content-around align-content-center">
                 <div class="col-md-6">
+
+
                     <div class="form-group">
                         <label asp-for="Name">Name</label>
                         <input asp-for="Name" class="form-control form-control-sm" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Price">Price</label>
-                        <input asp-for="Price" class="form-control form-control-sm" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
+
                     <div class="form-group">
                         <label asp-for="Sleep">Sleep</label>
                         <input asp-for="Sleep" class="form-control form-control-sm" />
@@ -29,15 +27,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Amount">Amount</label>
-                        <input asp-for="Amount" class="form-control form-control-sm" />
-                        <span asp-validation-for="Amount" class="text-danger"></span>
-                    </div>
-
-                     <div class="form-group">
-                    <label asp-for="Description">Description</label>
+                        <label asp-for="Description">Description</label>
                         <textarea asp-for="Description" class="form-control form-control-sm"> </textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
                     <br>
@@ -45,13 +37,13 @@
                         <button type="submit" class="btn btn-primary">
                             Create
                         </button>
-                        <a class="btn btn-secondary" asp-controller="RoomType" asp-action="Index">Cancel</a>
+                        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
                     </div>
                 </div>
 
                 <div class="col-md-4 text-center" style="margin:1rem 1rem">
                     <img id="preview" src="#" width="200" height="200" alt="room style image" />
-                    <input style="margin:1rem 1rem" type="file" asp-for="Image" onchange="previewImage()" class="form-control form-control-sm" />
+                    <input style="margin:1rem 1rem" type="file" asp-for="TypeImage" onchange="previewImage()" class="form-control form-control-sm" />
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
 

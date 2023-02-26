@@ -32,7 +32,7 @@ namespace MotelBookingApp.Controllers
             viewCustomer.LastName = user.LastName;
             viewCustomer.UserName = user.UserName;
             viewCustomer.Email = user.Email;
-            viewCustomer.DOB = DateOnly.Parse(user.DOB.ToString());
+            viewCustomer.DOB = DateTime.Parse(user.DOB.ToString());
             viewCustomer.PhoneNumber = user.PhoneNumber;
 
             return View(viewCustomer);

@@ -1,0 +1,74 @@
+﻿@using MotelBookingApp.Data.ViewModels
+@model RoomTypeInputModel
+@{
+    ViewData["Title"] = "Detail of motel";
+}
+
+<div class="container">
+    <div class="col-md-8 offset-2">
+        <h2>RoomType Detail</h2>
+
+        <div class="d-flex justify-content-around align-content-center">
+            <div style="margin:1rem 0">
+                <img width="400" height="250" src=@Model.ImageUrl />
+                <div class="form-group text-center" style="margin-top: 0.5rem;">
+                    <a class="btn btn-primary float-right" asp-control="RoomType" asp-action="Edit"
+                       asp-route-id="@Model.Id">Update</a>
+                    <a class="btn btn-secondary" asp-action="Index">Back To List</a>
+                </div>
+            </div>
+
+            <div>
+                <dl>
+                    <dt>Id</dt>
+                    <dd>@Model.Id</dd>
+                </dl>
+                <dl>
+                    <dt>Name</dt>
+                    <dd>@Model.Name</dd>
+                </dl>
+
+                <dl>
+                    <dt>Sleep</dt>
+                    <dd>@Model.Sleep</dd>
+                </dl>
+
+                <dl>
+                    <dt>Description</dt>
+                    <dd>@Model.Description</dd>
+                </dl>
+            </div>
+
+        </div>
+        @*<div id="map" style="height: 500px; width: 100%;"></div>
+        <script>
+        function initMap() {
+        const latEle = document.getElementById('lat');
+        int latitudedegreePosition =latEle.innerText.IndexOf('°');
+        string latitudeStr = latEle.Substring(0, latitudedegreePosition);
+        int lat= Convert.ToInt32(latitudeStr);
+        const lngEle = document.getElementById('lng');
+        int longitudedegreePosition = lngEle.innerText.IndexOf('°');
+        string longitudeStr = lngEle.Substring(0, longitudedegreePosition);
+        int lng = Convert.ToInt32(longitudeStr);
+        var location = { lat: lat, lng: lng };
+        var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: location
+        });
+
+        var marker = new google.maps.Marker({
+        position: location,
+        map: map
+        });
+        }
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"></script>*@
+    </div>
+
+
+</div>
+
+
+
+

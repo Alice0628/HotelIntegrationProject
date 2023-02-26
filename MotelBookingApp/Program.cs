@@ -50,6 +50,7 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
+
 using (var scope = app.Services.CreateAsyncScope())
 {
     var services = scope.ServiceProvider;

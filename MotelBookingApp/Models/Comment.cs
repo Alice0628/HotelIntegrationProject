@@ -11,7 +11,7 @@
        
         public DateTime CreateDate { get; set; } = DateTime.Now;
       
-        public string? Score { get; set; } = String.Empty;
+        public string? Score { get; set; }
 
         public Motel Motel { get; set; } = new Motel();
 

@@ -1,10 +1,10 @@
-﻿@model List<Room>
+﻿@model List<RoomType>
 @{
-    ViewData["Title"] = "List of rooms";
+    ViewData["Title"] = "List of room types";
 }
 
 <div class="container">
-    <h2 class="text-center">List of Rooms</h2>
+    <h2 class="text-center">List of Room Types</h2>
     <br>
     <!-- Search Bar -->
     <div class="container d-flex justify-content-center">
@@ -23,10 +23,10 @@
 
         <a class="btn btn-primary" style="margin-bottom: 10px;"
            asp-action="Create">Add a Room Type</a>
-        @if (TempData["RoomOption"] != null)
+        @if (TempData["TypeOption"] != null)
         {
             <div id="AirportOption" class="flash alert alert-warning">
-                @TempData["RoomOption"]
+                @TempData["TypeOption"]
             </div>
         }
         <div class="card text-black bg-light">
@@ -34,12 +34,10 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            @*<th class="col-3 text-center">Image</th>*@
-                            <th class="col-3 text-center">Room Number</th>
+                            <th class="col-3 text-center">Image</th>
+                            <th class="col-3 text-center">Name</th>
 
-                            <th class="col-3 text-center">Price</th>
-
-                            <th class="col-3 text-center">RoomType</th>
+                            <th class="col-3 text-center">sleep</th>
 
 
                         </tr>
@@ -48,11 +46,10 @@
                         @foreach (var rt in Model)
                         {
                             <tr>
-                                @*<td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>*@
-                                <td>@rt.RoomNum</td>
-                                <td>@rt.Price</td>
-                                <td>@rt.RoomType.Name</td>
+                                <td><img src=https://motelbooking.s3.us-east-2.amazonaws.com/@rt.ImageUrl alt="room picture" width="50" height="50" /></td>
+                                <td>@rt.Name</td>
 
+                                <td>@rt.Sleep</td>
                                 <th class="d-flex justify-content-center">
                                     <a class="btn btn-sm btn-warning" style="margin-right:4px;"
                                    asp-action="Detail"
@@ -75,7 +72,7 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("RoomOption").style.display = "none";
+        document.getElementById("AirportOption").style.display = "none";
     }, 3000);
 </script>
 

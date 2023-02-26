@@ -32,7 +32,7 @@ namespace MotelBookingApp.Controllers
             viewCustomer.LastName = user.LastName;
             viewCustomer.UserName = user.UserName;
             viewCustomer.Email = user.Email;
-            viewCustomer.DOB = DateOnly.Parse(user.DOB.ToString());
+            viewCustomer.DOB = DateTime.Parse(user.DOB.ToString());
             viewCustomer.PhoneNumber = user.PhoneNumber;
 
             return View(viewCustomer);
@@ -57,7 +57,7 @@ namespace MotelBookingApp.Controllers
                 editStaff.PhoneNumber = staff.PhoneNumber;
                 editStaff.FirstName = staff.FirstName;
                 editStaff.LastName = staff.LastName;
-                editStaff.DOB = DateOnly.Parse(staff.DOB.ToString());
+                editStaff.DOB = DateTime.Parse(staff.DOB.ToString());
 
                 return View(editStaff);
             }
@@ -101,7 +101,7 @@ namespace MotelBookingApp.Controllers
                 staff.PhoneNumber = editStaff.PhoneNumber;
                 staff.FirstName = editStaff.FirstName;
                 staff.LastName = editStaff.LastName;
-                staff.DOB = DateOnly.Parse(editStaff.DOB.ToString());
+                staff.DOB = DateTime.Parse(editStaff.DOB.ToString());
 
                 _context.Users.Update(staff);
                 await _context.SaveChangesAsync();

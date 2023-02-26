@@ -6,7 +6,6 @@ namespace MotelBookingApp.Data
 {
     public class IdentityDataSeed
     {
-
         public static async Task InitializeAsync(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             string[] roleNamesList = new string[] { "Admin", "User", "Staff" };
@@ -38,7 +37,7 @@ namespace MotelBookingApp.Data
                 user.EmailConfirmed = true;
                 user.FirstName = "AdminFirstName";
                 user.LastName = "AdminLastName";
-                user.DOB =DateTime.Parse("1979-08-20");
+                user.DOB = DateTime.Parse("1979-08-20");
 
                 IdentityResult result = userManager.CreateAsync(user, adminPass).Result;
 

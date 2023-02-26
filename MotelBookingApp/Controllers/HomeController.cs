@@ -149,5 +149,13 @@ namespace MotelBookingApp.Controllers
             ViewBag.Count = curCount;
             return View(allRooms);
         }
+
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+
     }
 }

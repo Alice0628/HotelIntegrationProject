@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace MotelBookingApp.Models
 {
@@ -6,7 +7,10 @@ namespace MotelBookingApp.Models
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public DateOnly DOB { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+
+        [DataType(DataType.Date)]
+        public DateTime DOB { get; set; } = DateTime.Now;
+
         public Motel? Motel { get; set; }
     }
 }
