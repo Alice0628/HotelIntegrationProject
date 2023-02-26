@@ -16,14 +16,13 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    @if(TempData["chooseDate"] != null)
+    @if(TempData["searchOption"] != null)
     {
-        <div class="flash alert alert-warning">
-            @TempData["chooseDate"]
+        <div id="searchOption" class="flash alert alert-warning">
+            @TempData["searchOption"]
         </div>
     }
-    <div>Cart: @ViewBag.count</div>
-    <div>Cart: @ViewBag.checkin</div>
+    <div>@ViewBag.checkin</div>
     <div class="container border border-orange-2 px-3 py-2">
         <form method="post">
             <div class="row">
@@ -35,20 +34,20 @@
                         <option value="Laval">Laval</option>
                     </select>
                 </div>
-                <div class="col-lg-3 mb-3">
+                <div class="col-lg-4 mb-4">
                     <input type="date" class="form-control" id="check-in" name="checkin">
                 </div>
-                <div class="col-lg-3 mb-3">
+                <div class="col-lg-4 mb-4">
                     <input type="date" class="form-control" id="check-out" name="checkout">
                 </div>
-                <div class="col-lg-2 mb-3">
+                @*<div class="col-lg-2 mb-3">
                     <select class="form-select" id="room-type" name="room-type">
                         <option value="1adult">1 Adult</option>
                         <option value="2adults">2 Adults</option>
                         <option value="1adult1kid">1 Adult 1 Kid</option>
                         <option value="family">Family</option>
                     </select>
-                </div>
+                </div>*@
                 <div class="col-lg-1 mb-3">
                     <button type="submit" class="btn btn-primary" style="background-color: navy; color: white;">Search</button>
                 </div>
@@ -61,45 +60,7 @@
 <div class="slider">
     <img src="images/slider.jpg" class="imag">
 </div>
-<div class="check">
 
-    <div class="checklb">
-        <lable class="checklb">Choose a City:</lable>
-        <select class="secroom" name="rooms" id="rooms">
-            <option value="">Select a city</option>
-            <option value="Montreal">Montreal</option>
-            <option value="Ottawa">Ottawa</option>
-        </select>
-    </div>
-
-
-    <div class="checklb">
-        <lable>Check In</lable>
-        <input type="date" name="" value="check-in" class="checkinp" id="">
-    </div>
-    <div class="checklb">
-        <lable>Check Out</lable>
-        <input type="date" name="" value="check-out" class="checkinp" id="">
-    </div>
-    <div class="checklb">
-        <lable class="checklb">Rooms</lable>
-        <select class="secroom" name="rooms" id="rooms">
-            <option class="optroom" value="royal room">Royal Room</option>
-            <option class="optroom" value="delux room">Delux Room</option>
-            <option class="optroom" value="double room">Double Room</option>
-            <option class="optroom" value="single room">Single Room</option>
-        </select>
-    </div>
-
-    <input type="button" value="SEARCH" id="sbtn">
-</div>
-
-<div class="col p-4 mb-4 ">
-    <a type="submit" asp-page="/Guest/Bookings/BookingList" class="btn btn-secondary flex-md-shrink-1">Already have a booking, click here to check</a>
-</div>
-
-
-</div>
 <div class="rooms">
     <h1>OUR ROOMS</h1>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, reprehenderit!</p>
@@ -143,13 +104,6 @@
     #map {
         height: 400px;
         width: 400px;
-    }
-
-    html,
-    body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
     }
 </style>
 
@@ -247,80 +201,10 @@
 </div>
 
 
-
-<style>
-    #map {
-        height: 400px;
-        width: 400px;
-    }
-
-    html,
-    body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-</style>
-
-
-<div id="map"></div>
-
 <script>
-       let map;
-       function initMap() {
-           map = new google.maps.Map(document.getElementById("map"), {
-               center: { lat: 45.501690, lng: -73.567253},
-               zoom: 8,
-           });
-
-       const markers = [
-           { lat: 45.501690, long: - 73.567253, Name:"Grand", Address: "2000 rue darlington" },
-           { lat: 45.501690, long: - 74.567253, Name: "Light", Address: "1000 rue darlington" },
-
-       ]
-
-        markers.forEach(m => {
-
-                const marker = new google.maps.Marker ({
-           position: { lat: m.lat, lng: m.long },
-           map:map,
-           title:m.Name
-
-           });
-
-           var contentString =
-               '<h4 id="firstHeading" class="firstHeading">'+m.Name+'</h4>' +
-               '<div id="bodyContent">' +
-               '<p><b>Address:</b> '+m.Address ;
-
-           //const popupContent = new google.maps.InfoWindow()
-           //google.maps.event.addListener(marker,'click',(function(marker) {
-           //return function() {
-           //popupContent.setContent(contentString)
-           //popupContent.open(map,marker)
-           //}
-           //})(marker)
-           //)
-
-           infowindow = new google.maps.InfoWindow({
-               content: contentString
-           });
-           google.maps.event.addListener(marker, 'mouseover', (function (marker) {
-               return function () {
-                   infowindow.open(map, marker);
-               }
-           })(marker));
-           google.maps.event.addListener(marker, 'mouseout', (function (marker) {
-               return function () {
-                   infowindow.close();
-               }
-           })(marker));
-
-        })
-
-    }
-
+    setTimeout(function () {
+        document.getElementById("searchOption").style.display = "none";
+    }, 3000);
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAsqoqHbNDPolDTzwEVCiVK2AGAUPKXX8&callback=initMap&v=weekly"
-        defer></script>
+

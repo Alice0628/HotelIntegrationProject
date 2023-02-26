@@ -6,7 +6,7 @@ namespace MotelBookingApp.Models
     {
         public string FirstName { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty;
-        public DateTime DOB { get; set; } = DateTime.Now;
+        public DateTime DOB { get; set; }
         public Motel? Motel { get; set; } = new Motel();
 
     }   

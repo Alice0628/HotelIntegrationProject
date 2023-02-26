@@ -41,31 +41,58 @@ namespace MotelBookingApp.Controllers
         }
 
         [HttpPost,ActionName("Index")]
-        public IActionResult LaunchSearch( DateTime checkin,string city, DateTime checkout)
+        public IActionResult LaunchSearch( DateTime checkin, string city, DateTime checkout)
         {
-         
-            //if (string.IsNullOrEmpty(checkinStr) == true || string.IsNullOrEmpty(checkoutStr) == true) 
-            //{
-            //    TempData["chooseDate"] = "Please choose both check in and check out date";  
-            //    return View(); 
-            //}
+            ViewBag.checkin = checkin.Date.ToString();
+ 
+            if (checkin.ToString().Equals("0001-01-01 12:00:00 AM"))
+            {
+                TempData["searchOption"] = "Please choose check in date";  
+                return View(); 
+            }
+            if (checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
+            {
+                TempData["searchOption"] = "Please choose check out date";
+                return View();
+            }
+            if (string.IsNullOrEmpty(city))
+            {
+                TempData["searchOption"] = "Please choose city";
+                return View();
+            }
             HttpContext.Session.SetString("city", city);
             HttpContext.Session.SetString("checkin", checkin.ToString());
             HttpContext.Session.SetString("checkout",checkout.ToString());
             ViewBag.count = HttpContext.Session.GetString("count");
-            return RedirectToAction(nameof(CityMotelList));
-            
+            return RedirectToAction(nameof(CityMotelList)); 
         }
 
         [HttpGet]
         public async Task<IActionResult> CityMotelList()
         {
-           
+            
             ViewBag.count = HttpContext.Session.GetString("count");
             var searchCity = HttpContext.Session.GetString("city");
-            List<Motel> motels = await _context.Motels.Where(m => m.City == searchCity).ToListAsync();
-
-            return View(motels);
+            try
+            {
+                List<Motel> motels = await _context.Motels.Where(m => m.City == searchCity).ToListAsync();
+                if (motels.Count > 0)
+                {
+                    return View(motels);
+                }
+                else
+                {
+                    TempData["searchOption"] = "Sorry,there is no result for your search.";
+                    return RedirectToAction(nameof(Index));
+                }
+            } 
+            
+            catch (SystemException ex)
+            {
+                return View();
+            }
+            
+            
 
         }
 
@@ -121,6 +148,29 @@ namespace MotelBookingApp.Controllers
             return View(rooms);
          
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Cart()
+        {
+            var userName = User.Identity.Name;
+
+            List<BookingCart> cartItems = await _context.BookingCarts.Include("Room").Where(bc => bc.AppUser.UserName == userName).ToListAsync();
+
+            return View(cartItems);
+
+        }
+
+        [HttpPost,ActionName("Cart")]
+        public async Task<IActionResult> RemoveItem(int id)
+        {
+            var cartItem = await _context.BookingCarts.Include("Room").Where(bc => bc.Id  == id).FirstOrDefaultAsync();
+            _context.BookingCarts.Remove(cartItem);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Cart));
+
+        }
+
 
         [HttpPost,ActionName("SearchRoomList")]
         public async Task<ActionResult> AddToCart(int id)

@@ -1,19 +1,19 @@
-﻿@*@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<AppUser> UserManager
 @inject SignInManager<AppUser> SignInManager
-*@
+ 
 
-@*@if (!User.Identity.IsAuthenticated)
+ @if (!User.Identity.IsAuthenticated)
 {
     <span style="padding: 0 5px;"></span>
     <a class="nav-link text-success" asp-controller="Account" asp-action="Login">Log in</a>
     <span style="padding: 0 5px;"></span>
     <a class="nav-link text-primary" asp-controller="Account" asp-action="Register">Register</a>
 }
-else*@
-@*{*@
+else 
+{
     @*user profile section*@
-    @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
                 <a class="nav-link notranslate" style="color:deepskyblue;" asp-controller="" asp-action="">
@@ -23,16 +23,16 @@ else*@
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="AdminCustomer" asp-action="CustomerList">Customer</a>
+                    <a class="nav-link text-dark" asp-controller="AdminMotel" asp-action="Motel">Motels</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Motel</a>
+                    <a class="nav-link text-dark" asp-controller="AdminStaff" asp-action="StaffList">Staffs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="AdminStaff" asp-action="StaffList">Staff</a>
+                    <a class="nav-link text-dark" asp-controller="AdminRoomType" asp-action="RoomType">RoomTypes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Bookings</a>
+                    <a class="nav-link text-dark" asp-controller="AdminCustomer" asp-action="CustomerList">Customers</a>
                 </li>
             }
             else if (User.IsInRole("User"))
@@ -42,23 +42,29 @@ else*@
                     ViewBag.count = 0;
                 }
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Cart(0)</a>
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Cart">Cart(@ViewBag.cout)</a>
+                </li>
+                @*<li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="HistoryRecords" asp-route-id="@UserManager.GetUserId(User)">History Records</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="" asp-route-id="@UserManager.GetUserId(User)">History</a>
-                </li>
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Favorite Motels" asp-route-id="@UserManager.GetUserId(User)">Favorite Motels</a>
+                </li>*@
             }
             else
             {
+              @*  <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Booked</a>
+                </li>*@
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Motel</a>
+                    <a class="nav-link text-dark" asp-controller="StaffRoom" asp-action="Index">Rooms</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Rooms</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="" asp-action="">Bookings</a>
-                </li>
+              @*  <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Book</a>
+                </li>*@
+                @*  <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Revenue</a>
+        </li>*@
             }
         </ul>
     </div>
@@ -69,4 +75,4 @@ else*@
             Logout
         </button>
     </form>
-}*@
+}
