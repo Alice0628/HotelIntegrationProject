@@ -3,6 +3,7 @@ using MotelBookingApp.Data;
 using MotelBookingApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,16 @@ builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.Require
     .AddEntityFrameworkStores<MotelDbContext>()
     .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider)
     .AddRoles<AppRole>();
+
+
+// Stripe Settings
+//read Values from appsettings.json
+var secretKeyValue = builder.Configuration["SecretKey"];
+// Debug.WriteLine("SecretKey:" + secretKeyValue);
+StripeConfiguration.ApiKey = secretKeyValue;
+
+
+
 
 var app = builder.Build();
 

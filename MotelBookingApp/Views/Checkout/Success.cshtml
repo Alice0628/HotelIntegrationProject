@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Payment Sucessfully";
+}
+
+<div class="text-center">
+
+    @* <form asp-action="Processing" asp-controller="Checkout" method="post"> *@
+    <h2 class="text-center">Your Payment was successfully processed.</h2>
+    <br />
+
+    <p class="text-center">
+        The Details of the transaction are <br />
+        Customer : @ViewBag.Customer<br />
+        Amount : CAD$ @ViewBag.AmountPaid
+    </p>
+    <p class="text-center">
+        The invoice had been sent to your email address<span style="color:deepskyblue;"> @ViewBag.Email</span>. Please check it out!
+    </p>
+
+    @* </form> *@
+
+</div>

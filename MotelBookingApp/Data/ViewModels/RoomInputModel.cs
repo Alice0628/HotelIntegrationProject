@@ -16,7 +16,7 @@ namespace MotelBookingApp.Data.ViewModels
 
         public string? RoomTypeImage { get; set; } = String.Empty;
  
-        public string? MotelName { get; set; } = string.Empty;
+        public string? MotelName { get; set; }
 
         public List<RoomType> RoomTypeList { get; set; } = new List<RoomType>();
     }

@@ -48,6 +48,6 @@ namespace MotelBookingApp.Data.ViewModels
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; } = string.Empty;
 
-        public Motel? Motel { get; set; } = new Motel();
+        public Motel? Motel { get; set; }
     }
 }

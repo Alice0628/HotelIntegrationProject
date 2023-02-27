@@ -18,7 +18,7 @@ namespace MotelBookingApp.Data.ViewModels
         public string Description { get; set; } = String.Empty;
 
 
-        public IFormFile? TypeImage { get; set; } = null;
+        public IFormFile? TypeImage { get; set; }
 
         public string? ImageUrl { get; set; }
 

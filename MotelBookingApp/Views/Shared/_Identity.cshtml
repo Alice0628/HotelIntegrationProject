@@ -42,10 +42,10 @@ else
                     ViewBag.count = 0;
                 }
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index" asp-route-id="@UserManager.GetUserId(User)">Cart(0)</a>
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Cart" asp-route-id="">Cart(0)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Favorite Motels" asp-route-id="@UserManager.GetUserId(User)">Favorite Motels</a>
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="FavoriteMotels" asp-route-id="@UserManager.GetUserId(User)">Favorite Motels</a>
                 </li>
             }
             else
