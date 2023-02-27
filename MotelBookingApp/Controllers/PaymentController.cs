@@ -18,7 +18,7 @@ namespace MotelBookingApp.Controllers
         [HttpPost]
         public ActionResult CreateCheckoutSession(string amount)
         {
-            var options = new Stripe.Checkout.SessionCreateOptions
+            var options = new SessionCreateOptions
             {
                 LineItems = new List<SessionLineItemOptions>
                 {
@@ -40,8 +40,8 @@ namespace MotelBookingApp.Controllers
                 SuccessUrl = "http://localhost:7267/Home/Success",
                 CancelUrl = "http://localhost:7267/Home/Cancel",
             };
-            var service = new Stripe.Checkout.SessionService();
-            Stripe.Checkout.Session session = service.Create(options);
+            var service = new SessionService();
+            Session session = service.Create(options);
 
             Response.Headers.Add("Location", session.Url);
             return new StatusCodeResult(303);
