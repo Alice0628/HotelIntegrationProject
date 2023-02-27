@@ -116,7 +116,7 @@ namespace MotelBookingApp.Controllers
                         smtp.Host = "smtp.gmail.com";
                         smtp.Port = 587;
                         smtp.EnableSsl = true;
-                        message.To.Add(newUser.UserName); // replace with registered email (newUser.Email)
+                        message.To.Add(credential.UserName); // replace with registered email (newUser.Email)
                         message.Subject = "Your Booking from Motel Booking System";
                         message.Body = body;
                         message.IsBodyHtml = true;
@@ -124,6 +124,11 @@ namespace MotelBookingApp.Controllers
                         await smtp.SendMailAsync(message);
                     }
                     return View("RegisterCompleted");
+                }
+                else
+                {
+                    await _userManager.DeleteAsync(newUser);
+                    return View(registerVM);
                 }
             }
             foreach (var error in newUserResponse.Errors)

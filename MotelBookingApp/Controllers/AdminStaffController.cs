@@ -35,7 +35,7 @@ namespace MotelBookingApp.Controllers
             editStaff.LastName = user.LastName;
             editStaff.UserName = user.UserName;
             editStaff.Email = user.Email;
-            editStaff.DOB = DateTime.Parse(user.DOB.ToString());
+            editStaff.DOB = user.DOB;
             editStaff.PhoneNumber = user.PhoneNumber;
             editStaff.Motel = user.Motel.Id;
 
