@@ -3,50 +3,49 @@
 }
 
 <div class="container">
-    <h3>For Test User <span style="color:red">Notice</span></h3>
-    <h5 class="my-4">Functions Completed: Homepage-Layout/Login/Register/ForgetPassword/CRUD for customer/staff/AdminMotel/RoomType</h5>
-    <a class="btn btn-outline-danger" asp-controller="Test" asp-action="Index">Submit Bug</a>
-</div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    @if(TempData["searchOption"] != null)
-    {
-        <div id="searchOption" class="flash alert alert-warning">
-            @TempData["searchOption"]
-        </div>
-    }
-    <div>@ViewBag.checkin</div>
-    <div class="container border border-orange-2 px-3 py-2">
-        <form method="post">
-            <div class="row">
-                <div class="col-lg-3 mb-3">
-                    <select class="form-select" id="city" name="city">
-                        <option value="Montreal">Montreal</option>
-                        <option value="Moronto">Toronto</option>
-                        <option value="Vancouver">Vancouver</option>
-                        <option value="Laval">Laval</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <input type="date" class="form-control" id="check-in" name="checkin">
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <input type="date" class="form-control" id="check-out" name="checkout">
-                </div>
-                @*<div class="col-lg-2 mb-3">
-                    <select class="form-select" id="room-type" name="room-type">
-                        <option value="1adult">1 Adult</option>
-                        <option value="2adults">2 Adults</option>
-                        <option value="1adult1kid">1 Adult 1 Kid</option>
-                        <option value="family">Family</option>
-                    </select>
-                </div>*@
-                <div class="col-lg-1 mb-3">
-                    <button type="submit" class="btn btn-primary" style="background-color: navy; color: white;">Search</button>
-                </div>
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        @if (TempData["searchOption"] != null)
+        {
+            <div id="searchOption" class="flash alert alert-warning">
+                @TempData["searchOption"]
             </div>
-        </form>
+        }
+        <div class="container border border-orange-2 px-3 py-2">
+            <form method="post">
+                <div class="row">
+                    @*   <div class="col-lg-3 mb-3">
+                    <select class="form-select" id="city" name="city">
+                    <option value="Montreal">Montreal</option>
+                    <option value="Moronto">Toronto</option>
+                    <option value="Vancouver">Vancouver</option>
+                    <option value="Laval">Laval</option>
+                    </select>
+                    </div>*@
+                    <div class="col-lg-3 mb-3">
+                        <input class="form-control" id="city" placeholder="city..." name="city" value=@TempData["city"] />
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <input type="date" class="form-control" id="check-in" value=@TempData["checkin"] name="checkin">
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <input type="date" class="form-control" value=@TempData["checkout"] id="check-out" name="checkout">
+                    </div>
+                    @*<div class="col-lg-2 mb-3">
+                    <select class="form-select" id="room-type" name="room-type">
+                    <option value="1adult">1 Adult</option>
+                    <option value="2adults">2 Adults</option>
+                    <option value="1adult1kid">1 Adult 1 Kid</option>
+                    <option value="family">Family</option>
+                    </select>
+                    </div>*@
+                    <div class="col-lg-1 mb-3">
+                        <button type="submit" class="btn btn-primary" style="background-color: navy; color: white;">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -133,19 +132,19 @@
                 '<p><b>Address:</b> ' + m.Address;
 
             const popupContent = new google.maps.InfoWindow()
-            google.maps.event.addListener(marker,'mouseover',(function(marker) {
-            return function() {
-            popupContent.setContent(contentString)
-            popupContent.open(map,marker)
-            }
+            google.maps.event.addListener(marker, 'mouseover', (function (marker) {
+                return function () {
+                    popupContent.setContent(contentString)
+                    popupContent.open(map, marker)
+                }
             })(marker)
             )
 
-              google.maps.event.addListener(marker,'mouseout',(function(marker) {
-            return function() {
-         
-            popupContent.close(map,marker)
-            }
+            google.maps.event.addListener(marker, 'mouseout', (function (marker) {
+                return function () {
+
+                    popupContent.close(map, marker)
+                }
             })(marker)
             )
 

@@ -4,33 +4,52 @@
     ViewData["Title"] = $"Rooms of Motel {Model[0].Motel.Name} ";
 }
 <div class="container">
-    <a asp-route-id="" asp-action="BookingCart"><span>Carts:@ViewBag.count </span></a>
+    <div class="row">
     <div class="col-10">
         <form method="post">
-            @foreach (var r in Model)
-            {
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-2">Image</th>
+                        <th class="col-2">Type</th>
+                        <th class="col-2">Room Number</th>
+                        <th class="col-2">Price</th>
+                        <th class="col-2"></th>
+                    </tr>
+                </thead>
+                <tboddy>
+                    @foreach (var r in Model)
+                    {
+                        <tr class="m-1">
+                            <td class="col-2">
+                                <img src=@r.RoomType.ImageUrl width="150" heiht="150" alt="Motel picture" />
+                            </td>
+                            <td class="col-2">
+                                @r.RoomType.Name
+                            </td>
+                            <td class="col-2">
+                                @r.RoomNum
+                            </td>
+                            <td class="col-2">
+                                $ @r.Price
+                            </td>
+                            <td class="col-2">
+                                @if (r.IfAvailable == true)
+                                {
+                                    <a class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@r.Id">Add</a>
 
-                <div class="d-flex m-1">
-                    @*<div>
-                <img src=$"https://motelbooking.s3.us-east-2.amazonaws.com/{@r.RoomType.ImageUrl}" width="150" heiht="150" alt="Motel picture" />
-                </div>*@
-                    <div style="margin-right:1rem">
-                        <p><a asp-action="searchRoomTypeDetail">Room Type: @r.RoomType.Name</a></p>
-                        <p>Room Number: @r.RoomNum</p>
-                        <p>Price: @r.Price</p>
-                        @if (r.IfAvailable == true)
-                        {
-                            <button class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@r.Id">Add to cart</button>
-                        }
-                        else
-                        {
-                            <button disabled class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@r.Id">Add to cart</button>
-                        }
-                    </div>
-                </div>
-
-            }
+                                }
+                                else
+                                {
+                                    <a class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@r.Id">Add</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tboddy>
+            </table>
         </form>
+    </div>
     </div>
 
 

@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MotelBookingApp.Controllers
 {
-  
+    [Authorize(Roles = "Staff")]
     public class StaffRoomController : Controller
     {
         private readonly MotelDbContext _context;

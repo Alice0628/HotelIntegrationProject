@@ -1,11 +1,11 @@
-﻿@model Motel
+﻿@model Comment
 @{
-    ViewData["Title"] = "Add a comment";
+    ViewData["Title"] = "Edit a comment";
 }
 
 <div onload="showScore()" class="container">
     <div class="col-md-10 offset-2">
-        <h2>Add a comment</h2>
+        <h2>Edit Comments</h2>
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -13,25 +13,25 @@
 
                 <div class="form-group">
                     <label>Motel</label>
-                    <input readonly asp-for="Name" class="form-control form-control-sm" />
+                    <input readonly asp-for="Motel.Name" class="form-control form-control-sm" />
 
                 </div>
                 <div class="form-group">
                     <label>Content</label>
-                    <textarea name="content" class="form-control form-control-sm"></textarea>
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <textarea asp-for="Content" class="form-control form-control-sm"></textarea>
+                    
                 </div>
 
                 <div class="form-group" style="position:relative">
                     <label>Give a score, the total is 10</label>
-                    <span><b id="score" style="position:absolute; right:0; color:orangered"></b></span>
-                    <input id="scoreValue" name="score" type="range" onchange="showScore()" min="0" max="10" class="form-control form-control-sm" />
+                    <span><b name="score" id="score" asp-for="Score" style="position:absolute; right:0; color:orangered"></b></span>
+                    <input id="scoreValue" asp-for="Score" value=@Model.Score type="range" onchange="showScore()" min="0" max="10" class="form-control form-control-sm" />
                 </div>
 
             </div>
 
             <div class="col-md-4 text-center" style="margin:1rem 1rem">
-                <button type="submit" class="btn btn-primary" asp-route-id="@Model.Id">Add</button>
+                <button type="submit" class="btn btn-primary" asp-route-id="@Model.Id">Update</button>
             </div>
         </form>
     </div>
@@ -47,6 +47,6 @@
         var score = document.querySelector('#score');
         var scoreValue = document.getElementById("scoreValue").value;
         score.innerHTML = scoreValue
-       
+
     }
 </script>

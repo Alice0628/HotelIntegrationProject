@@ -12,6 +12,7 @@ using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Identity;
+using System.Runtime.InteropServices;
 
 namespace MotelBookingApp.Controllers
 {
@@ -25,42 +26,52 @@ namespace MotelBookingApp.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-        public HomeController(IConfiguration configuration, MotelDbContext context)
+        public HomeController(IConfiguration configuration, MotelDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             _storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
             _storageContainerName = configuration.GetValue<string>("BlobContainerName");
-            
+            _userManager = userManager;
             _client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
         }
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.count = "0";
-          
+            ViewBag.count = 0;
+            TempData["checkin"] = DateTime.Now;
+            TempData["checkout"] = DateTime.Now;
             return View();
         }
 
         [HttpPost,ActionName("Index")]
         public IActionResult LaunchSearch( DateTime checkin, string city, DateTime checkout)
         {
-            ViewBag.checkin = checkin.Date.ToString();
- 
-            if (checkin.ToString().Equals("0001-01-01 12:00:00 AM"))
-            {
-                TempData["searchOption"] = "Please choose check in date";  
-                return View(); 
-            }
-            if (checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
-            {
-                TempData["searchOption"] = "Please choose check out date";
-                return View();
-            }
+
             if (string.IsNullOrEmpty(city))
             {
                 TempData["searchOption"] = "Please choose city";
                 return View();
             }
+            TempData["city"] = city;
+
+            if (checkin.ToString().Equals("0001-01-01 12:00:00 AM"))
+            {
+                TempData["searchOption"] = "Please choose check in date";  
+                return View(); 
+            }
+            TempData["checkin"] = checkin.ToString();
+            if (checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
+            {
+                TempData["searchOption"] = "Please choose check out date";
+                return View();
+            }
+            TempData["checkout"] = checkout.ToString();
+            if(checkin < DateTime.Now || checkout < DateTime.Now || checkout < checkin)
+            {
+                TempData["searchOption"] = "Please choose valid check in and check out date";
+                return View();
+            }
+
             HttpContext.Session.SetString("city", city);
             HttpContext.Session.SetString("checkin", checkin.ToString());
             HttpContext.Session.SetString("checkout",checkout.ToString());
@@ -144,41 +155,74 @@ namespace MotelBookingApp.Controllers
 
         [HttpGet]
         public async Task<IActionResult> AddAComment(int id)
-        {
-           
+        { 
             var motel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == id);
             return View(motel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditComment(int id)
+        {
+            var comment = await _context.Comments.Include("User").Include("Motel").FirstOrDefaultAsync(c => c.Id == id);
+            return View(comment);
+        }
+
+ 
+        [HttpPost,ActionName("EditComment")]
+        public async Task<IActionResult> EditCommentUpload(int id, Comment comment)
+        {
+            var curComment = await _context.Comments.Include("User").Include("Motel").FirstOrDefaultAsync(c => c.Id == id);
+            curComment.Content = comment.Content;
+            curComment.Score= comment.Score;
+            _context.Comments.Update(curComment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(CityMotelDetail), new { id = curComment.Motel.Id });
+            
 
         }
-        [HttpPost,ActionName("AddAComment")]
+
+
+        [HttpPost, ActionName("AddAComment")]
         public async Task<IActionResult> AddCommentUpload(int id, string content, int score)
         {
- 
+
             var motel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == id);
             var userName = _userManager.GetUserName(User);
-            var user = _context.Users.Where(u => u.UserName == userName).FirstOrDefault();
-            
-        var comment = new Comment
+            var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
+
+            var comment = new Comment
             {
                 User = user,
                 Content = content,
                 Score = score.ToString(),
                 Motel = motel
             };
-      
-             _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
-           
-            return RedirectToAction(nameof(CityMotelDetail), new { id = id });
-            
 
+            _context.Comments.Add(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(CityMotelDetail), new { id = id });
         }
 
         [HttpGet]
         public async Task<IActionResult> SearchRoomList(int id)
         {
             List<Room> rooms = await _context.Rooms.Include("RoomType").Include("Motel").Where(m => m.Motel.Id == id).ToListAsync();
-
+            //string checkinStr = HttpContext.Session.GetString("checkin");
+            //string checkoutStr = HttpContext.Session.GetString("checkout");
+            //if (string.IsNullOrEmpty(checkinStr) || string.IsNullOrEmpty(checkoutStr)) {
+            //    return RedirectToAction("Index", "Home");
+            //}
+            //var checkinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
+            //var checkoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
+            //foreach (var room in rooms)
+            //{
+            //    var bookedRoom = await _context.BookedRecords.Include("Room").Where(br => br.Room.Id == id && ((br.CheckinDate > checkinDate && br.CheckinDate < checkoutDate) || (br.CheckoutDate > checkinDate && br.CheckoutDate < checkoutDate))).FirstOrDefaultAsync();
+            //    if (bookedRoom != null)
+            //    {
+            //        room.IfAvailable = false;
+            //    }
+            //}
+            // use room input model
             return View(rooms);
          
         }
