@@ -4,9 +4,12 @@ using MotelBookingApp.Data.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MotelBookingApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminCustomerController : Controller
     {
         private readonly MotelDbContext _context;

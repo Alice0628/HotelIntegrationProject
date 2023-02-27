@@ -12,7 +12,7 @@ using Azure.Storage.Blobs;
 
 namespace MotelBookingApp.Controllers
 {
-   
+    [Authorize(Roles = "Admin")]
     public class AdminRoomTypeController : Controller
     {
         private readonly MotelDbContext _context;

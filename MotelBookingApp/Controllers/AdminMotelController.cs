@@ -13,7 +13,7 @@ using System.Net;
 
 namespace MotelBookingApp.Controllers
 {
-
+    [Authorize(Roles = "Admin")]
     public class AdminMotelController : Controller
     {
         private readonly MotelDbContext _context;
