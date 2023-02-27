@@ -250,7 +250,7 @@ namespace MotelBookingApp.Controllers
         }
 
 
-        [HttpPost,ActionName("SearchRoomList")]
+        [HttpPost]
         public async Task<ActionResult> AddToCart(int id)
         {
 

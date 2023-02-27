@@ -7,11 +7,11 @@
 
 <div class="container">
 
-    <div id="confirmRemove" class="col-8" style="display:none">
+    <div id="confirmRemove" class="col-8">
         <div class="flash">
-             <p id="confirmQues"></p>
-        <form method="post">
-            <button id="removeBtn"type="submit" class="btn btn-danger">Remove</button>
+            <p id="confirmQues"></p>
+            <form method="post">
+                <button id="removeBtn" type="submit" class="btn btn-danger">Remove</button>
             </form>
         </div>
         <table class="table table-bordered">
@@ -29,7 +29,9 @@
                     <th>
                         Checkout Date
                     </th>
-                    <th></th>
+                    <th>
+                        Remove
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -49,7 +51,7 @@
                             @bc.CheckoutDate
                         </td>
                         <td>
-                            <button asp-route-id="bc.Id" onclick="showMes(@bc.Room.RoomNum)">Remove</button>
+                            <button class="btn btn-danger" asp-route-id="bc.Id" onclick="showMes(@bc.Room.RoomNum)">Remove</button>
                         </td>
                     </tr>
                 }
@@ -62,12 +64,12 @@
 </div>
 
 <script>
-    function showMes(roomNum){
+    function showMes(roomNum) {
         var mesContainer = document.getElementById("confirmRemove");
         mesContainer.style.display = "block";
         var qesContainer = document.getElementById("confirmQues");
-        qesContainer.innerText = "Are you sure you want to remove Room "+ roomNum + " ?";
+        qesContainer.innerText = "Are you sure you want to remove Room " + roomNum + " ?";
         var remBtn = document.getElementById("remBtn");
-        remBtm.asp-route-name  = roomNum;
+        remBtm.asp - route - name  = roomNum;
     }
 </script>
