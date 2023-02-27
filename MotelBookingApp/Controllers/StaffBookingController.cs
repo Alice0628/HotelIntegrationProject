@@ -57,7 +57,7 @@ namespace MotelBookingApp.Controllers
                 return View();
             }
             
-            if (searchModel.CheckinDate < DateTime.Now || searchModel.CheckoutDate < DateTime.Now || checkout < checkin)
+            if (searchModel.CheckinDate < DateTime.Now || searchModel.CheckoutDate < DateTime.Now || searchModel.CheckoutDate < searchModel.CheckinDate)
             {
                 TempData["searchOption"] = "Please choose valid check in and check out date";
                 return View();
@@ -280,9 +280,7 @@ namespace MotelBookingApp.Controllers
 
             _context.BookingCarts.Add(bookingCart);
             await _context.SaveChangesAsync();
-            room.IfAvailable = false;
-            _context.Rooms.Update(room);
-            _context.SaveChanges();
+           
             var motelId = bookingCart.Room.Motel.Id;
             List<Room> allRooms = await _context.Rooms.Include("RoomType").Include("Motel").Where(m => m.Motel.Id == motelId).ToListAsync();
             var curCount = Convert.ToInt32(HttpContext.Session.GetString("count")) + 1;

@@ -34,15 +34,7 @@
                                 $ @r.Price
                             </td>
                             <td class="col-2">
-                                @if (r.IfAvailable == true)
-                                {
                                     <a class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@r.Id">Add</a>
-
-                                }
-                                else
-                                {
-                                    <a class="btn btn-primary" asp-action="SearchRoomList" asp-route-id="@r.Id">Add</a>
-                                }
                             </td>
                         </tr>
                     }
