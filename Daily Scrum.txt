@@ -327,9 +327,6 @@ Sprint 1:
 - profile page and edit
 2. To do until next Scrum:
 - continue profile page and edit
-(for 28)
-- cart and payment
-- get info from stripe
 3. Need assistance / figure things out
 -
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -366,7 +363,8 @@ Sprint 1:
 
 2023/02/27 Zhu Qichen
 1. Done / not done since last scrum:
-
+- profile page and edit
 2. To do until next Scrum:
-
+- cart and payment
+- get info from stripe
 3. Need assistance / figure things out
