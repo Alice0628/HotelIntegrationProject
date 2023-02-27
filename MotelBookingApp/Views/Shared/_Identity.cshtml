@@ -23,13 +23,13 @@ else
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="AdminMotel" asp-action="Motel">Motels</a>
+                    <a class="nav-link text-dark" asp-controller="AdminMotel" asp-action="Index">Motels</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="AdminStaff" asp-action="StaffList">Staffs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="AdminRoomType" asp-action="RoomType">RoomTypes</a>
+                    <a class="nav-link text-dark" asp-controller="AdminRoomType" asp-action="Index">RoomTypes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="AdminCustomer" asp-action="CustomerList">Customers</a>
@@ -50,18 +50,18 @@ else
             }
             else
             {
-              @*  <li class="nav-item">
+                @*<li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Booked</a>
                 </li>*@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="StaffRoom" asp-action="Index">Rooms</a>
                 </li>
-              @*  <li class="nav-item">
+                @*<li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Revenue</a>
                 </li>*@
-                @*  <li class="nav-item">
-        <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Revenue</a>
-        </li>*@
             }
         </ul>
     </div>

@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-6">
                             <label asp-for="DOB" class="control-label mt-2"></label>
-                            <input type="date" asp-for="DOB" class="form-control" value="@Model.DOB" readonly />
+                            <input type="date" asp-for="DOB" class="form-control" value="@Model.DOB.ToString("yyyy-MM-dd")" readonly />
                         </div>
                     </div>
                     <div class="row">

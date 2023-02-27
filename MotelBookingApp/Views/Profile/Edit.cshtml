@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-6">
                             <label asp-for="DOB" class="control-label mt-2"></label>
-                            <input type="date" asp-for="DOB" value="@Model.DOB" class="form-control" />
+                            <input type="date" asp-for="DOB" value="@Model.DOB.ToString("yyyy-MM-dd")" class="form-control" />
                             <span asp-validation-for="DOB" class="text-danger"></span>
                         </div>
                     </div>
