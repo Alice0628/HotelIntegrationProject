@@ -24,7 +24,7 @@ namespace MotelBookingApp.Controllers
         private readonly BlobContainerClient _client;
         private readonly UserManager<AppUser> _userManager;
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
-
+      
         public StaffRoomController(UserManager<AppUser> userManager, IConfiguration configuration, MotelDbContext context)
         {
             _context = context;
@@ -66,26 +66,6 @@ namespace MotelBookingApp.Controllers
                     TempData["RoomOption"] = "No search results";
                 }
                 return View(searcheRes);
-            }
-        }
-        // GET: AdminAirport/Details/5
-        public async Task<IActionResult> Detail(int? id)
-        {
-            try
-            {
-                var room = await _context.Rooms.Include("RoomType").Include("Motel")
-                    .FirstOrDefaultAsync(m => m.Id == id);
-                if (room == null)
-                {
-                    TempData["room not exist"] = $"room {id} does not exist";
-                    return View();
-                }
-                return View(room);
-            }
-            catch (SystemException ex)
-            {
-                TempData["RoomOption"] = $"{ex.Message}";
-                return View();
             }
         }
 
@@ -151,8 +131,9 @@ namespace MotelBookingApp.Controllers
             try
             {
                 var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
-                string blobUrl = _client.Uri.ToString();
+                
                 List<RoomType> roomTypeList = await _context.RoomTypes.ToListAsync();
+                string blobUrl = _client.Uri.ToString();
                 RoomInputModel newRoom = new RoomInputModel
                 {
                     Id= room.Id,
@@ -161,8 +142,9 @@ namespace MotelBookingApp.Controllers
                     MotelName = room.Motel.Name,
                     RoomType = room.RoomType.Id,
                     RoomTypeList = roomTypeList,
+                    RoomTypeImage = _client.Uri.ToString() + "/" + room.RoomType.ImageUrl
 
-            };
+                };
 
                 return View(newRoom);
             }
