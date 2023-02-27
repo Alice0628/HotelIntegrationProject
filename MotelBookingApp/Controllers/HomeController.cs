@@ -41,6 +41,7 @@ namespace MotelBookingApp.Controllers
         {
             return View();
 
+        }
     }
 
 }
