@@ -34,23 +34,18 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th class="col-3 text-center">Image</th>
                             <th class="col-3 text-center">Name</th>
-
                             <th class="col-3 text-center">sleep</th>
-
-
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var rt in Model)
                         {
-                            <tr>
-                                <td><img src=https://motelbooking.s3.us-east-2.amazonaws.com/@rt.ImageUrl alt="room picture" width="50" height="50" /></td>
-                                <td>@rt.Name</td>
+                           <tr>
+                                <td class="col-3 text-center">@rt.Name</td>
 
-                                <td>@rt.Sleep</td>
-                                <th class="d-flex justify-content-center">
+                                <td class="col-3 text-center">@rt.Sleep</td>
+                                <td class="d-flex justify-content-center">
                                     <a class="btn btn-sm btn-warning" style="margin-right:4px;"
                                    asp-action="Detail"
                                    asp-route-id="@rt.Id">Detail</a>
@@ -59,7 +54,7 @@
                                    asp-route-id="@rt.Id">Edit</a>
                                     <a class="btn btn-sm btn-danger" asp-action="Delete"
                                    asp-route-id="@rt.Id">Delete</a>
-                                </th>
+                                </td>
                             </tr>
                         }
                     </tbody>

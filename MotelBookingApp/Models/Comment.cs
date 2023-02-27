@@ -5,7 +5,7 @@
     {
         public int Id { get; set; } = default;
 
-        public AppUser? User { get; set; } = new AppUser();
+        public AppUser User { get; set; } = new AppUser();
        
         public string Content { get; set; } = String.Empty;
        

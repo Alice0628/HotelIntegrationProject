@@ -22,9 +22,10 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="position:relative">
                     <label>Give a score, the total is 10</label>
-                    <span name="score" id="score"></span><input id="scoreValue" type="range" onchange="showScore()" min="0" max="10" class="form-control form-control-sm" />
+                    <span style="position:absolute; right:0; color:orangered" name="score" id="score"><b></b></span>
+                    <input id="scoreValue" type="range" onchange="showScore()" min="0" max="10" class="form-control form-control-sm" />
                 </div>
 
             </div>

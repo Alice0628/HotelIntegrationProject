@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Identity;
 
 namespace MotelBookingApp.Controllers
 {
@@ -21,23 +22,25 @@ namespace MotelBookingApp.Controllers
         private readonly string _storageConnectionString;
         private readonly string _storageContainerName;
         private readonly BlobContainerClient _client;
-       
+        private readonly UserManager<AppUser> _userManager;
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-        public StaffRoomController(IConfiguration configuration, MotelDbContext context)
+        public StaffRoomController(UserManager<AppUser> userManager, IConfiguration configuration, MotelDbContext context)
         {
             _context = context;
             _storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
             _storageContainerName = configuration.GetValue<string>("BlobContainerName");
-             
+            _userManager = userManager;
             _client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
         }
 
         // GET: AdminAirport
         public async Task<IActionResult> Index()
         {
+            var userName = _userManager.GetUserName(User);
+            var user = _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefault();
             return _context.Rooms != null ?
-                       View(await _context.Rooms.Include("RoomType").Include("Motel").ToListAsync()):
+                       View(await _context.Rooms.Include("RoomType").Include("Motel").Where(r => r.Motel.Name == user.Motel.Name).ToListAsync()):
                        Problem("Entity set 'MotelBookingAppContext.Rooms'  is null.");
         }
 
@@ -47,8 +50,10 @@ namespace MotelBookingApp.Controllers
         {
             if (searchWord == null)
             {
+                var userName = _userManager.GetUserName(User);
+                var user = _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefault();
                 return _context.Rooms != null ?
-                           View(await _context.Rooms.Include("RoomType").Include("Motel").ToListAsync()) :
+                           View(await _context.Rooms.Include("RoomType").Include("Motel").Where(r => r.Motel.Name == user.Motel.Name).ToListAsync()) :
                            Problem("Entity set 'MotelDbContext.Rooms'  is null.");
             }
             else
@@ -113,8 +118,12 @@ namespace MotelBookingApp.Controllers
                 {
                     return View(newRoom);
                 }
+            
                 RoomType roomType = await _context.RoomTypes.FirstOrDefaultAsync(rt => rt.Id == newRoom.RoomType);
-                Motel motel = await _context.Motels.FirstOrDefaultAsync(m => m.Name == "motel4");
+                var userName = _userManager.GetUserName(User);
+                var user = _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefault();
+                Motel motel = await _context.Motels.FirstOrDefaultAsync(m => m.Name == user.Motel.Name);
+
                 Room room = new Room()
                 {
                     RoomNum = newRoom.RoomNum,

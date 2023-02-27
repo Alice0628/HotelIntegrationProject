@@ -11,6 +11,6 @@ namespace MotelBookingApp.Models
         [DataType(DataType.Date)]
         public DateTime DOB { get; set; } = DateTime.Now;
 
-        public Motel? Motel { get; set; }
+        public Motel? Motel { get; set; }  
     }
 }
