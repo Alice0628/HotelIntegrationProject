@@ -331,3 +331,39 @@
 - get info from stripe
 3. Need assistance / figure things out
 -
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2023/02/27 Wu Wei
+
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
+--
+
+
+2023/02/27 Zhou Lei
+
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
+-- 
+
+ 
+2023/02/27 Zhang Xiao
+1. Done / not done since last scrum:
+- debug existed function code
+- prepared demo for today
+2. To do until next Scrum:
+- CRUD booking cart
+- complete room searching function
+3. Need assistance / figure things out
+
+2023/02/27 Zhu Qichen
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
