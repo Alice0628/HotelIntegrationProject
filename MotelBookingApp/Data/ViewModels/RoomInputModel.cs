@@ -12,7 +12,7 @@ namespace MotelBookingApp.Data.ViewModels
      
         public int RoomType { get; set; } = default;
 
-        public string RoomTypeName { get; set; }
+        public string? RoomTypeName { get; set; }
 
         public string? RoomTypeImage { get; set; } = String.Empty;
  

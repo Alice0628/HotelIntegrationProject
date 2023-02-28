@@ -7,6 +7,7 @@ namespace MotelBookingApp.Data.ViewModels
         public List<RoomInputModel>? AvailableRooms { get; set; }
 
         public List<RoomType>? RoomTypeList { get; set; }  
+        public string RoomTypeName { get; set; }
 
         public string? SearchType { get; set; } 
         public string? City { get; set; }

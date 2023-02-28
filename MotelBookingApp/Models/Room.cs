@@ -7,6 +7,6 @@
         public string RoomNum { get; set; } = string.Empty;
         public decimal Price { get; set; } = default;
         public RoomType RoomType { get; set; } = new RoomType();
-        
+        public Boolean IfAvailable { get; set; } = true;
     }
 }

@@ -7,28 +7,27 @@
 
 <div class="container">
  
-    <div class="col-8 border border-orange-2 px-3 py-2">
-          <form method="post">
+    <div class="col-10 border border-orange-2 px-3 py-2">
+        @if (TempData["searchOption"] != null)
+        {
+            <div class="flash alert alert-warning">
+                @TempData["searchOption"]
+            </div>
+        }
+        <form method="post">
                 <div class="row">
-                @*   <div class="col-lg-3 mb-3">
-                    <select class="form-select" id="city" name="city">
-                <option value="Montreal">Montreal</option>
-                <option value="Moronto">Toronto</option>
-                <option value="Vancouver">Vancouver</option>
-                <option value="Laval">Laval</option>
-                </select>
+               
+               @* <div class="col-lg-3 mb-3">
+                    <input class="form-control" id="city" name="city" asp-for="City" />
                 </div>*@
-                <div class="col-lg-3 mb-3">
-                    <input class="form-control" id="city" asp-for="City" />
-                </div>
                     <div class="col-lg-4 mb-4">
-                    <input type="date" class="form-control" id="check-in"  asp-for="CheckinDate">
+                    <input type="date" class="form-control" name="checkin" id="check-in"  asp-for="CheckinDate">
                     </div>
                     <div class="col-lg-4 mb-4">
-                    <input type="date" class="form-control" id="check-out" asp-for="CheckoutDate">
+                    <input type="date" class="form-control" name="checkout" id="check-out" asp-for="CheckoutDate">
                     </div>
                 <div class="col-lg-2 mb-3">
-                    <select class="form-select" id="room-type" asp-for="SearchType">
+                    <select class="form-select" id="room-type" name="roomType" asp-for="SearchType">
                         @foreach (var rt in Model.RoomTypeList)
                         {
                             <option value="@rt.Name">@rt.Name</option>
@@ -57,7 +56,7 @@
                         <th class="col-3 text-center">Price</th>
 
                         <th class="col-3 text-center">RoomType</th>
-
+                        <th></th>
 
                     </tr>
                 </thead>
@@ -66,18 +65,18 @@
                     {
                         <tr>
                             @*<td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>*@
-                            <td>@rt.RoomNum</td>
-                            <td>@rt.Price</td>
-                            <td>@rt.RoomTypeName</td>
+                            <td class="col-3 text-center">@rt.RoomNum</td>
+                            <td class="col-3 text-center">@rt.Price</td>
+                            <td class="col-3 text-center">@rt.RoomTypeName</td>
 
-                            <th class="d-flex justify-content-center">
+                            <td class="d-flex justify-content-center">
 
                                 <a class="btn btn-sm btn-info" style="margin-right:4px;"
                            asp-action="Detail"
                            asp-route-id="@rt.Id">Detail/Edit</a>
                                 <a class="btn btn-sm btn-danger" asp-action="Delete"
                            asp-route-id="@rt.Id">Delete</a>
-                            </th>
+                            </td>
                         </tr>
                     }
                 </tbody>

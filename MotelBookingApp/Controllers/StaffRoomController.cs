@@ -85,6 +85,7 @@ namespace MotelBookingApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RoomInputModel newRoom)
         {
+          
             try
             {
                 Room ifRoom = await _context.Rooms.FirstOrDefaultAsync(a => a.RoomNum == newRoom.RoomNum);
@@ -107,11 +108,10 @@ namespace MotelBookingApp.Controllers
                 Room room = new Room()
                 {
                     RoomNum = newRoom.RoomNum,
-
                     Price = newRoom.Price,
-
                     RoomType = roomType,
-                    Motel = motel
+                    Motel = motel,
+                    IfAvailable= true,
                 };
                 _context.Rooms.Add(room);
                 await _context.SaveChangesAsync();
@@ -120,7 +120,7 @@ namespace MotelBookingApp.Controllers
             }
             catch (SystemException ex)
             {
-                TempData["MotelCreateOption"] = $"{ex.Message}";
+                TempData["RoomCreateOption"] = $"{ex.Message}";
                 return View();
             }
         }
@@ -130,7 +130,7 @@ namespace MotelBookingApp.Controllers
         {
             try
             {
-                var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
+                var room = await _context.Rooms.Include("Motel").Include("RoomType").FirstOrDefaultAsync(m => m.Id == id);
                 
                 List<RoomType> roomTypeList = await _context.RoomTypes.ToListAsync();
                 string blobUrl = _client.Uri.ToString();

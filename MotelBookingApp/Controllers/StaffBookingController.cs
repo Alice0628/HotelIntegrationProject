@@ -38,7 +38,10 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> Index()
         {
             StaffBookingVM searchModel = new StaffBookingVM();
-            HttpContext.Session.SetString("count", "0");
+            if(HttpContext.Session.GetString("count") == null)
+            {
+               HttpContext.Session.SetString("count", "0");
+            }
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             searchModel.CheckinDate = DateTime.Now;
             searchModel.CheckoutDate = DateTime.Now;
@@ -47,23 +50,29 @@ namespace MotelBookingApp.Controllers
         }
 
         [HttpPost, ActionName("Index")]
-        public async Task<IActionResult> LaunchSearch(StaffBookingVM searchModel)
+        public async Task<IActionResult> LaunchSearch( DateTime checkin, DateTime checkout,string roomType)
         {
+            StaffBookingVM searchModel = new StaffBookingVM();
+            var roomTypeList = await _context.RoomTypes.ToListAsync();
+            searchModel.RoomTypeList = roomTypeList;
+            searchModel.CheckinDate = checkin;
+            searchModel.CheckoutDate = checkout;
+            searchModel.SearchType = roomType;
+            //searchModel.City = roomType;
 
-
-            if (string.IsNullOrEmpty(searchModel.City))
-            {
-                TempData["searchOption"] = "Please choose city";
-                return View();
-            }
+            //if (string.IsNullOrEmpty(city))
+            //{
+            //    TempData["searchOption"] = "Please input a city";
+            //    return View(searchModel);
+            //}
             
             if (searchModel.CheckinDate < DateTime.Now || searchModel.CheckoutDate < DateTime.Now || searchModel.CheckoutDate < searchModel.CheckinDate)
             {
                 TempData["searchOption"] = "Please choose valid check in and check out date";
-                return View();
+                return View(searchModel);
             }
 
-            HttpContext.Session.SetString("city", searchModel.City);
+            //HttpContext.Session.SetString("city", searchModel.City);
             HttpContext.Session.SetString("checkin", searchModel.CheckinDate.ToString());
             HttpContext.Session.SetString("checkout", searchModel.CheckoutDate.ToString());
             if (searchModel.CheckoutDate != null)
@@ -72,13 +81,13 @@ namespace MotelBookingApp.Controllers
             }
            
             //HttpContext.Session.SetString("occupNum", occupNum.ToString());
-            ViewBag.count = int.Parse(HttpContext.Session.GetString("count"));
+            ViewBag.count = HttpContext.Session.GetString("count");
             try
             {
                 //List<Motel> motels = await _context.Motels.Where(m => m.City == searchCity).ToListAsync();
                 var userName = _userManager.GetUserName(User);
                 var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
-                List<Room> rooms = await _context.Rooms.Include("Motel").Include("RoomType").Where(r => r.Motel.Name  ==  user.Motel.Name).ToListAsync();
+                List<Room> rooms = await _context.Rooms.Include("Motel").Include("RoomType").Where(r => r.Motel.Name.ToLower()  ==  user.Motel.Name.ToLower()).ToListAsync();
                 if (rooms.Count > 0)
                 {
                     var roomList = new List<RoomInputModel>();
@@ -97,18 +106,18 @@ namespace MotelBookingApp.Controllers
                         roomList.Add(newRoom);
                     }
                     searchModel.AvailableRooms = roomList;
-                    return View();
+                    return View(searchModel);
                 }
                 else
                 {
                     TempData["searchOption"] = "Sorry,there is no result for your search.";
-                    return View();
+                    return View(searchModel);
                 }
             }
 
             catch (SystemException ex)
             {
-                return View();
+                return View(searchModel);
             }
 
 
@@ -261,6 +270,8 @@ namespace MotelBookingApp.Controllers
             return RedirectToAction(nameof(Cart));
 
         }
+
+
 
 
         [HttpPost, ActionName("SearchRoomList")]
