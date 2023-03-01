@@ -341,7 +341,6 @@ Sprint 1:
 3. Need assistance / figure things out
 --
 
-
 2023/02/27 Zhou Lei
 
 1. Done / not done since last scrum:
@@ -351,8 +350,6 @@ Sprint 1:
 -- Complete BookingCart procedure
 3. Need assistance / figure things out
 --
-
-
  
 2023/02/27 Zhang Xiao
 1. Done / not done since last scrum:
@@ -369,4 +366,34 @@ Sprint 1:
 2. To do until next Scrum:
 - cart and payment
 - get info from stripe
+3. Need assistance / figure things out
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2023/02/28 Wu Wei
+1. Done / not done since last scrum:
+----favirate list add
+2. To do until next Scrum:
+--favirate list add
+3. Need assistance / figure things out
+--
+
+2023/02/27 Zhou Lei
+
+
+2023/02/27 Zhang Xiao
+1. Done / not done since last scrum:
+- completee ci/cd via Azure
+- started staff booking view and function
+2. To do until next Scrum:
+- finish staff booking view and function
+3. Need assistance / figure things out
+
+2023/02/27 Zhu Qichen
+1. Done / not done since last scrum:
+- testing errors
+- cart and payment
+- implement Stripe
+2. To do until next Scrum:
+- test payment with Lei's add to cart part
 3. Need assistance / figure things out
