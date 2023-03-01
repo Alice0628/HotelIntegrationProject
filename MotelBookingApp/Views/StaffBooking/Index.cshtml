@@ -4,28 +4,32 @@
 @{
     ViewData["Title"] = "Available Rooms";
 }
-
+<div>cart: @ViewBag.count</div>
 <div class="container">
- 
-    <div class="col-10 border border-orange-2 px-3 py-2">
+
+    <div class="col-10 px-3 py-2">
+        <div>@ViewBag.CheckinDate </div>
         @if (TempData["searchOption"] != null)
         {
             <div class="flash alert alert-warning">
                 @TempData["searchOption"]
             </div>
         }
+        <div id="addtocart" class="flash alert alert-warning">
+            @TempData["addtocart"]
+        </div>
         <form method="post">
-                <div class="row">
-               
-               @* <div class="col-lg-3 mb-3">
-                    <input class="form-control" id="city" name="city" asp-for="City" />
+            <div class="row">
+
+                @* <div class="col-lg-3 mb-3">
+                <input class="form-control" id="city" name="city" asp-for="City" />
                 </div>*@
-                    <div class="col-lg-4 mb-4">
-                    <input type="date" class="form-control" name="checkin" id="check-in"  asp-for="CheckinDate">
-                    </div>
-                    <div class="col-lg-4 mb-4">
+                <div class="col-lg-4 mb-4">
+                    <input type="date" class="form-control" name="checkin" id="check-in" asp-for="CheckinDate">
+                </div>
+                <div class="col-lg-4 mb-4">
                     <input type="date" class="form-control" name="checkout" id="check-out" asp-for="CheckoutDate">
-                    </div>
+                </div>
                 <div class="col-lg-2 mb-3">
                     <select class="form-select" id="room-type" name="roomType" asp-for="SearchType">
                         @foreach (var rt in Model.RoomTypeList)
@@ -33,57 +37,86 @@
                             <option value="@rt.Name">@rt.Name</option>
                         }
                     </select>
-                    </div>
-                    <div class="col-lg-1 mb-3">
-                        <button type="submit" class="btn btn-primary" style="background-color: navy; color: white;">Search</button>
-                    </div>
                 </div>
-            </form>
-        </div>
+                <div class="col-lg-1 mb-3">
+                    <button type="submit" name="button1" value="submit1" class="btn btn-primary" asp-action="Index" style="background-color: navy; color: white;">Search</button>
+                </div>
+            </div>
+
+            @if (TempData["addtocart"] != null)
+            {
+                <div class="flash alert alert-success">
+                    @TempData["addtocart"]
+                </div>
+            }
+
+            @if (Model.AvailableRooms != null)
+            {
+                <div class="col-10 border border-orange-2 px-3 py-2">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                @*<th class="col-3 text-center">Image</th>*@
+                                <th class="col-3 text-center">Room Number</th>
+
+                                <th class="col-3 text-center">Price</th>
+
+                                <th class="col-3 text-center">RoomType</th>
+                                <th></th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var rt in Model.AvailableRooms)
+                            {
+                                <tr>
+
+                                    @*<td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>*@
+                                    <td class="col-3 text-center"> <a asp-action="RoomDetail" style="" asp-route-id="@rt.Id">@rt.RoomNum</a> </td>
+                                    <td class="col-3 text-center">@rt.Price</td>
+                                    <td class="col-3 text-center">@rt.RoomTypeName</td>
+                                    <td class="col-3 text-center">
+                                        @if (rt.IfBooded == true)
+                                        {
+                                            <button name="button2" value="submit2" class="btn btn-sm btn-danger" disabled>
+                                                <a asp-action="Index"
+                                       asp-route-id="@rt.Id">Book</a>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button name="button2" value="submit2" class="btn btn-sm btn-danger">
+                                                <a asp-action="Index"
+                                       asp-route-id="@rt.Id">Book</a>
+                                            </button>
+                                        }
+
+
+                                        @* <td class="d-flex justify-content-center">*@
+
+                                        @*<a class="btn btn-sm btn-info" style="margin-right:4px;"
+                                asp-action="Detail"
+                                asp-route-id="@rt.Id">Detail</a>*@
+                                        @*   <a class="btn btn-sm btn-danger" asp-action="AddToCart"
+                                asp-route-id="@rt.Id"></a>*@
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+            }
+        </form>
     </div>
+
 </div>
 
-@if (Model.AvailableRooms != null)
-{
-    <div class="card text-black bg-light">
-        <div class="card-body">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        @*<th class="col-3 text-center">Image</th>*@
-                        <th class="col-3 text-center">Room Number</th>
-
-                        <th class="col-3 text-center">Price</th>
-
-                        <th class="col-3 text-center">RoomType</th>
-                        <th></th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var rt in Model.AvailableRooms)
-                    {
-                        <tr>
-                            @*<td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>*@
-                            <td class="col-3 text-center">@rt.RoomNum</td>
-                            <td class="col-3 text-center">@rt.Price</td>
-                            <td class="col-3 text-center">@rt.RoomTypeName</td>
-
-                            <td class="d-flex justify-content-center">
-
-                                <a class="btn btn-sm btn-info" style="margin-right:4px;"
-                           asp-action="Detail"
-                           asp-route-id="@rt.Id">Detail/Edit</a>
-                                <a class="btn btn-sm btn-danger" asp-action="Delete"
-                           asp-route-id="@rt.Id">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-}
-
-</div>
+<script>
+    setTimeout(function () {
+        document.getElementById("addtocart").style.display = "none";
+    }, 3000);
+</script>

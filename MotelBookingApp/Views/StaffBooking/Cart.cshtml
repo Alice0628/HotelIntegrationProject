@@ -7,18 +7,18 @@
 
 <div class="container">
 
-    <div id="confirmRemove" class="col-8">
-        <div class="flash">
-            <p id="confirmQues"></p>
+    <div class="col-10" style="position:relative">
+      @*  <div id="confirmRemove" class="flash">
+            <p id="confirmQues">11</p>
             <form method="post">
                 <button id="removeBtn" type="submit" class="btn btn-danger">Remove</button>
             </form>
-        </div>
+        </div>*@
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>
-                        Customer Username
+                        Username
                     </th>
                     <th>
                         Room Number
@@ -30,46 +30,55 @@
                         Checkout Date
                     </th>
                     <th>
+                        Price
+                    </th>
+                    <th>
+                        Subtotal
+                    </th>
+                    <th>
                         Remove
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (BookingCart bc in @Model)
+                @if (Model != null)
                 {
-                    <tr>
-                        <td>
-                            @bc.AppUser.UserName
-                        </td>
-                        <td>
-                            @bc.Room.RoomNum
-                        </td>
-                        <td>
-                            @bc.CheckinDate
-                        </td>
-                        <td>
-                            @bc.CheckoutDate
-                        </td>
-                        <td>
-                            <button class="btn btn-danger" asp-route-id="bc.Id" onclick="showMes(@bc.Room.RoomNum)">Remove</button>
-                        </td>
-                    </tr>
+                    @foreach (BookingCart bc in @Model)
+                    {
+                        <tr>
+                            <td>
+                                @bc.AppUser.UserName
+                            </td>
+                            <td>
+                                @bc.Room.RoomNum
+                            </td>
+                            <td>
+                                @bc.CheckinDate
+                            </td>
+                            <td>
+                                @bc.CheckoutDate
+                            </td>
+                            <td>
+                                $ @bc.Room.Price
+                            </td>
+                            <td>
+                                $@(bc.Room.Price * (bc.CheckoutDate - bc.CheckinDate).Days)
+
+                            </td>
+                            <td>
+                                <form method="post"> <button class="btn btn-danger" type="submit" asp-route-id="@bc.Id">Remove</button></form>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
 
         </table>
+        <div style="position:absolute;right:0.5rem">Total:$ @ViewBag.SubTotal  </div>
+        <div><a asp-action="Index" class="btn btn-primary">Continue to choose room</a></div>
         <div><a asp-action="Payment" class="btn btn-primary">Go to Pay</a></div>
 
     </div>
 </div>
 
-<script>
-    function showMes(roomNum) {
-        var mesContainer = document.getElementById("confirmRemove");
-        mesContainer.style.display = "block";
-        var qesContainer = document.getElementById("confirmQues");
-        qesContainer.innerText = "Are you sure you want to remove Room " + roomNum + " ?";
-        var remBtn = document.getElementById("remBtn");
-        remBtm.asp - route - name  = roomNum;
-    }
-</script>
+

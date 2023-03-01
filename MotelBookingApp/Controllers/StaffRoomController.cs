@@ -126,6 +126,7 @@ namespace MotelBookingApp.Controllers
         }
 
         // GET: AdminAirport/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             try
