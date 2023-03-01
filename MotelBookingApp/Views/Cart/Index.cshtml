@@ -1,101 +1,105 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject UserManager<IdentityUser> UserManager
+﻿@model List<BookingCart>
 
 @{
-    ViewData["Title"] = "Index";
-}
-@if (TempData["DeleteCartItem"] != null)
-{
-    <div id="DeleteCartItem" class="flash alert alert-warning">
-        @TempData["DeleteCartItem"]
-    </div>
+    ViewData["Title"] = "Items of Cart";
 }
 
-<h2 class="text-center">Shopping Cart</h2>
+<div class="container col-8">
+    <h4 class="text-center">Shopping Cart</h4>
 
-<div class="row">
-    <div class="col-md-12">
-        <table class="table">
+    <div id="confirmRemove" class="col-12 mt-4">
+        @if (TempData["CartOption"] != null)
+        {
+            <div id="CartOption" class="container flash alert alert-warning">
+                @TempData["CartOption"]
+            </div>
+        }
+        <table class="table table-bordered table-hover">
             <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayName("User Name")
+                <tr class="text-center">
+                    <th class="col-2">
+                        Customer
                     </th>
-                    <th>
-                        @Html.DisplayName("Motel Name")
+                    <th class="col-2">
+                        Room
                     </th>
-                    <th>
-                        @Html.DisplayName("Room Type")
+                    <th class="col-2">
+                        Checkin
                     </th>
-                    <th>
-                        @Html.DisplayName("Checkin Date")
+                    <th class="col-2">
+                        Checkout
                     </th>
-                    <th>
-                        @Html.DisplayName("Checkout Date")
+                    <th class="col-2">
+                        Price
                     </th>
-                    <th>
-                        @Html.DisplayName("Price")
-                    </th>
-                    <th class="text-center">
+                    <th class="col-1">
                         Remove
                     </th>
                 </tr>
             </thead>
-            <tbody id="myTable">
-                @foreach (var item in Model)
+            <tbody>
+                @foreach (BookingCart bc in Model)
                 {
                     <tr>
                         <td>
-                            @(item.User.UserName)
+                            @bc.AppUser.UserName
                         </td>
                         <td>
-                            @(item.Motel.Name)
+                            @bc.Room.RoomNum
                         </td>
                         <td>
-                            @(item.Room.RoomType.Name)
+                            @bc.CheckinDate.ToString("yyyy-MM-dd")
                         </td>
                         <td>
-                            @(((DateTime)item.CheckinDate).ToString("yyyy-MM-dd"))
+                            @bc.CheckoutDate.ToString("yyyy-MM-dd")
                         </td>
                         <td>
-                            @(((DateTime)item.CheckoutDate).ToString("yyyy-MM-dd"))
+                            $ @bc.Room.Price
                         </td>
                         <td>
-                            $ @(item.Room.Price)
-                        </td>
-                        <td class="d-flex justify-content-center">
-                            <a asp-controller="Cart" asp-action="Remove" asp-route-Id="@item.Id"
-                           class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                            <form method="post" class="d-flex align-items-center justify-content-center">
+                                <button id="removeBtn" type="submit" class="btn btn-danger btn-sm" asp-route-id="@bc.Id">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 }
                 <tr>
-                    <td align="right" colspan="4">
-                        Sum: $
+                    <td colspan="4" style="text-align:end;">
+                        Total:
                     </td>
-                    <td>
-                        @ViewBag.Total
+                    <td colspan="2" style="text-align:start">
+                        $ @ViewBag.Total
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
 
-</div>
-<div class="d-flex justify-content-start">
-    <a asp-controller="Home" asp-action="Index" class="btn btn-sm btn-info" style="margin-right:4px;">
-        Continue Shoping
-    </a>
-    @using (Html.BeginForm("CreateCheckoutSession", "Checkout", FormMethod.Post))
-    {
-        <button type="submit" class="btn btn-sm btn-primary">To Pay</button>
-    }
+        <div>
+            <form method="post" asp-action="CreateCheckoutSession" asp-controller="Checkout">
+                <input type="text" id="TextBox1" placeholder="amount" name="amount" value="@ViewBag.Total" hidden />
+                <button class="btn btn-primary" asp-action="Index" asp-controller="Home">Continue Shoppinng</button>
+                <button type="submit" class="btn btn-primary">Checkout</button>
+            </form>
+        </div>
+
+    </div>
 </div>
 
 <script>
     setTimeout(function () {
-        document.getElementById("DeleteCartItem").style.display = "none";
+        document.getElementById("CartOption").style.display = "none";
     }, 3000);
 </script>
+
+@*<script>
+    function showMes(roomNum) {
+        var mesContainer = document.getElementById("confirmRemove");
+        mesContainer.style.display = "block";
+        var qesContainer = document.getElementById("confirmQues");
+        qesContainer.innerText = "Are you sure you want to remove Room " + roomNum + " ?";
+        var remBtn = document.getElementById("remBtn");
+        remBtm.asp - route - name  = roomNum;
+    }
+</script>*@

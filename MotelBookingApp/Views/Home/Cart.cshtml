@@ -4,38 +4,41 @@
     ViewData["Title"] = "Items of Cart";
 }
 
+<div class="container col-8">
+    <h4 class="text-center">Shopping Cart</h4>
 
-<div class="container">
-
-    <div id="confirmRemove" class="col-8">
-        <div class="flash">
-            <p id="confirmQues"></p>
-            <form method="post">
-                <button id="removeBtn" type="submit" class="btn btn-danger">Remove</button>
-            </form>
-        </div>
-        <table class="table table-bordered">
+    <div id="confirmRemove" class="col-12 mt-4">
+        @if (TempData["CartOption"] != null)
+        {
+            <div id="CartOption" class="container flash alert alert-warning">
+                @TempData["CartOption"]
+            </div>
+        }
+        <table class="table table-bordered table-hover">
             <thead>
-                <tr>
-                    <th>
-                        Customer Username
+                <tr class="text-center">
+                    <th class="col-2">
+                        Customer
                     </th>
-                    <th>
-                        Room Number
+                    <th class="col-2">
+                        Room
                     </th>
-                    <th>
-                        Checkin Date
+                    <th class="col-2">
+                        Checkin
                     </th>
-                    <th>
-                        Checkout Date
+                    <th class="col-2">
+                        Checkout
                     </th>
-                    <th>
+                    <th class="col-2">
+                        Price
+                    </th>
+                    <th class="col-1">
                         Remove
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (BookingCart bc in @Model)
+                @foreach (BookingCart bc in Model)
                 {
                     <tr>
                         <td>
@@ -45,25 +48,52 @@
                             @bc.Room.RoomNum
                         </td>
                         <td>
-                            @bc.CheckinDate
+                            @bc.CheckinDate.ToString("yyyy-MM-dd")
                         </td>
                         <td>
-                            @bc.CheckoutDate
+                            @bc.CheckoutDate.ToString("yyyy-MM-dd")
                         </td>
                         <td>
-                            <button class="btn btn-danger" asp-route-id="bc.Id" onclick="showMes(@bc.Room.RoomNum)">Remove</button>
+                            $ @bc.Room.Price
+                        </td>
+                        <td>
+                            <form method="post" class="d-flex align-items-center justify-content-center">
+                                <button id="removeBtn" type="submit" class="btn btn-danger btn-sm" asp-route-id="@bc.Id">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 }
+                <tr>
+                    <td colspan="4" style="text-align:end;">
+                        Total:
+                    </td>
+                    <td colspan="2" style="text-align:start">
+                        $ @ViewBag.Total
+                    </td>
+                </tr>
             </tbody>
-
         </table>
-        <div><a asp-action="Index" asp-controller="Payment" class="btn btn-primary">Go to Pay</a></div>
+
+        <div>
+            <form method="post" asp-action="CreateCheckoutSession" asp-controller="Checkout">
+                <input type="text" id="TextBox1" placeholder="amount" name="amount" value="@ViewBag.Total" hidden />
+                <button class="btn btn-primary" asp-action="Index" asp-controller="Home">Continue Shoppinng</button>
+                <button type="submit" class="btn btn-primary">Checkout</button>
+            </form>
+        </div>
 
     </div>
 </div>
 
 <script>
+    setTimeout(function () {
+        document.getElementById("CartOption").style.display = "none";
+    }, 3000);
+</script>
+
+@*<script>
     function showMes(roomNum) {
         var mesContainer = document.getElementById("confirmRemove");
         mesContainer.style.display = "block";
@@ -72,4 +102,4 @@
         var remBtn = document.getElementById("remBtn");
         remBtm.asp - route - name  = roomNum;
     }
-</script>
+</script>*@
