@@ -1,0 +1,27 @@
+﻿@using MotelBookingApp.Data.ViewModels
+@model RoomInputModel
+@{
+  ViewData["Title"] = "Room detail";
+}
+<div>@TempData["addtocart"]</div>
+
+<div class="container">
+    
+    <div class="d-flex justify-content-around align-items-lg-center">
+        <div>
+            <img src=@Model.RoomTypeImage width="150" heiht="150" alt="Motel picture" />
+        </div>
+        <div style="margin-right:1rem">
+            <p>@Model.Id</p>
+            <p>@Model.MotelName</p>
+            <p>@Model.RoomNum</p>
+            <p>@Model.Price</p>
+            <p>@Model.RoomTypeDescription</p>
+            <br/>
+            <form method="post"><button type="submit" class="btn btn-sm btn-outline-success" asp-route-id=@Model.Id>Add to Cart</button></form>
+            
+        </div>
+    </div>
+     
+
+</div>

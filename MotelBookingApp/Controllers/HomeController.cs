@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,6 +34,7 @@ namespace MotelBookingApp.Controllers
             _userManager = userManager;
             _client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
         }
+        
         [HttpGet]
         public IActionResult Index()
         {
@@ -304,8 +305,8 @@ namespace MotelBookingApp.Controllers
         public IActionResult Privacy()
         {
             return View();
+
         }
-
-
     }
+
 }

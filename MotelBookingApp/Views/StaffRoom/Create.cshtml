@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Add a Room";
 }
+@if (TempData["RoomCreateOption"] != null)
+{
+    <div class="flash alert alert-danger">@TempData["RoomCreateOption"] </div>
+}
 
 <div>@TempData["id"]</div>
 <div class="container">
@@ -41,7 +45,7 @@
                         <button type="submit" class="btn btn-primary">
                             Create
                         </button>
-                        <a class="btn btn-secondary" asp-controller="RoomType" asp-action="Index">Cancel</a>
+                        <a class="btn btn-secondary" asp-controller="StaffRoom" asp-action="Index">Cancel</a>
                     </div>
                 </div>
 

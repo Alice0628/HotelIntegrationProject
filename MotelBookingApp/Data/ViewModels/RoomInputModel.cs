@@ -12,9 +12,15 @@ namespace MotelBookingApp.Data.ViewModels
      
         public int RoomType { get; set; } = default;
 
+        public string? RoomTypeDescription { get; set; } = String.Empty;
+
+        public string? RoomTypeName { get; set; }
+
         public string? RoomTypeImage { get; set; } = String.Empty;
  
         public string? MotelName { get; set; }
+
+        public Boolean? IfBooded { get; set; } = false;
 
         public List<RoomType> RoomTypeList { get; set; } = new List<RoomType>();
     }

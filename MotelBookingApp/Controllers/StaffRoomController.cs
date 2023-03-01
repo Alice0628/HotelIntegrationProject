@@ -24,7 +24,7 @@ namespace MotelBookingApp.Controllers
         private readonly BlobContainerClient _client;
         private readonly UserManager<AppUser> _userManager;
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
-
+      
         public StaffRoomController(UserManager<AppUser> userManager, IConfiguration configuration, MotelDbContext context)
         {
             _context = context;
@@ -68,26 +68,6 @@ namespace MotelBookingApp.Controllers
                 return View(searcheRes);
             }
         }
-        // GET: AdminAirport/Details/5
-        public async Task<IActionResult> Detail(int? id)
-        {
-            try
-            {
-                var room = await _context.Rooms.Include("RoomType").Include("Motel")
-                    .FirstOrDefaultAsync(m => m.Id == id);
-                if (room == null)
-                {
-                    TempData["room not exist"] = $"room {id} does not exist";
-                    return View();
-                }
-                return View(room);
-            }
-            catch (SystemException ex)
-            {
-                TempData["RoomOption"] = $"{ex.Message}";
-                return View();
-            }
-        }
 
         // GET: AdminAirport/Create
         public async Task<IActionResult> Create()
@@ -105,6 +85,7 @@ namespace MotelBookingApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RoomInputModel newRoom)
         {
+          
             try
             {
                 Room ifRoom = await _context.Rooms.FirstOrDefaultAsync(a => a.RoomNum == newRoom.RoomNum);
@@ -127,11 +108,10 @@ namespace MotelBookingApp.Controllers
                 Room room = new Room()
                 {
                     RoomNum = newRoom.RoomNum,
-
                     Price = newRoom.Price,
-
                     RoomType = roomType,
-                    Motel = motel
+                    Motel = motel,
+                    IfAvailable= true,
                 };
                 _context.Rooms.Add(room);
                 await _context.SaveChangesAsync();
@@ -140,19 +120,21 @@ namespace MotelBookingApp.Controllers
             }
             catch (SystemException ex)
             {
-                TempData["MotelCreateOption"] = $"{ex.Message}";
+                TempData["RoomCreateOption"] = $"{ex.Message}";
                 return View();
             }
         }
 
         // GET: AdminAirport/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             try
             {
-                var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
-                string blobUrl = _client.Uri.ToString();
+                var room = await _context.Rooms.Include("Motel").Include("RoomType").FirstOrDefaultAsync(m => m.Id == id);
+                
                 List<RoomType> roomTypeList = await _context.RoomTypes.ToListAsync();
+                string blobUrl = _client.Uri.ToString();
                 RoomInputModel newRoom = new RoomInputModel
                 {
                     Id= room.Id,
@@ -161,8 +143,9 @@ namespace MotelBookingApp.Controllers
                     MotelName = room.Motel.Name,
                     RoomType = room.RoomType.Id,
                     RoomTypeList = roomTypeList,
+                    RoomTypeImage = _client.Uri.ToString() + "/" + room.RoomType.ImageUrl
 
-            };
+                };
 
                 return View(newRoom);
             }
