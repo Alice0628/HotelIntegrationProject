@@ -405,3 +405,34 @@ Sprint 1:
 2. To do until next Scrum:
 - test payment with Lei's add to cart part
 3. Need assistance / figure things out
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------2023/03/1 Wu Wei
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
+
+
+2023/03/01 Zhou Lei
+
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
+--
+
+2023/03/01 Zhang Xiao
+1. Done / not done since last scrum:
+- added shopping cart diasplay function
+- completed staff booking room (searching, adding to shopping cart and remove one item from shopping cart)
+2. To do until next Scrum:
+- view BookedRecords of own Motel (consumed and unconsumed)
+3. Need assistance / figure things out
+
+2023/03/01 Zhu Qichen
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
