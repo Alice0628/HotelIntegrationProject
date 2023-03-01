@@ -432,7 +432,9 @@ Sprint 1:
 
 2023/03/01 Zhu Qichen
 1. Done / not done since last scrum:
-
+- payment finished with stripe
+- save payment info to booked table
 2. To do until next Scrum:
-
+- admin can help create customer
+- booked list
 3. Need assistance / figure things out
