@@ -1,0 +1,55 @@
+﻿@model List<Room>
+
+@{
+    ViewData["Title"] = $"Rooms of Motel {Model[0].Motel.Name} ";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <form method="post">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-2">Image</th>
+                            <th class="col-2">Type</th>
+                            <th class="col-2">Room Number</th>
+                            <th class="col-2">Price</th>
+                            <th class="col-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in Model)
+                        {
+                            <tr class="m-1">
+                                <td class="col-2">
+                                    <img src=@r.RoomType.ImageUrl width="150" heiht="150" alt="Motel picture" />
+                                </td>
+                                <td class="col-2">
+                                    @r.RoomType.Name
+                                </td>
+                                <td class="col-2">
+                                    @r.RoomNum
+                                </td>
+                                <td class="col-2">
+                                    $ @r.Price
+                                </td>
+                                <td class="col-2">
+                                    @if (r.IfAvailable == true)
+                                    {
+                                        <button type="submit" class="btn btn-primary" asp-controller="Home" asp-action="Add" asp-route-id="@r.Id">Add</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary" asp-route-id="@r.Id" disabled>Add</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+
+</div>

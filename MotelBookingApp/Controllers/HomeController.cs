@@ -34,7 +34,6 @@ namespace MotelBookingApp.Controllers
             _userManager = userManager;
             _client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
         }
-        
         [HttpGet]
         public IActionResult Index()
         {
@@ -274,7 +273,6 @@ namespace MotelBookingApp.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             Room room = await _context.Rooms.Include("RoomType").Include("Motel").Where(r => r.Id == id).FirstOrDefaultAsync();
-          
 
             BookingCart bookingCart = new BookingCart
             {
@@ -305,8 +303,8 @@ namespace MotelBookingApp.Controllers
         public IActionResult Privacy()
         {
             return View();
-
         }
-    }
 
+
+    }
 }

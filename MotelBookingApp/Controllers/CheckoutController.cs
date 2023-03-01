@@ -52,7 +52,7 @@ namespace MotelBookingApp.Controllers
             if (ViewBag.Count == 0)
             {
                 TempData["CartOption"] = "Your cart is empty!";
-                return RedirectToAction("Cart", "Home");
+                return RedirectToAction("Index", "Cart");
             }
 
             var userName = _userManager.GetUserName(User);

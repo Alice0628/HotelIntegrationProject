@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\AdminPayment\Index.cshtml" />
     <None Include="Views\AdminStaff\Create.cshtml" />
     <None Include="Views\AdminCustomer\CustomerList.cshtml" />
     <None Include="Views\AdminStaff\Delete.cshtml" />
