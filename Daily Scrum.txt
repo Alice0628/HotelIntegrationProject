@@ -414,7 +414,6 @@ Sprint 1:
 --
 
 2023/03/01 Zhou Lei
-
 1. Done / not done since last scrum:
 -- index page UI (searching part)
 2. To do until next Scrum:
@@ -439,8 +438,8 @@ Sprint 1:
 - booked list
 3. Need assistance / figure things out
 
-
--2023/03/2 Wu Wei
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-2023/03/02 Wu Wei
 1. Done / not done since last scrum:
 ----favirate list add
 2. To do until next Scrum:
@@ -449,10 +448,18 @@ Sprint 1:
 --
 
 2023/03/02 Zhou Lei
-
 1. Done / not done since last scrum:
 -- index page UI
 2. To do until next Scrum:
 -- index page UI
 3. Need assistance / figure things out
 --
+
+2023/03/02 Zhu Qichen
+1. Done / not done since last scrum:
+- payment function with diffent role (stripe)
+- compile code with Xiao
+2. To do until next Scrum:
+- admin can help create customer
+- booked list
+3. Need assistance / figure things out
