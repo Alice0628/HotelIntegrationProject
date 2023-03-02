@@ -39,6 +39,7 @@ namespace MotelBookingApp.Controllers
         // GET: AdminAirport
         public async Task<IActionResult> Index()
         {
+            ViewBag.count = HttpContext.Session.GetString("count");
             return View();
 
         }

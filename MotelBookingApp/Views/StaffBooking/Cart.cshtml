@@ -7,14 +7,10 @@
 
 <div class="container">
 
-    <div class="col-10" style="position:relative">
-      @*  <div id="confirmRemove" class="flash">
-            <p id="confirmQues">11</p>
-            <form method="post">
-                <button id="removeBtn" type="submit" class="btn btn-danger">Remove</button>
-            </form>
-        </div>*@
-        <table class="table table-bordered">
+    <div class="col-10">
+        <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
+      <h2 class="text-center text-primary">Your Cart Items</h2>
+        <table class="table table-bordered align-items-center">
             <thead>
                 <tr>
                     <th>
@@ -36,7 +32,7 @@
                         Subtotal
                     </th>
                     <th>
-                        Remove
+                        
                     </th>
                 </tr>
             </thead>
@@ -53,10 +49,10 @@
                                 @bc.Room.RoomNum
                             </td>
                             <td>
-                                @bc.CheckinDate
+                                @bc.CheckinDate.ToString("yyyy-MM-dd")
                             </td>
                             <td>
-                                @bc.CheckoutDate
+                                @bc.CheckoutDate.ToString("yyyy-MM-dd")
                             </td>
                             <td>
                                 $ @bc.Room.Price
@@ -66,7 +62,7 @@
 
                             </td>
                             <td>
-                                <form method="post"> <button class="btn btn-danger" type="submit" asp-route-id="@bc.Id">Remove</button></form>
+                                <form method="post"> <button class="btn btn-outline-danger" type="submit" asp-route-id="@bc.Id">Remove</button></form>
                             </td>
                         </tr>
                     }
@@ -74,10 +70,13 @@
             </tbody>
 
         </table>
-        <div style="position:absolute;right:0.5rem">Total:$ @ViewBag.SubTotal  </div>
-        <div><a asp-action="Index" class="btn btn-primary">Continue to choose room</a></div>
-        <div><a asp-action="Payment" class="btn btn-primary">Go to Pay</a></div>
-
+        <div class="d-flex justify-content-end">
+            <sapn><b>HST:</b> $ @ViewBag.tax</sapn>
+        </div>
+        <div class="d-flex justify-content-end">
+            <sapn><b>Total:</b> $ @ViewBag.Total</sapn>
+        </div>
+        <div class="d-flex justify-content-end"><a style="margin-right:1rem" asp-action="Index" class="btn btn-warning">Continue Booking</a><a asp-action="Payment" class="btn btn-success">Go to Pay</a></div>
     </div>
 </div>
 

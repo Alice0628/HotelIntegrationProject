@@ -67,8 +67,7 @@ using (var scope = app.Services.CreateAsyncScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<MotelDbContext>();
 
-    context.Database.EnsureCreated();
-    //context.Database.Migrate();
+    context.Database.Migrate();
 
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();

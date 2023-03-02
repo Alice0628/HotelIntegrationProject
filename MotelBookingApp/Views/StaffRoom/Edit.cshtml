@@ -1,17 +1,17 @@
 ﻿@using MotelBookingApp.Data.ViewModels
+@using MotelBookingApp.Models
 @model RoomInputModel
 @{
     ViewData["Title"] = "Edit a room type";
 }
 
-<div>@TempData["id"]</div>
 <div class="container">
     <div class="col-md-10 offset-2">
         <h2>Edit room</h2>
         <form method="post" asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div>@Model.Id</div>
             <div class="d-flex justify-content-around align-content-center">
+
                 <div class="col-md-6">
 
                     <div class="form-group">
@@ -51,7 +51,7 @@
                         <a class="btn btn-secondary" asp-action="Index">Cancel</a>
                     </div>
                 </div>
-                 <div class="col-md-4 text-center" style="margin:2rem 1rem">
+                 <div class="col-md-4 text-center" style="margin:1rem 1rem">
                     <img id="preview" src="@Model.RoomTypeImage" width="200" height="200" alt="room sample image" />
                 </div>
 
