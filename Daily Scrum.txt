@@ -407,18 +407,17 @@ Sprint 1:
 3. Need assistance / figure things out
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------2023/03/1 Wu Wei
 1. Done / not done since last scrum:
-
+----favirate list add
 2. To do until next Scrum:
-
+--favirate list add
 3. Need assistance / figure things out
-
+--
 
 2023/03/01 Zhou Lei
-
 1. Done / not done since last scrum:
-
+-- index page UI (searching part)
 2. To do until next Scrum:
-
+-- index page UI (display of motels)
 3. Need assistance / figure things out
 --
 
@@ -434,6 +433,41 @@ Sprint 1:
 1. Done / not done since last scrum:
 - payment finished with stripe
 - save payment info to booked table
+2. To do until next Scrum:
+- admin can help create customer
+- booked list
+3. Need assistance / figure things out
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-2023/03/02 Wu Wei
+1. Done / not done since last scrum:
+----favirate list add
+2. To do until next Scrum:
+--favirate list add
+3. Need assistance / figure things out
+--
+
+2023/03/02 Zhou Lei
+1. Done / not done since last scrum:
+-- index page UI
+2. To do until next Scrum:
+-- index page UI
+3. Need assistance / figure things out
+--
+
+2023/03/02 Zhang Xiao
+1. Done / not done since last scrum:
+- debugged staff booking functions
+- completed view BookedRecords of own Motel (consumed and unconsumed)
+2. To do until next Scrum:
+- debug customer searching rooms function
+- BookedRecords list function 
+3. Need assistance / figure things out
+
+2023/03/02 Zhu Qichen
+1. Done / not done since last scrum:
+- payment function with diffent role (stripe)
+- compile code with Xiao
 2. To do until next Scrum:
 - admin can help create customer
 - booked list
