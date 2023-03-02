@@ -438,3 +438,12 @@ Sprint 1:
 - admin can help create customer
 - booked list
 3. Need assistance / figure things out
+
+
+-2023/03/2 Wu Wei
+1. Done / not done since last scrum:
+----favirate list add
+2. To do until next Scrum:
+--favirate list add
+3. Need assistance / figure things out
+--
