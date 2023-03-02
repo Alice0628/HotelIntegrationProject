@@ -120,19 +120,19 @@ namespace MotelBookingApp.Controllers
             BookedRecordDisplayVM recordModel = new BookedRecordDisplayVM();
             var bookedRooms = new List<BookedRecord>();
             // by nothing
-            if (string.IsNullOrEmpty(username) && checkin.ToString() == "0001-01-01 12:00:00A" && checkout.ToString() == "0001-01-01 12:00:00A" && string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username) && checkin.ToString() == "0001-01-01 12:00:00 AM" && checkout.ToString() == "0001-01-01 12:00:00 AM" && string.IsNullOrEmpty(username))
             {
                 return RedirectToAction("Index");
             }
             //by username
-            else if (!string.IsNullOrEmpty(username) && checkin.ToString() == "0001-01-01 12:00:00A" && checkout.ToString() == "0001-01-01 12:00:00A" && string.IsNullOrEmpty(roomType))
+            else if (!string.IsNullOrEmpty(username) && checkin.ToString() == "0001-01-01 12:00:00 AM" && checkout.ToString() == "0001-01-01 12:00:00 AM" && string.IsNullOrEmpty(roomType))
             {
                 recordModel.UserName = username;
                 bookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Booking.AppUser.UserName == username).ToListAsync();
                 recordModel.BookedRooms = bookedRooms;
             }
             //by date period
-            else if (string.IsNullOrEmpty(username) && checkin.ToString() != "0001-01-01 12:00:00A" && checkout.ToString() != "0001-01-01 12:00:00A" && string.IsNullOrEmpty(roomType))
+            else if (string.IsNullOrEmpty(username) && checkin.ToString() != "0001-01-01 12:00:00 AM" && checkout.ToString() != "0001-01-01 12:00:00 AM" && string.IsNullOrEmpty(roomType))
             {
                 recordModel.CheckinDate = checkin;
                 recordModel.CheckoutDate = checkout;
@@ -145,7 +145,7 @@ namespace MotelBookingApp.Controllers
                 recordModel.BookedRooms = bookedRooms;
             }
             //by room type
-            else if (string.IsNullOrEmpty(username) && checkin.ToString() == "0001-01-01 12:00:00A" && checkout.ToString() == "0001-01-01 12:00:00A" && !string.IsNullOrEmpty(roomType))
+            else if (string.IsNullOrEmpty(username) && checkin.ToString() == "0001-01-01 12:00:00 AM" && checkout.ToString() == "0001-01-01 12:00:00 AM" && !string.IsNullOrEmpty(roomType))
             {
                 recordModel.RoomTypeName = roomType;
                 bookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Room.RoomType.Name == roomType).ToListAsync();
@@ -153,7 +153,7 @@ namespace MotelBookingApp.Controllers
                 return View(recordModel);
             }
             //by username and date period
-            else if (!string.IsNullOrEmpty(username) && checkin.ToString() != "0001-01-01 12:00:00A" && checkout.ToString() != "0001-01-01 12:00:00A" && string.IsNullOrEmpty(roomType))
+            else if (!string.IsNullOrEmpty(username) && checkin.ToString() != "0001-01-01 12:00:00 AM" && checkout.ToString() != "0001-01-01 12:00:00 AM" && string.IsNullOrEmpty(roomType))
             {
                 recordModel.UserName = username;
                 recordModel.CheckinDate = checkin;
@@ -166,14 +166,14 @@ namespace MotelBookingApp.Controllers
                 bookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Booking.AppUser.UserName == username && (br.CheckinDate > checkin && br.CheckoutDate < checkout)).ToListAsync();
             }
             // by username and room type
-            else if (!string.IsNullOrEmpty(username) && checkin.ToString() == "0001-01-01 12:00:00A" && checkout.ToString() == "0001-01-01 12:00:00A" && !string.IsNullOrEmpty(roomType))
+            else if (!string.IsNullOrEmpty(username) && checkin.ToString() == "0001-01-01 12:00:00 AM" && checkout.ToString() == "0001-01-01 12:00:00 AM" && !string.IsNullOrEmpty(roomType))
             {
                 recordModel.UserName = username;
                 recordModel.RoomTypeName = roomType;
                 bookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Booking.AppUser.UserName == username && br.Room.RoomType.Name == roomType).ToListAsync();
             }
             // by date period and room type
-            else if (string.IsNullOrEmpty(username) && checkin.ToString() != "0001-01-01 12:00:00A" && checkout.ToString() == "0001-01-01 12:00:00A" && !string.IsNullOrEmpty(roomType))
+            else if (string.IsNullOrEmpty(username) && checkin.ToString() != "0001-01-01 12:00:00 AM" && checkout.ToString() == "0001-01-01 12:00:00 AM" && !string.IsNullOrEmpty(roomType))
             {
 
                 recordModel.CheckinDate = checkin;
@@ -188,7 +188,7 @@ namespace MotelBookingApp.Controllers
                 bookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Room.RoomType.Name == roomType && (br.CheckinDate > checkin && br.CheckoutDate < checkout)).ToListAsync();
             }
             // by username and date period and room type
-            else if (!string.IsNullOrEmpty(username) && checkin.ToString() != "0001-01-01 12:00:00A" && checkout.ToString() != "0001-01-01 12:00:00A" && !string.IsNullOrEmpty(roomType))
+            else if (!string.IsNullOrEmpty(username) && checkin.ToString() != "0001-01-01 12:00:00 AM" && checkout.ToString() != "0001-01-01 12:00:00 AM" && !string.IsNullOrEmpty(roomType))
             {
 
                 recordModel.UserName = username;
@@ -213,6 +213,26 @@ namespace MotelBookingApp.Controllers
                 return View(recordModel);
             }
             recordModel.BookedRooms = bookedRooms;
+            string[] months = new[] { "January", "February", "March", "April", "May", "June", "July" };
+            int[] recordData = new int[6];
+            for (int i = 0; i < months.Length; i++) {
+                recordData[i] = bookedRooms.Count(br => br.CheckinDate.Month == i);
+            }
+
+            // static data
+            var data = new ChartData
+            {
+                Labels = months,
+                DatasetLabel = "Records",
+                DatasetData =  recordData
+            };
+
+            ViewBag.Labels = data.Labels;
+            ViewBag.DatasetLabel = data.DatasetLabel;
+            ViewBag.DatasetData = data.DatasetData;
+
+            return View();
+
             return View(recordModel);
         }
     }

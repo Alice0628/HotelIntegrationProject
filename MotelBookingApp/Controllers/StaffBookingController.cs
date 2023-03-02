@@ -134,7 +134,7 @@ namespace MotelBookingApp.Controllers
 
         [HttpPost, ActionName("Index")]
         public async Task<IActionResult> LaunchSearch(DateTime checkin, DateTime checkout, string roomType)
-        {
+        {  
             HttpContext.Session.SetString("checkin", checkin.ToString());
             HttpContext.Session.SetString("checkout", checkout.ToString());
             HttpContext.Session.SetString("roomType", roomType);
@@ -144,13 +144,7 @@ namespace MotelBookingApp.Controllers
             searchModel.CheckinDate = checkin;
             searchModel.CheckoutDate = checkout;
             searchModel.SearchType = roomType;
-            //searchModel.City = roomType;
-
-            //if (string.IsNullOrEmpty(city))
-            //{
-            //    TempData["searchOption"] = "Please input a city";
-            //    return View(searchModel);
-            //}
+            
 
             if (searchModel.CheckinDate < DateTime.Now || searchModel.CheckoutDate < DateTime.Now || searchModel.CheckoutDate < searchModel.CheckinDate)
             {
@@ -358,7 +352,7 @@ namespace MotelBookingApp.Controllers
             DateTime checkoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
             try
             {
-                ViewBag.count = 1;
+                
                 Room room = await _context.Rooms.Include("RoomType").Include("Motel").Where(r => r.Id == id).FirstOrDefaultAsync();
                 if (room == null)
                 {

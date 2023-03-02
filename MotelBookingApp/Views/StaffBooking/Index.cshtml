@@ -15,23 +15,58 @@
         }
         <form method="post">
             <div class="row">
-
-                @* <div class="col-lg-3 mb-3">
-                <input class="form-control" id="city" name="city" asp-for="City" />
-                </div>*@
+                
+                <div class="col-lg-3 mb-3">
+                @if (ViewBag.city != null){
+                        <input class="form-control" id="city" name="city" asp-for="City" />
+                }
+                else
+                {
+                        <input class="form-control" value=@ViewBag.city id="city" name="city" asp-for="City" />
+                    }
+                </div>
+                 
                 <div class="col-lg-4 mb-4">
-                    <input type="date" class="form-control" name="checkin" id="check-in" asp-for="CheckinDate">
+                    @if (ViewBag.checkin != null)
+                    {
+                        <input type="date" class="form-control" name="checkin" id="check-in" asp-for="CheckinDate">
+                    }
+                    else
+                    {
+                        <input type="date" class="form-control" value=@ViewBag.checkin name="checkin" id="check-in" asp-for="CheckinDate">
+                    }
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <input type="date" class="form-control" name="checkout" id="check-out" asp-for="CheckoutDate">
+                    @if (ViewBag.checkout != null)
+                    {
+                        <input type="date" class="form-control" name="checkout" id="check-out" asp-for="CheckoutDate">
+                    }
+                    else
+                    {
+                        <input type="date" class="form-control" value=@ViewBag.checkin name="checkout" id="check-out" asp-for="CheckoutDate">
+                    }
                 </div>
                 <div class="col-lg-3 mb-3">
-                    <select class="form-select" id="room-type" name="roomType" asp-for="SearchType">
-                        @foreach (var rt in Model.RoomTypeList)
-                        {
-                            <option value="@rt.Name">@rt.Name</option>
-                        }
-                    </select>
+                    @if (ViewBag.roomType != null)
+                    {
+                        <select class="form-select" id="room-type" name="roomType" asp-for="SearchType">
+                            <option value=""></option>
+                            @foreach (var rt in Model.RoomTypeList)
+                            {
+                                <option value="@rt.Name">@rt.Name</option>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <select class="form-select" id="room-type" value=@ViewBag.roomType name="roomType" asp-for="SearchType">
+                            <option value=""></option>
+                            @foreach (var rt in Model.RoomTypeList)
+                            {
+                                <option value="@rt.Name">@rt.Name</option>
+                            }
+                        </select>
+                    }
                 </div>
                 <div class="col-lg-1 mb-3">
                     <button type="submit" name="button1" value="submit1" class="btn btn-primary" asp-action="Index">Search</button>
