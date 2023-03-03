@@ -26,7 +26,7 @@ namespace TravelBooking.Controllers
             var userName = _userManager.GetUserName(User); // userName is email
             var user = _context.Users.Where(u => u.UserName == userName).FirstOrDefault();
             ViewBag.Total = this._context.BookingCarts.Include("Room").Include("AppUser").Where(u => u.AppUser.UserName == userName).Sum(room => (double)room.Room.Price).ToString();
-            ViewBag.count = HttpContext.Session.GetString("Count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             CartList = _context.BookingCarts.Include("AppUser").Include("Room").Include("Room.RoomType").Where(u => u.AppUser.UserName == userName).ToList();
             return View(CartList);
         }

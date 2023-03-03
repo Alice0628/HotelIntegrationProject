@@ -41,14 +41,14 @@ namespace MotelBookingApp.Controllers
                 Amount = _context.BookingCarts.Include("Room").Include("AppUser").Where(u => u.AppUser.UserName == userName).Sum(room => (double)room.Room.Price).ToString();
                 ViewBag.Total = Amount;
             }
-            ViewBag.Count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             return View();
         }
 
         [HttpPost]
         public ActionResult CreateCheckoutSession(string total)
         {
-            ViewBag.Count = Convert.ToInt32(HttpContext.Session.GetString("count"));
+            ViewBag.Count = Convert.ToInt32(HttpContext.Session.GetString("Count"));
 
             var userName = _userManager.GetUserName(User);
             PlannedList = _context.BookingCarts.Include("AppUser").Include("Room").Include("Room.Motel").Include("Room.RoomType").Where(u => u.AppUser.UserName == userName).ToList();
@@ -95,7 +95,7 @@ namespace MotelBookingApp.Controllers
             Session session = service.Create(options);
 
             Response.Headers.Add("Location", session.Url);
-            HttpContext.Session.SetString("count", "0");
+            HttpContext.Session.SetString("Count", "0");
             return new StatusCodeResult(303);
         }
 
