@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -15,33 +16,62 @@
         <div class="container border border-orange-2 px-3 py-2">
             <form method="post">
                 <div class="row">
-                    @*   <div class="col-lg-3 mb-3">
-                    <select class="form-select" id="city" name="city">
-                    <option value="Montreal">Montreal</option>
-                    <option value="Moronto">Toronto</option>
-                    <option value="Vancouver">Vancouver</option>
-                    <option value="Laval">Laval</option>
-                    </select>
-                    </div>*@
+
                     <div class="col-lg-3 mb-3">
-                        <input class="form-control" id="city" placeholder="city..." name="city" value=@TempData["city"] />
+                        @if (string.IsNullOrEmpty(ViewBag.city))
+                        {
+                            <input class="form-control" id="city" name="city" />
+                        }
+                        else
+                        {
+                            <input class="form-control" value=@ViewBag.city id="city" name="city" />
+                        }
                     </div>
-                    <div class="col-lg-4 mb-4">
-                        <input type="date" class="form-control" id="check-in" value=@TempData["checkin"] name="checkin" />
+
+                    <div class="col-lg-3 mb-3">
+                        @if (string.IsNullOrEmpty(ViewBag.checkin))
+                        {
+                            <input type="date" class="form-control" name="checkin" id="check-in">
+                        }
+                        else
+                        {
+                            <input type="date" class="form-control" value=@ViewBag.checkin name="checkin" id="check-in">
+                        }
                     </div>
-                    <div class="col-lg-4 mb-4">
-                        <input type="date" class="form-control" value=@TempData["checkout"] id="check-out" name="checkout" />
+                    <div class="col-lg-3 mb-3">
+                        @if (string.IsNullOrEmpty(ViewBag.checkout))
+                        {
+                            <input type="date" class="form-control" name="checkout" id="check-out">
+                        }
+                        else
+                        {
+                            <input type="date" class="form-control" value=@ViewBag.checkin name="checkout" id="check-out">
+                        }
                     </div>
-                    @*<div class="col-lg-2 mb-3">
-                    <select class="form-select" id="room-type" name="room-type">
-                    <option value="1adult">1 Adult</option>
-                    <option value="2adults">2 Adults</option>
-                    <option value="1adult1kid">1 Adult 1 Kid</option>
-                    <option value="family">Family</option>
-                    </select>
-                    </div>*@
-                    <div class="col-lg-1 mb-3">
-                        <button type="submit" class="btn btn-primary" style="background-color: navy; color: white;" value="Search">Search</button>
+                    <div class="col-lg-2 mb-2">
+                        @if (string.IsNullOrEmpty(ViewBag.roomType))
+                        {
+                            <select class="form-select" id="room-type" name="roomType">
+                                <option value=""></option>
+                                @foreach (var rt in ViewBag.RoomTypeList)
+                                {
+                                    <option value=@rt.Name>@rt.Name</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="form-select" id="room-type" value=@ViewBag.roomType name="roomType">
+                                <option value=""></option>
+                                @foreach (var rt in ViewBag.RoomTypeList)
+                                {
+                                    <option value=@rt.Name>@rt.Name</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                    <div class="col-lg-1 mb-1">
+                        <button type="submit" name="button1" value="submit1" class="btn btn-primary" asp-action="Index">Search</button>
                     </div>
                 </div>
             </form>
