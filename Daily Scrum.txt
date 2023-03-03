@@ -500,8 +500,10 @@ Sprint 1:
 
 2023/03/02 Zhu Qichen
 1. Done / not done since last scrum:
-
+- admin can help create customer
+- booked list
 2. To do until next Scrum:
- 
+- other functions
+- bug fix
 3. Need assistance / figure things out
 
