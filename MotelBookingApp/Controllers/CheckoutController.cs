@@ -49,23 +49,27 @@ namespace MotelBookingApp.Controllers
         public ActionResult CreateCheckoutSession(string total)
         {
             ViewBag.Count = Convert.ToInt32(HttpContext.Session.GetString("count"));
-            if (ViewBag.Count == 0)
-            {
-                TempData["CartOption"] = "Your cart is empty!";
-                return RedirectToAction("Index", "Cart");
-            }
 
             var userName = _userManager.GetUserName(User);
             PlannedList = _context.BookingCarts.Include("AppUser").Include("Room").Include("Room.Motel").Include("Room.RoomType").Where(u => u.AppUser.UserName == userName).ToList();
             List<SessionLineItemOptions> lineItems = new List<SessionLineItemOptions>();
 
+            if (PlannedList.Count == 0)
+            {
+                TempData["CartOption"] = "Your cart is empty!";
+                return RedirectToAction("Cart", "Home");
+            }
+
             for (int i = 0; i < PlannedList.Count; i++)
             {
+                // TimeSpan time difference
+                var timeDiff = (PlannedList[i].CheckoutDate - PlannedList[i].CheckinDate);
+
                 lineItems.Add(new SessionLineItemOptions
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmount = Convert.ToInt32(PlannedList[i].Room.Price) * 100,
+                        UnitAmount = Convert.ToInt32(PlannedList[i].Room.Price) * 100 * timeDiff.Days,
                         Currency = "CAD",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {

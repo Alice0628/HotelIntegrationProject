@@ -50,14 +50,17 @@ else
             }
             else
             {
-                 @if (ViewBag.count == null)
+                @if (ViewBag.count == null)
                 {
                     ViewBag.count = 0;
                 }
-                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="StaffBooking" asp-action="Cart"><i style="color:crimson" class="fa-solid fa-cart-shopping"></i>@ViewBag.count</a>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Cart">
+                        <i style="color:crimson" class="fa-solid fa-cart-shopping"></i>
+                        @ViewBag.count
+                    </a>
                 </li>
-              
+
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="StaffStatic" asp-action="Index">Booked</a>
                 </li>
@@ -71,9 +74,9 @@ else
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="StaffStatic" asp-action="CreateCustomer">+Customer</a>
                 </li>
-               @* <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Revenue</a>
-                </li>*@
+                @* <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="StaffRight" asp-action="Index">Revenue</a>
+        </li>*@
             }
         </ul>
     </div>

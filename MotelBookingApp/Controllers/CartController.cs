@@ -80,7 +80,7 @@ namespace TravelBooking.Controllers
 
             TempData["DeleteCartItem"] = "Removed planned room in cart successfully";
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Cart", "Home");
         }
     }
 }

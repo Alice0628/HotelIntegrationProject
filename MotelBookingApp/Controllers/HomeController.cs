@@ -427,25 +427,13 @@ namespace MotelBookingApp.Controllers
             {
                 subTotal = subTotal + cartItem.Room.Price * (cartItem.CheckoutDate - cartItem.CheckinDate).Days;
             }
-            var tax = ((double)subTotal) * 0.15;
+            ViewBag.SubTotal = subTotal;
+            var tax = ((double)subTotal) * 0.14975;
             ViewBag.tax = tax.ToString("0.00");
             var Total = ((double)subTotal + tax).ToString("0.00");
             ViewBag.Total = Total;
             return View(cartItems);
 
-        }
-
-        [HttpPost, ActionName("Cart")]
-        public async Task<IActionResult> RemoveItem(int id)
-        {
-            var cartItem = await _context.BookingCarts.Where(bc => bc.Id == id).FirstOrDefaultAsync();
-            if (cartItem == null)
-            {
-                return View();
-            }
-            _context.BookingCarts.Remove(cartItem);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Cart));
         }
 
         [Authorize(Roles = "User")]
