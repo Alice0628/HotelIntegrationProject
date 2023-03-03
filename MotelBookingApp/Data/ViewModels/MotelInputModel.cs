@@ -32,6 +32,7 @@ namespace MotelBookingApp.Data.ViewModels
          
         public IFormFile? MotelImage { get; set; }
 
+        public Boolean? IfFaivorite { get; set; } = false;
         public string? ImageUrl { get; set; }
 
         public double? Score { get; set; }

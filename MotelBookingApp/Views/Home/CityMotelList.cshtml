@@ -83,6 +83,16 @@
                 <div style="margin-right:1rem">
                     <p>@m.Name</p>
                     <p>@m.Address, @m.City, @m.Province, @m.PostalCode</p>
+                    <button>
+                        @if (m.IfFaivorite == true)
+                        {
+                            <i class="fa-regular fa-heart" style="color:red"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-regular fa-heart"></i>
+                        }
+                    </button>
                     <a class="btn btn-primary" asp-action="CityMotelDetail" asp-route-id="@m.Id">Detail</a>
                 </div>
 

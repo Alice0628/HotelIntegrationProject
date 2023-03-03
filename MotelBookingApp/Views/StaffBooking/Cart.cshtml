@@ -76,7 +76,8 @@
         <div class="d-flex justify-content-end">
             <sapn><b>Total:</b> $ @ViewBag.Total</sapn>
         </div>
-        <div class="d-flex justify-content-end"><a style="margin-right:1rem" asp-action="Index" class="btn btn-warning">Continue Booking</a><a asp-action="Payment" class="btn btn-success">Go to Pay</a></div>
+        <div class="d-flex justify-content-end"><a style="margin-right:1rem" asp-action="Index" class="btn btn-warning">Continue Booking</a>
+            <a asp-controller="Checkout" asp-action="Index" class="btn btn-success">Go to Pay</a></div>
     </div>
 </div>
 

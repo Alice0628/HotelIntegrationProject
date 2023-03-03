@@ -1,0 +1,37 @@
+﻿@model Motel
+@{
+    ViewData["Title"] = "Delete a comment";
+}
+
+<div onload="showScore()" class="container">
+    <div class="col-md-10 offset-2">
+
+        <form method="post">
+            <div class="flash alert alert-warning">Are you sure you want to remove Motel @Model.Name from your favorite list?</div>
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="FavoriteMotelList" asp-rout-id="@Model.Id" class="btn btn-outline-primary">Cancle</a>
+        </form>
+
+         <div class="d-flex justify-content-around align-content-center">
+                <div>
+
+                    <dl>
+                        <dt>Id</dt>
+                        <dd>@Model.Id</dd>
+                    </dl>
+                    <dl>
+                        <dt>Name</dt>
+                        <dd>@Model.Name</dd>
+                    </dl>
+                    <dl>
+                        <dt>Address</dt>
+                        <dd>@Model.Address, @Model.City, @Model.Province, @Model.PostalCode </dd>
+                    </dl>
+
+                </div>
+                <div> <img width="400" height="250" src=@Model.ImageUrl />
+                    
+                </div>
+            </div>
+    </div>
+</div>

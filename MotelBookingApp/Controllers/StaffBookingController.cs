@@ -422,7 +422,10 @@ namespace MotelBookingApp.Controllers
             }
             _context.BookingCarts.Remove(cartItem);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Cart));
+            var count = int.Parse(HttpContext.Session.GetString("count")) - 1;
+            HttpContext.Session.SetString("count", count.ToString());
+            ViewBag.count = count.ToString();
+            return View();
 
         }
 

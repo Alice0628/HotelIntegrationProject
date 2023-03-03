@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Identity;
 using System.Runtime.InteropServices;
+using Azure.Identity;
 
 namespace MotelBookingApp.Controllers
 {
@@ -256,6 +257,8 @@ namespace MotelBookingApp.Controllers
             var motelDetail = new MotelDetailModel();
             var motel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == id);
             string blobUrl = _client.Uri.ToString();
+            var userName = _userManager.GetUserName(User);
+            var favMotel = await _context.FavoriteMotelLists.Include("Motel").Include("Owner").Where(fm => fm.Motel.Id == id && fm.Owner.UserName == userName).FirstOrDefaultAsync();
             MotelInputModel newMotel = new MotelInputModel
             {
                 Id = motel.Id,
@@ -266,7 +269,11 @@ namespace MotelBookingApp.Controllers
                 PostalCode = motel.PostalCode,
                 ImageUrl = blobUrl + "/" + motel.ImageUrl
             };
-            if (_context.Comments != null)
+            if(favMotel != null)
+            {
+                newMotel.IfFaivorite = true;
+            }
+            if (await _context.Comments.Include("Motel").Where(c => c.Motel.Id == id).ToListAsync() != null)
             {
                 var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Id == id).ToListAsync();
                 motelDetail.Comments = comments;
@@ -276,6 +283,75 @@ namespace MotelBookingApp.Controllers
 
             return View(motelDetail);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveComment(int id)
+        {
+           
+                var comment = await _context.Comments.Include("User").Include("Motel").Where(c => c.Id == id).FirstOrDefaultAsync();
+                
+                return View(comment);
+                //return RedirectToAction(nameof(CityMotelDetail), new { id = id2 });
+            
+        }
+
+
+
+        [HttpPost,ActionName("RemoveComent")]
+        public async Task<IActionResult> RemoveCommentConfirm(int id1)
+        {
+            try { 
+            var comment = await _context.Comments.Include("AppUser").Include("Motel").Where(c => c.Id == id1).FirstOrDefaultAsync();
+                _context.Comments.Remove(comment);
+                return View();
+                //return RedirectToAction(nameof(CityMotelDetail), new { id =id2 });
+            }
+            catch (SystemException ex)
+            {
+                TempData["removeComment"] = ex.Message;
+                return View();
+                //return RedirectToAction(nameof(CityMotelDetail), new { id = id2 });
+            }
+        }
+
+        [HttpPost,ActionName("CityMotelDetail")]
+        public async Task<IActionResult> FavOperate(int id)
+        {
+            try
+            {
+                var userName = _userManager.GetUserName(User);
+                var motel = await _context.Motels.Where(m => m.Id == id).FirstOrDefaultAsync();
+                var favMotel = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Motel.Id == id && fm.Owner.UserName == userName).FirstOrDefaultAsync();
+                if (favMotel != null) 
+                {   
+                    _context.FavoriteMotelLists.Remove(favMotel);
+                   
+                }
+                else
+                {
+                    var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
+                    FavoriteMotelList newfavMotel = new FavoriteMotelList
+                    {
+                        Owner = user,
+                        Motel = motel
+                    };
+                    _context.FavoriteMotelLists.Add(newfavMotel);
+                    
+                }
+                await _context.SaveChangesAsync();
+               
+                return RedirectToAction(nameof(CityMotelDetail), new { id = id });
+            }
+            catch (SystemException ex)
+            {
+                TempData["removeFav"] = ex.Message;
+        
+                return RedirectToAction(nameof(CityMotelDetail), new { id = id });
+            }
+        }
+
+
+
 
         [Authorize(Roles = "User")]
         [HttpGet]
@@ -445,6 +521,9 @@ namespace MotelBookingApp.Controllers
             }
             _context.BookingCarts.Remove(cartItem);
             await _context.SaveChangesAsync();
+            var count = int.Parse(HttpContext.Session.GetString("count")) - 1;
+            HttpContext.Session.SetString("count", count.ToString());
+            ViewBag.count = count.ToString();
             return RedirectToAction(nameof(Cart));
         }
 
@@ -490,6 +569,23 @@ namespace MotelBookingApp.Controllers
 
             }
 
+        }
+
+        public async Task<IActionResult> FavoriteMotelList()
+        {
+            var userName = _userManager.GetUserName(User);
+            var favoriteMotelList = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Owner.UserName == userName).ToListAsync();   
+            return View(favoriteMotelList);
+        }
+
+        [HttpPost,ActionName("FavoriteMotelList")]
+        public async Task<IActionResult> DeleteFavoriteMote(int id)
+        {
+            var userName = _userManager.GetUserName(User);
+            var favoriteMotel = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Id == id).FirstOrDefaultAsync();
+            _context.FavoriteMotelLists.Remove(favoriteMotel);
+            await _context.SaveChangesAsync();
+            return View();
         }
 
 
