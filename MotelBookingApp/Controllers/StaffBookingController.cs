@@ -387,6 +387,51 @@ namespace MotelBookingApp.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> Cart()
+        {
+            ViewBag.count = HttpContext.Session.GetString("count");
+            var userName = _userManager.GetUserName(User);
+
+            List<BookingCart> cartItems = await _context.BookingCarts.Include("AppUser").Include("Room").Where(bc => bc.AppUser.UserName == userName).ToListAsync();
+
+            decimal subTotal = 0;
+            foreach (var cartItem in cartItems)
+            {
+                subTotal = subTotal + cartItem.Room.Price * (cartItem.CheckoutDate - cartItem.CheckinDate).Days;
+            }
+            var tax = ((double)subTotal) * 0.15;
+            ViewBag.tax = tax.ToString("0.00");
+            var Total = ((double)subTotal + tax).ToString("0.00");
+            ViewBag.Total = Total;
+            return View(cartItems);
+
+        }
+
+
+
+
+
+        [HttpPost, ActionName("Cart")]
+        public async Task<IActionResult> RemoveItem(int id)
+        {
+            var cartItem = await _context.BookingCarts.Where(bc => bc.Id == id).FirstOrDefaultAsync();
+            if (cartItem == null)
+            {
+                return View();
+            }
+            _context.BookingCarts.Remove(cartItem);
+            await _context.SaveChangesAsync();
+            var count = int.Parse(HttpContext.Session.GetString("count")) - 1;
+            HttpContext.Session.SetString("count", count.ToString());
+            ViewBag.count = count.ToString();
+            return View();
+
+        }
+
+
+
+
         //[HttpPost,ActionName("Index")]
         //public async Task<IActionResult> AddDirectly(int id)
         //{

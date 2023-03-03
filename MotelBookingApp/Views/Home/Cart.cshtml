@@ -105,6 +105,11 @@
                 <button type="submit" class="btn btn-success">Go to Pay</button>
             </form>
         </div>
+        <div class="d-flex justify-content-end">
+            <span><b>Total:</b> $ @ViewBag.Total</sapn>
+        </div>
+        <div class="d-flex justify-content-end"><a style="margin-right:1rem" asp-for="SearchRoomList" class="btn btn-warning">Continue Booking</a>
+            <a asp-controller="Checkout" asp-action="Index" class="btn btn-success">Go to Pay</a></div>
     </div>
 </div>
 
