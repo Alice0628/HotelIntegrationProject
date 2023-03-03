@@ -38,11 +38,11 @@ namespace MotelBookingApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            if(HttpContext.Session.GetString("count")==null)
+            if(HttpContext.Session.GetString("Count") ==null)
             {
-                HttpContext.Session.SetString("count", "0");
+                HttpContext.Session.SetString("Count", "0");
             }
-            ViewBag.Count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             ViewBag.RoomTypeList = roomTypeList;
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("city"))){
@@ -69,7 +69,7 @@ namespace MotelBookingApp.Controllers
         {
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             ViewBag.RoomTypeList = roomTypeList;
-            ViewBag.Count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             if (string.IsNullOrEmpty(city))
             {
                 TempData["searchOption"] = "Please choose city";
@@ -124,7 +124,7 @@ namespace MotelBookingApp.Controllers
             ViewBag.roomType = HttpContext.Session.GetString("roomType");
             ViewBag.checkin = HttpContext.Session.GetString("checkin");
             ViewBag.checkout = HttpContext.Session.GetString("checkout");
-            ViewBag.count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             ViewBag.RoomTypeList = roomTypeList;
             try
@@ -167,7 +167,7 @@ namespace MotelBookingApp.Controllers
         {
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             ViewBag.RoomTypeList = roomTypeList;
-            ViewBag.Count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             if (string.IsNullOrEmpty(city))
             {
                 TempData["searchOption"] = "Please choose city";
@@ -253,7 +253,7 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> CityMotelDetail(int id)
         {
 
-            ViewBag.count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             var motelDetail = new MotelDetailModel();
             var motel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == id);
             string blobUrl = _client.Uri.ToString();
@@ -475,7 +475,7 @@ namespace MotelBookingApp.Controllers
         [HttpGet]
         public async Task<IActionResult> RoomDetail(int id)
         {
-            ViewBag.count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             var room = await _context.Rooms.Include("Motel").Include("RoomType").FirstOrDefaultAsync(r => r.Id == id);
             RoomInputModel newRoom = new RoomInputModel
             {
@@ -490,10 +490,11 @@ namespace MotelBookingApp.Controllers
             return View(newRoom);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Cart()
         {
-            ViewBag.count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             var userName = _userManager.GetUserName(User);
 
             List<BookingCart> cartItems = await _context.BookingCarts.Include("AppUser").Include("Room").Where(bc => bc.AppUser.UserName == userName).ToListAsync();
@@ -503,12 +504,8 @@ namespace MotelBookingApp.Controllers
             {
                 subTotal = subTotal + cartItem.Room.Price * (cartItem.CheckoutDate - cartItem.CheckinDate).Days;
             }
-            var tax = ((double)subTotal) * 0.15;
-            ViewBag.tax = tax.ToString("0.00");
-            var Total = ((double)subTotal + tax).ToString("0.00");
-            ViewBag.Total = Total;
+            ViewBag.Total = subTotal;
             return View(cartItems);
-
         }
 
         [HttpPost, ActionName("Cart")]
@@ -556,8 +553,8 @@ namespace MotelBookingApp.Controllers
 
                 _context.BookingCarts.Add(bookingCart);
                 await _context.SaveChangesAsync();
-                var count = int.Parse(HttpContext.Session.GetString("count")) + 1;
-                HttpContext.Session.SetString("count", count.ToString());
+                var count = int.Parse(HttpContext.Session.GetString("Count")) + 1;
+                HttpContext.Session.SetString("Count", count.ToString());
                 TempData["addtocart"] = $"Room {room.RoomNum} has been added to cart";
                 var motelId = room.Motel.Id;
                 return RedirectToAction("SearchRoomList", new { id = motelId });

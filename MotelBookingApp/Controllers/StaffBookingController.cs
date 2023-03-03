@@ -473,11 +473,7 @@ namespace MotelBookingApp.Controllers
         //}
 
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+     
     }
 }
 

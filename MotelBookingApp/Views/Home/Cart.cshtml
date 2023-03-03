@@ -5,14 +5,20 @@
 }
 
 
-<div class="container">
-
-    <div class="col-10">
+<div class="container col-10">
+    <div class="col-12">
         <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
         <h2 class="text-center text-primary">Your Cart Items</h2>
-        <table class="table table-bordered align-items-center">
+        <br />
+        @if (TempData["CartOption"] != null)
+        {
+            <div id="CartOption" class="container flash alert alert-warning">
+                @TempData["CartOption"]
+            </div>
+        }
+        <table class="table table-hover table-bordered align-items-center">
             <thead>
-                <tr>
+                <tr class="text-center">
                     <th>
                         Username
                     </th>
@@ -26,20 +32,22 @@
                         Checkout Date
                     </th>
                     <th>
-                        Price
+                        Unit Price
                     </th>
                     <th>
                         Subtotal
                     </th>
-                    <th>
+                    @if (Model.Count != 0)
+                    {
+                        <th></th>
+                    }
 
-                    </th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model != null)
                 {
-                    @foreach (BookingCart bc in @Model)
+                    @foreach (BookingCart bc in Model)
                     {
                         <tr>
                             <td>
@@ -54,27 +62,51 @@
                             <td>
                                 @bc.CheckoutDate.ToString("yyyy-MM-dd")
                             </td>
-                            <td>
-                                $ @bc.Room.Price
+                            <td class="notranslate">
+                                $@bc.Room.Price
                             </td>
-                            <td>
+                            <td class="notranslate">
                                 $@(bc.Room.Price * (bc.CheckoutDate - bc.CheckinDate).Days)
 
                             </td>
-                            <td>
-                                <form method="post"> <button class="btn btn-outline-danger" type="submit" asp-route-id="@bc.Id">Remove</button></form>
-                            </td>
+                            @if (Model.Count != 0)
+                            {
+                                <td class="d-flex justify-content-center">
+                                    <a asp-controller="Cart" asp-action="Remove" asp-route-Id="@bc.Id" class="btn btn-sm btn-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </td>
+                            }
                         </tr>
                     }
+                    <tr>
+                        <td colspan="5" class="text-end">
+                            Total Price:
+                        </td>
+                        <td colspan="2" class="notranslate">
+                            $@ViewBag.Total
+                        </td>
+                    </tr>
                 }
             </tbody>
-
         </table>
-        <div class="d-flex justify-content-end">
-            <sapn><b>HST:</b> $ @ViewBag.tax</sapn>
+
+        <div class="d-flex justify-content-end pb-5">
+            <form method="post" asp-action="CreateCheckoutSession" asp-controller="Checkout">
+                <input type="text" id="TextBox1" placeholder="amount" name="amount" value="@ViewBag.Total" hidden />
+                @if (User.IsInRole("Staff"))
+                {
+                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="StaffBooking" asp-action="Index">Continue Booking</a>
+                }
+                else
+                {
+                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="Home" asp-action="Index">Continue Booking</a>
+                }
+                <button type="submit" class="btn btn-success">Go to Pay</button>
+            </form>
         </div>
         <div class="d-flex justify-content-end">
-            <sapn><b>Total:</b> $ @ViewBag.Total</sapn>
+            <span><b>Total:</b> $ @ViewBag.Total</sapn>
         </div>
         <div class="d-flex justify-content-end"><a style="margin-right:1rem" asp-for="SearchRoomList" class="btn btn-warning">Continue Booking</a>
             <a asp-controller="Checkout" asp-action="Index" class="btn btn-success">Go to Pay</a></div>
@@ -82,3 +114,8 @@
 </div>
 
 
+<script>
+    setTimeout(function () {
+        document.getElementById("CartOption").style.display = "none";
+    }, 3000);
+</script>

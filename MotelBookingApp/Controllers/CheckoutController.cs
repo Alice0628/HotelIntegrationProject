@@ -41,31 +41,35 @@ namespace MotelBookingApp.Controllers
                 Amount = _context.BookingCarts.Include("Room").Include("AppUser").Where(u => u.AppUser.UserName == userName).Sum(room => (double)room.Room.Price).ToString();
                 ViewBag.Total = Amount;
             }
-            ViewBag.Count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             return View();
         }
 
         [HttpPost]
         public ActionResult CreateCheckoutSession(string total)
         {
-            ViewBag.Count = Convert.ToInt32(HttpContext.Session.GetString("count"));
-            if (ViewBag.Count == 0)
-            {
-                TempData["CartOption"] = "Your cart is empty!";
-                return RedirectToAction("Index", "Cart");
-            }
+            ViewBag.Count = Convert.ToInt32(HttpContext.Session.GetString("Count"));
 
             var userName = _userManager.GetUserName(User);
             PlannedList = _context.BookingCarts.Include("AppUser").Include("Room").Include("Room.Motel").Include("Room.RoomType").Where(u => u.AppUser.UserName == userName).ToList();
             List<SessionLineItemOptions> lineItems = new List<SessionLineItemOptions>();
 
+            if (PlannedList.Count == 0)
+            {
+                TempData["CartOption"] = "Your cart is empty!";
+                return RedirectToAction("Cart", "Home");
+            }
+
             for (int i = 0; i < PlannedList.Count; i++)
             {
+                // TimeSpan time difference
+                var timeDiff = (PlannedList[i].CheckoutDate - PlannedList[i].CheckinDate);
+
                 lineItems.Add(new SessionLineItemOptions
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmount = Convert.ToInt32(PlannedList[i].Room.Price) * 100,
+                        UnitAmount = Convert.ToInt32(PlannedList[i].Room.Price) * 100 * timeDiff.Days,
                         Currency = "CAD",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
@@ -80,7 +84,7 @@ namespace MotelBookingApp.Controllers
 
             var options = new SessionCreateOptions
             {
-                LineItems = lineItems,         
+                LineItems = lineItems,
                 Mode = "payment",
                 AllowPromotionCodes = true,
 
@@ -91,7 +95,7 @@ namespace MotelBookingApp.Controllers
             Session session = service.Create(options);
 
             Response.Headers.Add("Location", session.Url);
-            HttpContext.Session.SetString("count", "0");
+            HttpContext.Session.SetString("Count", "0");
             return new StatusCodeResult(303);
         }
 
@@ -202,11 +206,13 @@ namespace MotelBookingApp.Controllers
                     document.Add(bookingParagraph);
                     document.Add(newLineParagraph);
 
-                    var invoiceParagraph = new Paragraph($"Invoice Number:{session_id.Substring(session_id.Length - 6).ToUpper()}\n") { Font = FontFactory.GetFont(FontFactory.HELVETICA, 16) };
+                    var invoiceParagraph = new Paragraph($"Invoice Number:{session_id.Substring(session_id.Length - 6).ToUpper()}") { Font = FontFactory.GetFont(FontFactory.HELVETICA, 16) };
                     document.Add(invoiceParagraph);
-                    document.Add(newLineParagraph);
 
-                    var dateParagraph = new Paragraph($"Date: {DateTime.Now.ToString("yyyy-MMM-dd")}", font);
+                    var nameParagraph = new Paragraph($"Name: {_userManager.GetUserName(User).ToUpper()}") { Font = FontFactory.GetFont(FontFactory.HELVETICA, 16) };
+                    document.Add(nameParagraph);
+
+                    var dateParagraph = new Paragraph($"Date: {DateTime.Now.ToString("yyyy-MM-dd")}", font);
                     document.Add(dateParagraph);
                     document.Add(newLineParagraph);
 
@@ -223,22 +229,22 @@ namespace MotelBookingApp.Controllers
                         itemsTable.AddCell(new PdfPCell(new Phrase(item.Price.Product.Name)));
                         itemsTable.AddCell(new PdfPCell(new Phrase(item.Price.Product.Description)) { HorizontalAlignment = Element.ALIGN_CENTER });
                         itemsTable.AddCell(new PdfPCell(new Phrase(item.Quantity.ToString())) { HorizontalAlignment = Element.ALIGN_RIGHT });
-                        itemsTable.AddCell(new PdfPCell(new Phrase($"$ {Math.Round((decimal)item.AmountSubtotal / 100, 2)} ")) { HorizontalAlignment = Element.ALIGN_RIGHT });
+                        itemsTable.AddCell(new PdfPCell(new Phrase($"${(decimal)item.AmountSubtotal / 100:0.00} ")) { HorizontalAlignment = Element.ALIGN_RIGHT });
                     }
 
                     document.Add(itemsTable);
                     document.Add(newLineParagraph);
 
-                    var subtotalParagraph = new Paragraph($"Subtotal: ${Math.Round((decimal)session.AmountSubtotal / 100, 2)} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
+                    var subtotalParagraph = new Paragraph($"Subtotal: ${(decimal)session.AmountSubtotal / 100:0.00} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
                     document.Add(subtotalParagraph);
 
-                    var discountParagraph = new Paragraph($"Discount: ${Math.Round((decimal)session.TotalDetails.AmountDiscount / 100, 2)} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
+                    var discountParagraph = new Paragraph($"Discount: ${(decimal)session.TotalDetails.AmountDiscount / 100:0.00} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
                     document.Add(discountParagraph);
 
-                    var taxParagraph = new Paragraph($"Tax: ${Math.Round((decimal)session.TotalDetails.AmountTax / 100, 2)} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
+                    var taxParagraph = new Paragraph($"Tax: ${(decimal)session.TotalDetails.AmountTax / 100:0.00} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
                     document.Add(taxParagraph);
 
-                    var totalParagraph = new Paragraph($"Total: ${Math.Round((decimal)session.AmountTotal / 100, 2)} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
+                    var totalParagraph = new Paragraph($"Total: ${(decimal)session.AmountTotal / 100:0.00} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
                     document.Add(totalParagraph);
                     document.Add(newLineParagraph);
 

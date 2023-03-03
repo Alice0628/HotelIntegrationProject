@@ -472,3 +472,38 @@ Sprint 1:
 - admin can help create customer
 - booked list
 3. Need assistance / figure things out
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------2023/03/03 Wu Wei
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
+--
+
+2023/03/02 Zhou Lei
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out
+--
+
+2023/03/02 Zhang Xiao
+1. Done / not done since last scrum:
+- debuged customer searching rooms function
+2. To do until next Scrum:
+- add/remove favorite motel heart icon
+- BookedRecords list function 
+- comments update/delete arthoriazation
+3. Need assistance / figure things out
+
+2023/03/02 Zhu Qichen
+1. Done / not done since last scrum:
+- admin can help create customer
+- booked list
+2. To do until next Scrum:
+- other functions
+- bug fix
+3. Need assistance / figure things out
+
