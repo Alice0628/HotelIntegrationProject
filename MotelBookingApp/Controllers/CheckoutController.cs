@@ -202,11 +202,13 @@ namespace MotelBookingApp.Controllers
                     document.Add(bookingParagraph);
                     document.Add(newLineParagraph);
 
-                    var invoiceParagraph = new Paragraph($"Invoice Number:{session_id.Substring(session_id.Length - 6).ToUpper()}\n") { Font = FontFactory.GetFont(FontFactory.HELVETICA, 16) };
+                    var invoiceParagraph = new Paragraph($"Invoice Number:{session_id.Substring(session_id.Length - 6).ToUpper()}") { Font = FontFactory.GetFont(FontFactory.HELVETICA, 16) };
                     document.Add(invoiceParagraph);
-                    document.Add(newLineParagraph);
 
-                    var dateParagraph = new Paragraph($"Date: {DateTime.Now.ToString("yyyy-MMM-dd")}", font);
+                    var nameParagraph = new Paragraph($"Name: {_userManager.GetUserName(User).ToUpper()}") { Font = FontFactory.GetFont(FontFactory.HELVETICA, 16) };
+                    document.Add(nameParagraph);
+
+                    var dateParagraph = new Paragraph($"Date: {DateTime.Now.ToString("yyyy-MM-dd")}", font);
                     document.Add(dateParagraph);
                     document.Add(newLineParagraph);
 
