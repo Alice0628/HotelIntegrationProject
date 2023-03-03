@@ -414,6 +414,7 @@ namespace MotelBookingApp.Controllers
             return View(newRoom);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Cart()
         {
@@ -430,6 +431,7 @@ namespace MotelBookingApp.Controllers
             ViewBag.Total = subTotal;
             return View(cartItems);
         }
+
 
         [Authorize(Roles = "User")]
         [HttpPost, ActionName("RoomDetail")]

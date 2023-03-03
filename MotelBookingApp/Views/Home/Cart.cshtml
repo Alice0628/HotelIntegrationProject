@@ -18,7 +18,7 @@
         }
         <table class="table table-hover table-bordered align-items-center">
             <thead>
-                <tr>
+                <tr class="text-center">
                     <th>
                         Username
                     </th>
@@ -37,15 +37,17 @@
                     <th>
                         Subtotal
                     </th>
-                    <th>
+                    @if (Model.Count != 0)
+                    {
+                        <th></th>
+                    }
 
-                    </th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model != null)
                 {
-                    @foreach (BookingCart bc in @Model)
+                    @foreach (BookingCart bc in Model)
                     {
                         <tr>
                             <td>
@@ -60,28 +62,35 @@
                             <td>
                                 @bc.CheckoutDate.ToString("yyyy-MM-dd")
                             </td>
-                            <td>
+                            <td class="notranslate">
                                 $@bc.Room.Price
                             </td>
-                            <td>
+                            <td class="notranslate">
                                 $@(bc.Room.Price * (bc.CheckoutDate - bc.CheckinDate).Days)
 
                             </td>
-                            <td class="d-flex justify-content-center">
-                                <a asp-controller="Cart" asp-action="Remove" asp-route-Id="@bc.Id" class="btn btn-sm btn-danger">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </td>
+                            @if (Model.Count != 0)
+                            {
+                                <td class="d-flex justify-content-center">
+                                    <a asp-controller="Cart" asp-action="Remove" asp-route-Id="@bc.Id" class="btn btn-sm btn-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </td>
+                            }
                         </tr>
                     }
+                    <tr>
+                        <td colspan="5" class="text-end">
+                            Total Price:
+                        </td>
+                        <td colspan="2" class="notranslate">
+                            $@ViewBag.Total
+                        </td>
+                    </tr>
                 }
             </tbody>
-
         </table>
-        <div class="d-flex justify-content-end mt-2">
-            <span><b>Total:</b> $@ViewBag.Total</span>
-        </div>
-        <br />
+
         <div class="d-flex justify-content-end pb-5">
             <form method="post" asp-action="CreateCheckoutSession" asp-controller="Checkout">
                 <input type="text" id="TextBox1" placeholder="amount" name="amount" value="@ViewBag.Total" hidden />
@@ -91,7 +100,7 @@
                 }
                 else
                 {
-                    <a style="margin-right:1rem" class="btn btn-warning" asp-action="Index" asp-controller="Home">Continue Booking</a>
+                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="Home" asp-action="Index">Continue Booking</a>
                 }
                 <button type="submit" class="btn btn-success">Go to Pay</button>
             </form>

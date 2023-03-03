@@ -84,7 +84,7 @@ namespace MotelBookingApp.Controllers
 
             var options = new SessionCreateOptions
             {
-                LineItems = lineItems,         
+                LineItems = lineItems,
                 Mode = "payment",
                 AllowPromotionCodes = true,
 
@@ -229,22 +229,22 @@ namespace MotelBookingApp.Controllers
                         itemsTable.AddCell(new PdfPCell(new Phrase(item.Price.Product.Name)));
                         itemsTable.AddCell(new PdfPCell(new Phrase(item.Price.Product.Description)) { HorizontalAlignment = Element.ALIGN_CENTER });
                         itemsTable.AddCell(new PdfPCell(new Phrase(item.Quantity.ToString())) { HorizontalAlignment = Element.ALIGN_RIGHT });
-                        itemsTable.AddCell(new PdfPCell(new Phrase($"$ {Math.Round((decimal)item.AmountSubtotal / 100, 2)} ")) { HorizontalAlignment = Element.ALIGN_RIGHT });
+                        itemsTable.AddCell(new PdfPCell(new Phrase($"${(decimal)item.AmountSubtotal / 100:0.00} ")) { HorizontalAlignment = Element.ALIGN_RIGHT });
                     }
 
                     document.Add(itemsTable);
                     document.Add(newLineParagraph);
 
-                    var subtotalParagraph = new Paragraph($"Subtotal: ${Math.Round((decimal)session.AmountSubtotal / 100, 2)} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
+                    var subtotalParagraph = new Paragraph($"Subtotal: ${(decimal)session.AmountSubtotal / 100:0.00} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
                     document.Add(subtotalParagraph);
 
-                    var discountParagraph = new Paragraph($"Discount: ${Math.Round((decimal)session.TotalDetails.AmountDiscount / 100, 2)} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
+                    var discountParagraph = new Paragraph($"Discount: ${(decimal)session.TotalDetails.AmountDiscount / 100:0.00} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
                     document.Add(discountParagraph);
 
-                    var taxParagraph = new Paragraph($"Tax: ${Math.Round((decimal)session.TotalDetails.AmountTax / 100, 2)} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
+                    var taxParagraph = new Paragraph($"Tax: ${(decimal)session.TotalDetails.AmountTax / 100:0.00} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
                     document.Add(taxParagraph);
 
-                    var totalParagraph = new Paragraph($"Total: ${Math.Round((decimal)session.AmountTotal / 100, 2)} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
+                    var totalParagraph = new Paragraph($"Total: ${(decimal)session.AmountTotal / 100:0.00} {session.Currency.ToUpper()}", font) { Alignment = Element.ALIGN_RIGHT };
                     document.Add(totalParagraph);
                     document.Add(newLineParagraph);
 
