@@ -233,7 +233,67 @@ namespace MotelBookingApp.Controllers
 
             return View();
 
-            return View(recordModel);
+            //return View(recordModel);
+        }
+
+
+        [HttpGet, ActionName("CreateCustomer")]
+        [AllowAnonymous]
+        public IActionResult Create() => View(new RegisterVM());
+
+        [HttpPost, ActionName("CreateCustomer")]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(RegisterVM registerVM)
+        {
+            if (!ModelState.IsValid) return View(registerVM);
+
+            var user = await _userManager.FindByEmailAsync(registerVM.Email);
+            if (user != null)
+            {
+                TempData["CreateCustomer"] = "This email address is already in use";
+                return View(registerVM);
+            }
+
+            var newUser = new AppUser()
+            {
+                Email = registerVM.Email,
+                UserName = registerVM.UserName,
+                PhoneNumber = registerVM.PhoneNumber,
+                FirstName = registerVM.FirstName,
+                LastName = registerVM.LastName,
+                DOB = registerVM.DOB,
+            };
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+
+            if (newUserResponse.Succeeded)
+            {
+                // sign user to "User"
+                var signToUser = await _userManager.AddToRoleAsync(newUser, "User");
+
+                if (signToUser.Succeeded)
+                {
+                    // set EmailConfirmation to true
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                    var result = await _userManager.ConfirmEmailAsync(newUser, code);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    await _userManager.DeleteAsync(newUser);
+                    return View(registerVM);
+                }
+            }
+            foreach (var error in newUserResponse.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(registerVM);
+
         }
     }
 }
