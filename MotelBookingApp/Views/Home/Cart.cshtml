@@ -90,7 +90,9 @@
                 }
             </tbody>
         </table>
-
+        <div class="d-flex justify-content-end">
+            <span><b>Total:</b> $ @ViewBag.Total</span>
+        </div>
         <div class="d-flex justify-content-end pb-5">
             <form method="post" asp-action="CreateCheckoutSession" asp-controller="Checkout">
                 <input type="text" id="TextBox1" placeholder="amount" name="amount" value="@ViewBag.Total" hidden />
@@ -100,16 +102,11 @@
                 }
                 else
                 {
-                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="Home" asp-action="Index">Continue Booking</a>
+                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="Home" asp-action="CityMotelList">Continue Booking</a>
                 }
                 <button type="submit" class="btn btn-success">Go to Pay</button>
             </form>
         </div>
-        <div class="d-flex justify-content-end">
-            <span><b>Total:</b> $ @ViewBag.Total</sapn>
-        </div>
-        <div class="d-flex justify-content-end"><a style="margin-right:1rem" asp-for="SearchRoomList" class="btn btn-warning">Continue Booking</a>
-            <a asp-controller="Checkout" asp-action="Index" class="btn btn-success">Go to Pay</a></div>
     </div>
 </div>
 

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Runtime.InteropServices;
 using Azure.Identity;
 
+
 namespace MotelBookingApp.Controllers
 {
 
@@ -314,12 +315,14 @@ namespace MotelBookingApp.Controllers
             }
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost,ActionName("CityMotelDetail")]
         public async Task<IActionResult> FavOperate(int id)
         {
             try
             {
                 var userName = _userManager.GetUserName(User);
+
                 var motel = await _context.Motels.Where(m => m.Id == id).FirstOrDefaultAsync();
                 var favMotel = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Motel.Id == id && fm.Owner.UserName == userName).FirstOrDefaultAsync();
                 if (favMotel != null) 
@@ -361,6 +364,7 @@ namespace MotelBookingApp.Controllers
             return View(motel);
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<IActionResult> EditComment(int id)
         {
@@ -368,7 +372,7 @@ namespace MotelBookingApp.Controllers
             return View(comment);
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpPost, ActionName("EditComment")]
         public async Task<IActionResult> EditCommentUpload(int id, Comment comment)
         {
@@ -382,7 +386,7 @@ namespace MotelBookingApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpPost, ActionName("AddAComment")]
         public async Task<IActionResult> AddCommentUpload(int id, string content, int score)
         {
@@ -407,6 +411,7 @@ namespace MotelBookingApp.Controllers
         [HttpGet]
         public async Task<IActionResult> SearchRoomList(int id)
         {
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             var checkin = DateTime.Parse(HttpContext.Session.GetString("checkin"));
             var checkout = DateTime.Parse(HttpContext.Session.GetString("checkout"));
             List<Room> rooms = await _context.Rooms.Include("RoomType").Include("Motel").Where(r => r.Motel.Id == id && r.RoomType.Name == HttpContext.Session.GetString("roomType")).ToListAsync();
@@ -464,17 +469,15 @@ namespace MotelBookingApp.Controllers
             catch (SystemException ex)
             {
                 TempData["searchOption"] = ex.Message;
-                return null;
+                return View();
             }
-
-
-            return View(rooms);
-
         }
+
 
         [HttpGet]
         public async Task<IActionResult> RoomDetail(int id)
         {
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             ViewBag.Count = HttpContext.Session.GetString("Count");
             var room = await _context.Rooms.Include("Motel").Include("RoomType").FirstOrDefaultAsync(r => r.Id == id);
             RoomInputModel newRoom = new RoomInputModel
@@ -490,7 +493,7 @@ namespace MotelBookingApp.Controllers
             return View(newRoom);
         }
 
-
+        [Authorize(Roles = "User,Staff")]
         [HttpGet]
         public async Task<IActionResult> Cart()
         {
@@ -508,6 +511,7 @@ namespace MotelBookingApp.Controllers
             return View(cartItems);
         }
 
+        [Authorize(Roles = "User,Staff")]
         [HttpPost, ActionName("Cart")]
         public async Task<IActionResult> RemoveItem(int id)
         {
@@ -565,25 +569,59 @@ namespace MotelBookingApp.Controllers
                 return View();
 
             }
-
         }
 
-        public async Task<IActionResult> FavoriteMotelList()
+
+        [Authorize(Roles = "User,Staff")]
+        [HttpGet]
+        public async Task<IActionResult> FavoriteMotelList(int id)
         {
-            var userName = _userManager.GetUserName(User);
-            var favoriteMotelList = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Owner.UserName == userName).ToListAsync();   
-            return View(favoriteMotelList);
+            ViewBag.Count = HttpContext.Session.GetString("Count");
+            var favoriteMotelList = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Owner.Id == id).ToListAsync();  
+            var motelList = new List<Motel>();
+            foreach (var fm in favoriteMotelList)
+            {
+                motelList.Add(fm.Motel);
+            }
+            return View(motelList);
         }
 
-        [HttpPost,ActionName("FavoriteMotelList")]
+        // todo
+        [Authorize(Roles = "User,Staff")]
+        [HttpPost,ActionName("DeletFavmotel")]
         public async Task<IActionResult> DeleteFavoriteMote(int id)
-        {
-            var userName = _userManager.GetUserName(User);
-            var favoriteMotel = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Id == id).FirstOrDefaultAsync();
+        {   
+            var userName = _userManager.GetUserName(User); 
+            var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
+            var favoriteMotel = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Motel.Id == id && fm.Owner.UserName == userName).FirstOrDefaultAsync();
             _context.FavoriteMotelLists.Remove(favoriteMotel);
             await _context.SaveChangesAsync();
-            return View();
+            return RedirectToAction("FavoriteMotelList", new {id = user.Id });
         }
+
+        [Authorize(Roles = "User,Staff")]
+        [HttpGet]
+        public  async Task<IActionResult> DeletFavmotel(int id)
+        {
+            ViewBag.Count = HttpContext.Session.GetString("Count");
+            var motel = await _context.Motels.Where(m => m.Id == id).FirstOrDefaultAsync();
+            MotelInputModel curMotel = new MotelInputModel()
+            {
+                Id = motel.Id,
+                Name = motel.Name,
+                Address = motel.Address,
+                Province = motel.Province,
+                City = motel.City,
+                PostalCode = motel.PostalCode,
+                ImageUrl = _client.Uri.ToString() + "/" + motel.ImageUrl
+            };
+            return View(curMotel);
+          
+        }
+
+
+
+
 
 
         public IActionResult Privacy()
