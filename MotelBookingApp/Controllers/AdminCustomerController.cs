@@ -66,6 +66,7 @@ namespace MotelBookingApp.Controllers
                     s.Email.ToLower().Contains(searchString.ToLower()) ||
                     s.PhoneNumber.Contains(searchString)
                     ).ToListAsync();
+
                 if (customerList.Count <= 0)
                 {
                     TempData["CustomerListOption"] = "No Customer Found!";
