@@ -1,0 +1,89 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+@using MotelBookingApp.Data.ViewModels
+@model MotelDetailModel
+
+@{
+    ViewData["Title"] = "Motel search result";
+}
+@if (TempData["removeFav"]!= null)
+{
+    <div class="flash alert alert-warning">
+        @TempData["removeFav"]
+    </div>
+}
+<div class="container">
+
+    <div class="col-10 m-3 border">
+
+        <div class="m-3">
+            <div class="d-flex justify-content-around align-items-lg-center">
+                <div>
+                    <img src=@Model.Motel.ImageUrl width="150" heiht="150" alt="Motel picture" />
+                </div>
+                <div style="margin-right:1rem">
+                    <p>@Model.Motel.Name</p>
+                    <form method="post">
+                    <button asp-action="CityMotelDetail" asp-route-id="@Model.Motel.Id" type="submit">
+                    @if(Model.Motel.IfFaivorite == true ){
+                            <i class="fa-regular fa-heart" style="color:red"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-regular fa-heart"></i>
+                        }
+                    </button>
+                    </form>
+                   
+                    <p>@Model.Motel.Address, @Model.Motel.City, @Model.Motel.Province, @Model.Motel.PostalCode</p>
+                </div>
+               
+                <div>
+                    <a class="btn btn-info m-1" asp-action="SearchRoomList" asp-route-id="@Model.Motel.Id">View Rooms</a>
+                    <a class="btn btn-outline-success" asp-action="AddAComment" asp-route-id="@Model.Motel.Id">Add a comment</a>
+                </div>
+            </div>
+
+            @*comments*@
+            @if (Model.Comments != null)
+            {
+                @foreach (var c in Model.Comments)
+                {
+                    <div class="m-2 border">
+                        <div style="position:relative">
+                            <div class="d-flex justify-content-between">
+                                <p>
+                                    @c.User.UserName
+                                </p>
+                                <div>
+                                <span>
+                                    @c.CreateDate
+                                </span>
+                                <span style="margin-left: 1rem; color:blue">
+                                    Score: @c.Score
+                                </span>
+                                </div>
+                            </div>
+                            <div style="margin:0 1rem">
+                                <p>@c.Content</p>
+                            </div>
+                            @if (UserManager.GetUserName(User) == @c.User.UserName)
+                            {
+                                <div style="margin-right:1rem; position:relative; left:40rem">
+                                    <form method="post">
+                                        <a asp-action="EditComment" asp-route-id="@c.Id" class="btn btn-outline-warning">Edit</a>
+                                        <a asp-action="RemoveComment" type="submit" asp-route-id="@c.Id" class="btn btn-outline-danger">Remove</a>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+
+            <div>
+            </div>
+        </div>
+    </div>
+</div>

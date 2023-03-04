@@ -24,6 +24,7 @@ namespace MotelBookingApp.Controllers
             return View();
         }
 
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

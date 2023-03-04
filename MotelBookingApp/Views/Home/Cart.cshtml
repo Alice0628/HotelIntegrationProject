@@ -1,0 +1,118 @@
+﻿@model List<BookingCart>
+
+@{
+    ViewData["Title"] = "Items of Cart";
+}
+
+
+<div class="container col-10">
+    <div class="col-12">
+        <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
+        <h2 class="text-center text-primary">Your Cart Items</h2>
+        <br />
+        @if (TempData["CartOption"] != null)
+        {
+            <div id="CartOption" class="container flash alert alert-warning">
+                @TempData["CartOption"]
+            </div>
+        }
+        <table class="table table-hover table-bordered align-items-center">
+            <thead>
+                <tr class="text-center">
+                    <th>
+                        Username
+                    </th>
+                    <th>
+                        Room Number
+                    </th>
+                    <th>
+                        Checkin Date
+                    </th>
+                    <th>
+                        Checkout Date
+                    </th>
+                    <th>
+                        Unit Price
+                    </th>
+                    <th>
+                        Subtotal
+                    </th>
+                    @if (Model.Count != 0)
+                    {
+                        <th></th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (BookingCart bc in Model)
+                    {
+                        <tr>
+                            <td>
+                                @bc.AppUser.UserName
+                            </td>
+                            <td>
+                                @bc.Room.RoomNum
+                            </td>
+                            <td>
+                                @bc.CheckinDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td>
+                                @bc.CheckoutDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td class="notranslate">
+                                $@bc.Room.Price
+                            </td>
+                            <td class="notranslate">
+                                $@(bc.Room.Price * (bc.CheckoutDate - bc.CheckinDate).Days)
+
+                            </td>
+                            @if (Model.Count != 0)
+                            {
+                                <td class="d-flex justify-content-center">
+                                    <a asp-controller="Cart" asp-action="Remove" asp-route-Id="@bc.Id" class="btn btn-sm btn-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="5" class="text-end">
+                            Total Price:
+                        </td>
+                        <td colspan="2" class="notranslate">
+                            $@ViewBag.Total
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <span><b>Total:</b> $ @ViewBag.Total</span>
+        </div>
+        <div class="d-flex justify-content-end pb-5">
+            <form method="post" asp-action="CreateCheckoutSession" asp-controller="Checkout">
+                <input type="text" id="TextBox1" placeholder="amount" name="amount" value="@ViewBag.Total" hidden />
+                @if (User.IsInRole("Staff"))
+                {
+                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="StaffBooking" asp-action="Index">Continue Booking</a>
+                }
+                else
+                {
+                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="Home" asp-action="CityMotelList">Continue Booking</a>
+                }
+                <button type="submit" class="btn btn-success">Go to Pay</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    setTimeout(function () {
+        document.getElementById("CartOption").style.display = "none";
+    }, 3000);
+</script>

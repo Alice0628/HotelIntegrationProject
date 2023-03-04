@@ -1,0 +1,30 @@
+﻿@using MotelBookingApp.Data.ViewModels
+@model RoomInputModel
+@{
+    ViewData["Title"] = "Room detail";
+}
+<div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover">
+</div>
+<div class="container">
+    <div class="col-lg-10">
+        
+        <div class="d-flex justify-content-around align-items-lg-center">
+            <div>
+                <img src=@Model.RoomTypeImage width="400" heiht="400" alt="Motel picture" />
+            </div>
+            <div style="margin-right:1rem">
+
+                <p><b>Hotel Name:</b> @Model.MotelName</p>
+                <p><b>Room Number:</b> @Model.RoomNum</p>
+                <p><b>Room Price:</b>  @Model.Price</p>
+                <p><b>Detail:</b> @Model.RoomTypeDescription</p>
+                <br />
+                <form method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-success" asp-route-id=@Model.Id>Add to Cart</button>
+                    <a style="margin-left:1rem" class="btn btn-sm btn-outline-info" asp-action="SearchRoomList" asp-route-id=@Model.Id>Back</a>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,6 +4,7 @@ using MotelBookingApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Stripe;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,8 +70,7 @@ using (var scope = app.Services.CreateAsyncScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<MotelDbContext>();
 
-    context.Database.EnsureCreated();
-    //context.Database.Migrate();
+    context.Database.Migrate();
 
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
@@ -80,6 +80,7 @@ using (var scope = app.Services.CreateAsyncScope())
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.UseWebSockets();
 

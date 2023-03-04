@@ -73,7 +73,6 @@ namespace MotelBookingApp.Controllers
                     TempData["motel not exist"] = $"motel {id} does not exist";
                     return View();
                 }
-                string blobUrl = _client.Uri.ToString();
                 MotelInputModel curMotel = new MotelInputModel()
                 {
                     Id = motel.Id,
@@ -82,7 +81,7 @@ namespace MotelBookingApp.Controllers
                     Province = motel.Province,
                     City = motel.City,
                     PostalCode = motel.PostalCode,
-                    ImageUrl = blobUrl + "/" + motel.ImageUrl
+                    ImageUrl = _client.Uri.ToString() + "/" + motel.ImageUrl
                 };
                 return View(curMotel);
             }

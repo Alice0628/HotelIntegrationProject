@@ -7,17 +7,17 @@
 
 <div class="col-12 justify-content-center">
     <div class="col-md-12">
-        @if (TempData["RegisterError"] != null)
-        {
-            <div id="RegisterError" class="col-md-12 alert alert-danger">
-                <span><b>Sorry!</b> - @TempData["RegisterError"] </span>
-            </div>
-        }
         <div class="register-photo">
-            <h3 class="px-5 py-3">Sign up for a new account</h3>
+            @if (TempData["CreateCustomer"] != null)
+            {
+                <div id="CreateCustomer" class="col-md-12 alert alert-danger">
+                    <span><b>Sorry!</b> - @TempData["CreateCustomer"] </span>
+                </div>
+            }
+            <h3 class="px-5 py-3">Create Customer</h3>
             <div class="form-container">
                 <div class="image-holder"></div>
-                <form asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+                <form asp-action="CreateCustomer" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="row">
                         <div class="col-6">
@@ -68,15 +68,8 @@
                         </div>
                     </div>
                     <div class="form-group mt-4">
-                        <input class="btn btn-outline-primary float-right" type="submit" value="Sign up" onclick="buttonChange()" id="btnbefore" />
-                        <button class="btn btn-outline-primary float-right" id="btnafter" style="visibility:hidden; position:relative; left:-65px;">
-                            <div class="loader">
-                                <div class="inner one"></div>
-                                <div class="inner two"></div>
-                                <div class="inner three"></div>
-                            </div>
-                        </button>
-                        <a class="btn btn-outline-secondary" style="position:relative; left:-45px;" asp-controller="Home" asp-action="Index">Cancel</a>
+                        <input class="btn btn-outline-primary float-right" type="submit" value="Create" />
+                        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -86,84 +79,6 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("RegisterError").style.display = "none";
+        document.getElementById("CreateCustomer").style.display = "none";
     }, 3000);
-
-    function buttonChange() {
-        document.getElementById("btnbefore").style.visibility = 'hidden';
-        document.getElementById("btnafter").style.visibility = 'visible';
-    }
 </script>
-
-
-<!-- Loading button -->
-<style>
-    .loader {
-        width: 23px;
-        height: 23px;
-        border-radius: 50%;
-        perspective: 800px;
-    }
-
-    .inner {
-        position: absolute;
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-    }
-
-        .inner.one {
-            left: 0%;
-            top: 0%;
-            animation: rotate-one 1s linear infinite;
-            border-bottom: 3px solid darkgreen;
-            opacity: 0.4;
-        }
-
-        .inner.two {
-            right: 0%;
-            top: 0%;
-            animation: rotate-two 1s linear infinite;
-            border-right: 3px solid darkred;
-            opacity: 0.5;
-        }
-
-        .inner.three {
-            right: 0%;
-            bottom: 0%;
-            animation: rotate-three 1s linear infinite;
-            border-top: 3px solid darkorange;
-            opacity: 0.6;
-        }
-
-    @@keyframes rotate-one {
-        0% {
-            transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
-        }
-
-        100% {
-            transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
-        }
-    }
-
-    @@keyframes rotate-two {
-        0% {
-            transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
-        }
-
-        100% {
-            transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
-        }
-    }
-
-    @@keyframes rotate-three {
-        0% {
-            transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
-        }
-
-        100% {
-            transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
-        }
-    }
-</style>

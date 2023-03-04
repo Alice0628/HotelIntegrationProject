@@ -1,0 +1,154 @@
+﻿@using MotelBookingApp.Data.ViewModels
+@model BookedRecordDisplayVM
+@{
+    ViewData["Title"] = "List of rooms";
+}
+
+@*<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>*@
+<div class="container">
+
+    <div class="col-8">
+        <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
+        <h2 class="text-center text-primary">Booked Room List</h2>
+        <form method="post">
+            <div>
+                <input type="radio" id="User" name="searchOption" value="user">
+                <label for="User">Username</label><br>
+                <input type="radio" id="RoomNum" name="searchOption" value="roomNum">
+                <label for="RoomNum">Room Number</label><br>
+                <input type="radio" id="RoomType" name="searchOption" value="roomType">
+                <label for="RoomType">Date</label>
+                <input type="radio" id="Date" name="searchOption" value="date">
+                <label for="Date">Date</label>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 mb-3">
+                    <input class="form-control" id="city" name="username" asp-for="UserName" />
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <input type="date" class="form-control" name="checkin" id="check-in" asp-for="CheckinDate">
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <input type="date" class="form-control" name="checkout" id="check-out" asp-for="CheckoutDate">
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <select class="form-select" id="room-type" name="roomType" asp-for="SearchType">
+                        <option value=""></option>
+                        @foreach (var rt in Model.RoomTypeList)
+                        {
+                            <option value="@rt.Name">@rt.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-1 mb-3">
+                    <button type="submit" name="button1" value="submit1" class="btn btn-primary" asp-action="Index">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-bordered align-items-center">
+            <thead>
+                <tr>
+                    <th>
+                        Username
+                    </th>
+                    <th>
+                        Room Number
+                    </th>
+                    <th>
+                        Checkin Date
+                    </th>
+                    <th>
+                        Checkout Date
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Subtotal
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (BookedRecord br in @Model.BookedRooms)
+                    {
+                        <tr>
+                            <td>
+                                @br.Booking.AppUser.UserName
+                            </td>
+                            <td>
+                                @br.Room.RoomNum
+                            </td>
+                            <td>
+                                @br.CheckinDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td>
+                                @br.CheckoutDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td>
+                                $ @br.Room.Price
+                            </td>
+                            <td>
+                                $@(br.Room.Price * (br.CheckoutDate - br.CheckinDate).Days)
+
+                            </td>
+                            <td>
+                                <form method="post"> <button class="btn btn-outline-danger" type="submit" asp-route-id="@br.Id">Remove</button></form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+        <div class="d-flex justify-content-end">
+            <sapn><b>HST:</b> $ @ViewBag.tax</sapn>
+        </div>
+        <div class="d-flex justify-content-end">
+            <sapn><b>Total:</b> $ @ViewBag.Total</sapn>
+        </div>
+        <div class="d-flex justify-content-end"><a style="margin-right:1rem" asp-action="Index" class="btn btn-warning">Continue Booking</a><a asp-action="Payment" class="btn btn-success">Go to Pay</a></div>
+    </div>
+</div>
+
+
+<body>
+    <canvas id="myChart"></canvas>
+</body>
+
+<script>
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @Json.Serialize(ViewBag.Labels),
+            datasets: [{
+                label: @Json.Serialize(ViewBag.DatasetLabel),
+                data: @Json.Serialize(ViewBag.DatasetData),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+
+
+

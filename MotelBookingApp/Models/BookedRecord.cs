@@ -11,11 +11,12 @@ namespace MotelBookingApp.Models
     
         public DateTime CheckoutDate { get; set; } = DateTime.Now.AddDays(1);
         
-        public string OccupantName { get; set; } = String.Empty;
+        public string? OccupantName { get; set; } = String.Empty;
       
         public Room Room { get; set; } = new Room();
         
         public decimal Price { get; set; } = default;
+
     
         public Booking Booking { get; set; } = new Booking();
     }

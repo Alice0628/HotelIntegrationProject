@@ -1,0 +1,105 @@
+﻿@using MotelBookingApp.Data.ViewModels
+@model List<MotelInputModel>
+
+@{
+    ViewData["Title"] = "Motel search result";
+}
+
+<div class="container">
+    <form method="post">
+        <div class="row">
+            @if (TempData["searchResOption"] != null)
+            {
+                <div class="flash alert alert-warning">
+                    @TempData["searchResOption"]
+                </div>
+            }
+
+            <div class="col-lg-3 mb-3">
+                @if (string.IsNullOrEmpty(ViewBag.city))
+                {
+                    <input class="form-control" id="city" name="city" />
+                }
+                else
+                {
+                    <input class="form-control" value=@ViewBag.city id="city" name="city" />
+                }
+            </div>
+
+            <div class="col-lg-3 mb-3">
+                @if (string.IsNullOrEmpty(ViewBag.checkin))
+                {
+                    <input type="date" class="form-control" name="checkin" id="check-in">
+                }
+                else
+                {
+                    <input type="date" class="form-control" value=@ViewBag.checkin name="checkin" id="check-in">
+                }
+            </div>
+            <div class="col-lg-3 mb-3">
+                @if (string.IsNullOrEmpty(ViewBag.checkout))
+                {
+                    <input type="date" class="form-control" name="checkout" id="check-out">
+                }
+                else
+                {
+                    <input type="date" class="form-control" value=@ViewBag.checkout name="checkout" id="check-out">
+                }
+            </div>
+            <div class="col-lg-2 mb-2">
+                @if (string.IsNullOrEmpty(ViewBag.roomType))
+                {
+                    <select class="form-select" id="room-type" name="roomType">
+                        <option value=""></option>
+                        @foreach (var rt in ViewBag.RoomTypeList)
+                        {
+                            <option value=@rt.Name>@rt.Name</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <select class="form-select" id="room-type" value=@ViewBag.roomType name="roomType">
+                        <option value=""></option>
+                        @foreach (var rt in ViewBag.RoomTypeList)
+                        {
+                            <option value=@rt.Name>@rt.Name</option>
+                        }
+                    </select>
+                }
+            </div>
+            <div class="col-lg-1 mb-1">
+                <button type="submit" name="button1" value="submit1" class="btn btn-primary" asp-action="Index">Search</button>
+            </div>
+        </div>
+    </form>
+    <div class="col-10">
+        @foreach (var m in Model)
+        {
+            <div class="d-flex m-1 border justify-content-between align-items-center">
+                <div>
+                    <img src=@m.ImageUrl width="250" heiht="250" alt="Motel picture" />
+                </div>
+                <div style="margin-right:1rem">
+                    <p>@m.Name</p>
+                    <p>@m.Address, @m.City, @m.Province, @m.PostalCode</p>
+                    <button>
+                        @if (m.IfFaivorite == true)
+                        {
+                            <i class="fa-regular fa-heart" style="color:red"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-regular fa-heart"></i>
+                        }
+                    </button>
+                    <a class="btn btn-primary" asp-action="CityMotelDetail" asp-route-id="@m.Id">Detail</a>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+
+
