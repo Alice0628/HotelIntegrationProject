@@ -65,8 +65,19 @@
                                     <span>
                                         @c.CreateDate
                                     </span>
-                                    <span style="margin-left: 1rem; color:blue">
-                                        Score: @c.Score
+                                    <br>
+                                    <span class="d-flex justify-content-end" style="color:darkgoldenrod">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Convert.ToInt32(@c.Score))
+                                            {
+                                                <i class="fa fa-star"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-star-o"></i>
+                                            }
+                                        }
                                     </span>
                                 </div>
                             </div>
@@ -75,7 +86,7 @@
                             </div>
                             @if (UserManager.GetUserName(User) == @c.User.UserName)
                             {
-                                <div style="margin-right:1rem; position:relative; left:40rem">
+                                <div class="d-flex justify-content-end">
                                     <form method="post">
                                         <a asp-action="EditComment" asp-route-id="@c.Id" class="btn btn-outline-warning">Edit</a>
                                         <a asp-action="RemoveComment" type="submit" asp-route-id="@c.Id" class="btn btn-outline-danger">Remove</a>

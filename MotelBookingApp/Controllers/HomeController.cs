@@ -388,28 +388,6 @@ namespace MotelBookingApp.Controllers
         }
 
         [Authorize(Roles = "User")]
-        [HttpGet]
-        public async Task<IActionResult> EditComment(int id)
-        {
-            var comment = await _context.Comments.Include("User").Include("Motel").FirstOrDefaultAsync(c => c.Id == id);
-            return View(comment);
-        }
-
-        [Authorize(Roles = "User")]
-        [HttpPost, ActionName("EditComment")]
-        public async Task<IActionResult> EditCommentUpload(int id, Comment comment)
-        {
-            var curComment = await _context.Comments.Include("User").Include("Motel").FirstOrDefaultAsync(c => c.Id == id);
-            curComment.Content = comment.Content;
-            curComment.Score = comment.Score;
-            _context.Comments.Update(curComment);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(CityMotelDetail), new { id = curComment.Motel.Id });
-
-
-        }
-
-        [Authorize(Roles = "User")]
         [HttpPost, ActionName("AddAComment")]
         public async Task<IActionResult> AddCommentUpload(int id, string content, int score)
         {
@@ -430,6 +408,31 @@ namespace MotelBookingApp.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(CityMotelDetail), new { id = id });
         }
+
+
+        [Authorize(Roles = "User")]
+        [HttpGet]
+        public async Task<IActionResult> EditComment(int id)
+        {
+            var comment = await _context.Comments.Include("User").Include("Motel").FirstOrDefaultAsync(c => c.Id == id);
+            return View(comment);
+        }
+
+
+        [Authorize(Roles = "User")]
+        [HttpPost, ActionName("EditComment")]
+        public async Task<IActionResult> EditCommentUpload(int id, Comment comment)
+        {
+            var curComment = await _context.Comments.Include("User").Include("Motel").FirstOrDefaultAsync(c => c.Id == id);
+            curComment.Content = comment.Content;
+            curComment.Score = comment.Score;
+            _context.Comments.Update(curComment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(CityMotelDetail), new { id = curComment.Motel.Id });
+
+
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> SearchRoomList(int id)

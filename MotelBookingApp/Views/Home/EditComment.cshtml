@@ -19,20 +19,41 @@
                 <div class="form-group">
                     <label>Content</label>
                     <textarea asp-for="Content" class="form-control form-control-sm"></textarea>
-                    
+
                 </div>
 
-                <div class="form-group" style="position:relative">
-                    <label>Give a score, the total is 10</label>
-                    <span><b name="score" id="score" asp-for="Score" style="position:absolute; right:0; color:orangered"></b></span>
-                    <input id="scoreValue" asp-for="Score" value=@Model.Score type="range" onchange="showScore()" min="0" max="10" class="form-control form-control-sm" />
+                <!-- Test Stars Start-->
+                <div class="form-group">
+                    <label for="score">Rating: </label>
+                    <input type="hidden" name="score" id="score" />
+                    <div id="rating-container" style="color:darkgoldenrod">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fa @(i <= Convert.ToInt32(Model.Score) ? "fa-star" : "fa-star-o")" data-value="@i"></i>
+                        }
+                    </div>
                 </div>
 
-            </div>
+                @section Scripts{
+                    <script>
+                        $(document).ready(function () {
+                            $("#rating-container i").click(function () {
+                                var score = $(this).data("value");
+                                $("#rating-container i").removeClass("fa-star-o").addClass("fa-star");
+                                $(this).prevAll().removeClass("fa-star-o").addClass("fa-star");
+                                $(this).removeClass("fa-star-o").addClass("fa-star");
+                                $(this).nextAll().removeClass("fa-star").addClass("fa-star-o");
+                                $("#score").val(score);
+                            });
+                        });
+                    </script>
+                }
+                <!-- Test Stars End -->
 
-            <div class="col-md-4 text-center" style="margin:1rem 1rem">
-                <button type="submit" class="btn btn-primary" asp-route-id="@Model.Id">Update</button>
-            </div>
+
+                <div class="col-md-4 mt-5">
+                    <button type="submit" class="btn btn-primary" asp-route-id="@Model.Id">Update</button>
+                </div>
         </form>
     </div>
 </div>
@@ -49,4 +70,5 @@
         score.innerHTML = scoreValue
 
     }
+
 </script>

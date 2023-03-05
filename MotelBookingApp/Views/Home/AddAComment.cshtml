@@ -19,15 +19,36 @@
                 <div class="form-group">
                     <label>Content</label>
                     <textarea name="content" class="form-control form-control-sm"></textarea>
-                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
-                <div class="form-group" style="position:relative">
-                    <label>Give a score, the total is 10</label>
-                    <span><b id="score" style="position:absolute; right:0; color:orangered"></b></span>
-                    <input id="scoreValue" name="score" type="range" onchange="showScore()" min="0" max="10" class="form-control form-control-sm" />
+                <!-- Test Stars Start-->
+                <div class="form-group">
+                    <label for="score">Rating:</label>
+                    <input type="hidden" name="score" id="score" />
+                    <div id="rating-container" style="color:darkgoldenrod">
+                        <i class="fa fa-star" data-value="1"></i>
+                        <i class="fa fa-star" data-value="2"></i>
+                        <i class="fa fa-star" data-value="3"></i>
+                        <i class="fa fa-star" data-value="4"></i>
+                        <i class="fa fa-star" data-value="5"></i>
+                    </div>
                 </div>
 
+                @section Scripts{
+                    <script>
+                        $(document).ready(function () {
+                            $("#rating-container i").click(function () {
+                                var score = $(this).data("value");
+                                $("#rating-container i").removeClass("fa-star-o").addClass("fa-star");
+                                $(this).prevAll().removeClass("fa-star-o").addClass("fa-star");
+                                $(this).removeClass("fa-star-o").addClass("fa-star");
+                                $(this).nextAll().removeClass("fa-star").addClass("fa-star-o");
+                                $("#score").val(score);
+                            });
+                        });
+                    </script>
+                }
+                <!-- Test Stars End -->
             </div>
 
             <div class="col-md-4 text-center" style="margin:1rem 1rem">
