@@ -2,10 +2,8 @@
 {
     public class FavoriteMotel
     {
-        public int Id { get; set; } 
-        public int MotelId { get; set; }
-        public AppUser? AppUser { get; set; }
-        public Motel? Motel { get; set; }
+        public int Id { get; set; } = default;
+        public AppUser AppUser { get; set; } = new AppUser();
+        public Motel Motel { get; set; } = new Motel();
     }
-
 }

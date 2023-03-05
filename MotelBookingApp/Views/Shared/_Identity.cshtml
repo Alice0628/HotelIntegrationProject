@@ -34,9 +34,6 @@ else
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="AdminCustomer" asp-action="CustomerList">Customers</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="FavoriteMotel" asp-action="FavoriteMotelList">Favorite Motel List</a>
-                </li>
             }
             else if (User.IsInRole("User"))
             {
@@ -48,10 +45,7 @@ else
                     <a class="nav-link text-dark" asp-controller="Home" asp-action="Cart"><i style="color:crimson" class="fa-solid fa-cart-shopping"></i> @ViewBag.Count</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="FavoriteMotel" asp-action="Index">My Favorite</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="FavoriteMotels" asp-route-id="@UserManager.GetUserId(User)">Favorite Motels</a>
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="FavoriteMotelList" asp-route-id="@UserManager.GetUserId(User)">Favorite Motels</a>
                 </li>
             }
             else

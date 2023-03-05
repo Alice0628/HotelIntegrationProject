@@ -22,8 +22,7 @@ namespace MotelBookingApp.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Motel> Motels { get; set; }
-        public DbSet<FavoriteMotel> FavoriteMotels{ get; set; }
-        //public DbSet<FavoriteMotelList> FavoriteMotelLists { get; set; }
+        public DbSet<FavoriteMotelList> FavoriteMotelLists { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
 
@@ -42,7 +41,5 @@ namespace MotelBookingApp.Data
             base.OnModelCreating(modelBuilder);
 
         }
-
-        public DbSet<MotelBookingApp.Models.FavoriteMotelList> FavoriteMotelList { get; set; } = default!;
     }
 }
