@@ -66,6 +66,7 @@ namespace MotelBookingApp.Controllers
         {
             try
             {
+                var motelDetail = new MotelDetailModel();
                 var motel = await _context.Motels
                     .FirstOrDefaultAsync(m => m.Id == id);
                 if (motel == null)
@@ -83,7 +84,14 @@ namespace MotelBookingApp.Controllers
                     PostalCode = motel.PostalCode,
                     ImageUrl = _client.Uri.ToString() + "/" + motel.ImageUrl
                 };
-                return View(curMotel);
+                if (await _context.Comments.Include("Motel").Where(c => c.Motel.Id == id).ToListAsync() != null)
+                {
+                    var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Id == id).ToListAsync();
+                    motelDetail.Comments = comments;
+                }
+
+                motelDetail.Motel = curMotel;
+                return View(motelDetail);
             }
             catch (SystemException ex)
             {

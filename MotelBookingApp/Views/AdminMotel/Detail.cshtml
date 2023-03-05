@@ -1,6 +1,6 @@
 ﻿
 @using MotelBookingApp.Data.ViewModels
-@model MotelInputModel
+@model MotelDetailModel
 @{
     ViewData["Title"] = "Delete a motel";
 }
@@ -21,29 +21,29 @@
 </div>
 <div class="row">
     <div class="col-md-8 offset-2">
-        <h2>RoomType Detail</h2>
+        <h2>Motel Detail</h2>
         <div class="container">
             <div class="d-flex justify-content-around align-content-center">
                 <div>
 
                     <dl>
                         <dt>Id</dt>
-                        <dd>@Model.Id</dd>
+                        <dd>@Model.Motel.Id</dd>
                     </dl>
                     <dl>
                         <dt>Name</dt>
-                        <dd>@Model.Name</dd>
+                        <dd>@Model.Motel.Name</dd>
                     </dl>
                     <dl>
                         <dt>Address</dt>
-                        <dd>@Model.Address, @Model.City, @Model.Province, @Model.PostalCode </dd>
+                        <dd>@Model.Motel.Address, @Model.Motel.City, @Model.Motel.Province, @Model.Motel.PostalCode </dd>
                     </dl>
 
                 </div>
-                <div> <img width="400" height="250" src=@Model.ImageUrl />
+                <div> <img width="400" height="250" src=@Model.Motel.ImageUrl />
                     <div class="form-group text-center" style="margin-top: 0.5rem;">
                         <a class="btn btn-primary float-right" asp-control="RoomType" asp-action="Edit"
-                            asp-route-id="@Model.Id">Update</a>
+                            asp-route-id="@Model.Motel.Id">Update</a>
                         <a class="btn btn-secondary" asp-action="Index">Back To List</a>
                     </div>
                 </div>
@@ -74,6 +74,42 @@
                 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"></script>*@
 
 
+        </div>
+        <div>
+            @*comments*@
+            @if (Model.Comments != null)
+            {
+                @foreach (var c in Model.Comments)
+                {
+                    <div class="m-2 border">
+                        <div style="position:relative">
+                            <div class="d-flex justify-content-between">
+                                <p>
+                                    @c.User.UserName
+                                </p>
+                                <div>
+                                <span>
+                                    @c.CreateDate
+                                </span>
+                                <span style="margin-left: 1rem; color:blue">
+                                    Score: @c.Score
+                                </span>
+                                </div>
+                            </div>
+                            <div style="margin:0 1rem">
+                                <p>@c.Content</p>
+                            </div>
+                           
+                                <div style="margin-right:1rem; position:relative; left:40rem">
+                                    <form method="post">
+                                        <a asp-action="RemoveComment" type="submit" asp-route-id="@c.Id"  class="btn btn-outline-danger">Remove</a>
+                                    </form>
+                                </div>
+                           
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>

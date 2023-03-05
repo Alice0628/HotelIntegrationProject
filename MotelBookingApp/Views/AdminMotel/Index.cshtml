@@ -13,11 +13,38 @@
 {
     <div>@TempData["no result"]</div>
 }
-<div class="container">
-    <h2 class="text-center">List of Motels</h2>
-    <br>
+
+<div class="col-12 justify-content-center" style="margin-bottom:50px;">
+    <div class="register-photo">
+        <div class="container col-md-8">
+            <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
+        </div>
+    </div>
     <!-- Search Bar -->
     <div class="container d-flex justify-content-center">
+        <div class="col-10 row">
+            <h3 class="col-4 px-1" style="margin:auto;">Motel List</h3>
+            <div class="col-5 px-1">
+                <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
+                    <div class="input-group">
+                        <input type="search" name="searchKeyWord" class="form-control rounded"
+                               placeholder="Search..." />
+                        <button type="submit" asp-controller="AdminMotel" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-3 px-1 d-flex justify-content-end" style="margin:auto;">
+                <a class="btn btn-success" asp-controller="AdminMotel" asp-action="Create">
+                    Create
+                </a>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+    <!-- Search Bar -->
+  @*  <div class="container d-flex justify-content-center">
         <div class="col-8">
             <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
                 <div class="input-group">
@@ -27,12 +54,11 @@
             </form>
         </div>
     </div>
-    <br />
+    <br />*@
 
     <div class="container d-flex justify-content-center">
-        <div class="col-8">
-            <a class="btn btn-primary" style="margin-bottom: 10px;"
-               asp-action="Create">Add a Motel</a>
+        <div class="col-10">
+
             @if (TempData["MotelOption"] != null)
             {
                 <div id="AirportOption" class="flash alert alert-warning">
@@ -45,10 +71,9 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                
-                                <th class="col-2">Name</th>
-                                <th class="col-2">City</th>
-                                <th class="col-2 text-center">Actions</th>
+                                <th class="col-2"><i class="fa-solid fa-hotel"></i>Name</th>
+                                <th class="col-2"><i class="fas fa-city"></i>City</th>
+                                <th class="col-2 text-center"><i class="fa-solid fa-hand"></i>Actions</th>
                             </tr>
                         </thead>
                         <tbody>

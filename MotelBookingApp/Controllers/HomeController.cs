@@ -39,7 +39,7 @@ namespace MotelBookingApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            if(HttpContext.Session.GetString("Count") ==null)
+            if(HttpContext.Session.GetString("Count") == null)
             {
                 HttpContext.Session.SetString("Count", "0");
             }
@@ -299,19 +299,18 @@ namespace MotelBookingApp.Controllers
 
 
         [HttpPost,ActionName("RemoveComent")]
-        public async Task<IActionResult> RemoveCommentConfirm(int id1)
+        public async Task<IActionResult> RemoveCommentConfirm(int id, string motelId)
         {
+
             try { 
-            var comment = await _context.Comments.Include("AppUser").Include("Motel").Where(c => c.Id == id1).FirstOrDefaultAsync();
+            var comment = await _context.Comments.Include("AppUser").Include("Motel").Where(c => c.Id == id).FirstOrDefaultAsync();
                 _context.Comments.Remove(comment);
-                return View();
-                //return RedirectToAction(nameof(CityMotelDetail), new { id =id2 });
+                return RedirectToAction("CityMotelDetail", new { id = motelId });
             }
             catch (SystemException ex)
             {
                 TempData["removeComment"] = ex.Message;
-                return View();
-                //return RedirectToAction(nameof(CityMotelDetail), new { id = id2 });
+                return View(motelId);
             }
         }
 
