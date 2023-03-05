@@ -7,7 +7,7 @@
 @{
     ViewData["Title"] = "Motel search result";
 }
-@if (TempData["removeFav"]!= null)
+@if (TempData["removeFav"] != null)
 {
     <div class="flash alert alert-warning">
         @TempData["removeFav"]
@@ -41,7 +41,7 @@
                     <p>@Model.Motel.Address, @Model.Motel.City, @Model.Motel.Province, @Model.Motel.PostalCode</p>
                     <a href="#map">View Map</a>
                 </div>
-               
+
                 <div>
                     <a class="btn btn-info m-1" asp-action="SearchRoomList" asp-route-id="@Model.Motel.Id">View Rooms</a>
                     <a class="btn btn-outline-success" asp-action="AddAComment" asp-route-id="@Model.Motel.Id">Add a comment</a>
@@ -60,12 +60,23 @@
                                     @c.User.UserName
                                 </p>
                                 <div>
-                                <span>
-                                    @c.CreateDate
-                                </span>
-                                <span style="margin-left: 1rem; color:blue">
-                                    Score: @c.Score
-                                </span>
+                                    <span>
+                                        @c.CreateDate
+                                    </span>
+                                    <br>
+                                    <span class="d-flex justify-content-end" style="color:darkgoldenrod">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Convert.ToInt32(@c.Score))
+                                            {
+                                                <i class="fa fa-star"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-star-o"></i>
+                                            }
+                                        }
+                                    </span>
                                 </div>
                             </div>
                             <div style="margin:0 1rem">
@@ -73,10 +84,10 @@
                             </div>
                             @if (UserManager.GetUserName(User) == @c.User.UserName)
                             {
-                                <div style="margin-right:1rem; position:relative; left:40rem">
+                                <div class="d-flex justify-content-end">
                                     <form method="post">
                                         <a asp-action="EditComment" asp-route-id="@c.Id" class="btn btn-outline-warning">Edit</a>
-                                        <a asp-action="RemoveComment" type="submit" asp-route-id="@c.Id"  class="btn btn-outline-danger">Remove</a>
+                                        <a asp-action="RemoveComment" type="submit" asp-route-id="@c.Id" class="btn btn-outline-danger">Remove</a>
                                     </form>
                                 </div>
                             }
