@@ -1,14 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using MotelBookingApp.Models
 @inject UserManager<AppUser> UserManager
 @inject SignInManager<AppUser> SignInManager
 @using MotelBookingApp.Data.ViewModels
+@using Geocoding.Google
 @model MotelDetailModel
 
 @{
     ViewData["Title"] = "Motel search result";
-}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
-        async defer></script>
+    }
 @if (TempData["removeFav"] != null)
 {
     <div class="flash alert alert-warning">
@@ -100,29 +100,25 @@
 
         </div>
         <div id="map" style="width: 100%; height: 400px;"></div>
-
         <script>
-             function initMap() {
+            function initMap() {
+                var latitude = @ViewBag.Latitude;
+                var longitude = @ViewBag.Longitude;
                 var map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 8
+                    center: { lat: latitude, lng: longitude },
+                    zoom: 16
                 });
-
-                var address = @ViewBag.Address);
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ address: address }, function (results, status) {
-                    if (status == 'OK') {
-                        var marker = new google.maps.Marker({
-                            map: map,
-                            position: results[0].geometry.location,
-                            title: address
-                        });
-                    } else {
-                        alert('Geocode was not successful for the following reason: ' + status);
-                    }
+                var marker = new google.maps.Marker({
+                    position: { lat: latitude, lng: longitude },
+                    map: map,
+                    title: '@ViewBag.Address'
                 });
-
             }
         </script>
+            
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
+                    async defer></script>
+
         <div>
         </div>
     </div>

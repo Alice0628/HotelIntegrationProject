@@ -12,7 +12,7 @@ using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Identity;
-
+using Stripe;
 
 namespace MotelBookingApp.Controllers
 {
@@ -44,24 +44,58 @@ namespace MotelBookingApp.Controllers
             var bookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name).ToListAsync();
             recordModel.BookedRooms = bookedRooms;
             recordModel.RoomTypeList = roomTypeList;
+
+
             string[] months = new[] { "January", "February", "March", "April", "May", "June" };
             int[] recordData = new int[6];
             for (int i = 0; i < months.Length; i++)
             {
-                recordData[i] = bookedRooms.Count(br => br.CheckinDate.Month == i + 1 );
+                recordData[i] = bookedRooms.Count(br => br.CheckinDate.Month == i + 1);
             }
+           
+            ViewBag.monthLabels = months;
+            ViewBag.monthDatasetLabel = "Records-Month";
+            ViewBag.monthDatasetData = recordData;
 
-            // static data
-            var data = new ChartData
+            string[] roomTypes = new string[roomTypeList.Count];
+            for (int i = 0; i < roomTypeList.Count; i++ )
             {
-                Labels = months,
-                DatasetLabel = "Records",
-                DatasetData = recordData
-            };
+                roomTypes[i] = roomTypeList[i].Name;
+            }
+            int[] roomTypeCountData = new int[6];
+            for (int i = 0; i < roomTypes.Length; i++)
+            {
+                roomTypeCountData[i] = bookedRooms.Count(br => br.Room.RoomType.Name == roomTypes[i]);
+            }
+            ViewBag.roomTypeLabels = roomTypes;
+            ViewBag.roomTypeDatasetLabel = "Records-RoomType";
+            ViewBag.roomTypeDatasetData = roomTypeCountData;
 
-            ViewBag.Labels = data.Labels;
-            ViewBag.DatasetLabel = data.DatasetLabel;
-            ViewBag.DatasetData = data.DatasetData;
+            //string[] months = new[] { "January", "February", "March", "April", "May", "June" };
+
+            decimal[] turnoverData = new decimal[6];
+            for (int i = 0; i < months.Length; i++)
+            {
+                var records = bookedRooms.FindAll(br => br.CheckinDate.Month == i + 1);
+                decimal amount = 0;
+                if (records != null)
+                {
+                    foreach (var r in records)
+                    {
+                        amount += r.Booking.TotalAmount;
+                    }
+                    turnoverData[i] = amount;
+                }
+                else
+                {
+                    turnoverData[i] = 0;
+                }
+        
+            }
+            ViewBag.turnoverLabels = months;
+            ViewBag.turnoverDatasetLabel = "Turnover-Month";
+            ViewBag.turnoverDatasetData = turnoverData;
+
             return View(recordModel);
         }
 
@@ -233,6 +267,7 @@ namespace MotelBookingApp.Controllers
                 return View(recordModel);
             }
             recordModel.BookedRooms = bookedRooms;
+
             string[] months = new[] { "January", "February", "March", "April", "May", "June" };
             int[] recordData = new int[6];
             for (int i = 0; i < months.Length; i++) {
@@ -246,7 +281,6 @@ namespace MotelBookingApp.Controllers
                 DatasetLabel = "Records",
                 DatasetData =  recordData
             };
-
             ViewBag.Labels = data.Labels;
             ViewBag.DatasetLabel = data.DatasetLabel;
             ViewBag.DatasetData = data.DatasetData;

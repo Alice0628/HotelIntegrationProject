@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MotelBookingApp.Data;
@@ -9,16 +6,9 @@ using MotelBookingApp.Models;
 using MotelBookingApp.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Azure.Storage.Blobs;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Identity;
-using System.Runtime.InteropServices;
-using Azure.Identity;
-using Stripe;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
-
-
+using Geocoding;
+using Geocoding.Google;
 
 namespace MotelBookingApp.Controllers
 {
@@ -139,9 +129,12 @@ namespace MotelBookingApp.Controllers
                 {
                     var motelList = new List<MotelInputModel>();
                     var addressList = new List<string>();
+                    var motelLocations = new List<Location>();
+                    IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyCZClJxke6nBFR5PImzPBpjdUZn8FxxhDU" };
+                    string city = "";
                     foreach (var motel in motels)
                     {
-                        string blobUrl = _client.Uri.ToString();
+                      
                         MotelInputModel newMotel = new MotelInputModel
                         {
                             Id = motel.Id,
@@ -150,13 +143,30 @@ namespace MotelBookingApp.Controllers
                             Province = motel.Province,
                             City = motel.City,
                             PostalCode = motel.PostalCode,
-                            ImageUrl = blobUrl + "/" + motel.ImageUrl
+                            ImageUrl = _client.Uri.ToString() + "/" + motel.ImageUrl
                         };
-                        addressList.Add(motel.Address + "," + motel.City + "," + motel.Province);
+                        string address =motel.Address + "," + motel.City + "," + motel.Province;
                         motelList.Add(newMotel);
+                        var motelLocation = await geocoder.GeocodeAsync(address);
+                        city = motel.City;
+                        Location targetMotel = new Location
+                        {
+                            Latitude = motelLocation.First().Coordinates.Latitude,
+                            Longitude = motelLocation.First().Coordinates.Longitude,
+                            Address = address
+                        };
+                        motelLocations.Add(targetMotel);
                     }
-                    
-                    @ViewBag.Address = addressList;
+                    var  cityCenter = await geocoder.GeocodeAsync(city);
+                    Location center = new Location
+                    {
+                        Latitude = cityCenter.First().Coordinates.Latitude,
+                        Longitude = cityCenter.First().Coordinates.Longitude,
+                        Address = city
+                    };
+                    ViewBag.center = center;
+                    ViewBag.motelLocations = motelLocations;
+ 
                     return View(motelList);
                 }
                 else
@@ -170,6 +180,14 @@ namespace MotelBookingApp.Controllers
                 return View();
             }
         }
+
+        public class Location
+        {
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
+            public string Address { get; set; }
+        }
+
 
         [HttpPost,ActionName("CityMotelList")]
         public async Task<IActionResult> ReSearch(DateTime checkin, string city, DateTime checkout, string roomType)
@@ -257,6 +275,7 @@ namespace MotelBookingApp.Controllers
             }
         }
 
+     
 
         [HttpGet]
         public async Task<IActionResult> CityMotelDetail(int id)
@@ -289,7 +308,28 @@ namespace MotelBookingApp.Controllers
             }
 
             motelDetail.Motel = newMotel;
-            @ViewBag.Address = motel.Address + "," + motel.City + "," + motel.Province;
+            var address = motel.Address + "," + motel.City + "," + motel.Province + motel.PostalCode;
+            @ViewBag.Address = address;
+            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyCZClJxke6nBFR5PImzPBpjdUZn8FxxhDU" };
+            var addresses = await geocoder.GeocodeAsync(address);
+
+            ViewBag.Latitude = addresses.First().Coordinates.Latitude;
+            ViewBag.Longitude = addresses.First().Coordinates.Longitude;
+            //var locationService = new GoogleLocationService();
+
+            //// get the geocoding results for the address
+            //var geocodingResults = locationService.GetLatLongFromAddress(address);
+
+            //// get the latitude and longitude values from the first result
+            //ViewBag.Latitude = geocodingResults.Latitude;
+            //ViewBag.Longitude = geocodingResults.Longitude;
+
+            //var geocodingService = new GeocodingService();
+            //var request = new GeocodingRequest { Address = address };
+
+            //var response = await geocodingService.GetResponseAsync(request);
+            //ViewBag.Latitude = response.Results.FirstOrDefault()?.Geometry.Location.Latitude;
+            //ViewBag.Longitude = response.Results.FirstOrDefault()?.Geometry.Location.Longitude;
             //var address = motel.Address + "," + motel.City + "," + motel.Province;
             //using var client = new HttpClient();
             //var response = await client.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={Uri.EscapeDataString(address)}&key=YOUR_API_KEY");
@@ -302,11 +342,12 @@ namespace MotelBookingApp.Controllers
             return View(motelDetail);
         }
 
-        public class Coordinates
-        {
-            public double Latitude { get; set; }
-            public double Longitude { get; set; }
-        }
+    
+        //public class Coordinates
+        //{
+        //    public double Latitude { get; set; }
+        //    public double Longitude { get; set; }
+        //}
 
 
         [HttpGet]
