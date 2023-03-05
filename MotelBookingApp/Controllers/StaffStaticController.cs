@@ -38,10 +38,30 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> Index()
         {
             BookedRecordDisplayVM recordModel = new BookedRecordDisplayVM();
+            var roomTypeList = await _context.RoomTypes.ToListAsync();
             var userName = _userManager.GetUserName(User);
             var user = await _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
             var bookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name).ToListAsync();
             recordModel.BookedRooms = bookedRooms;
+            recordModel.RoomTypeList = roomTypeList;
+            string[] months = new[] { "January", "February", "March", "April", "May", "June" };
+            int[] recordData = new int[6];
+            for (int i = 0; i < months.Length; i++)
+            {
+                recordData[i] = bookedRooms.Count(br => br.CheckinDate.Month == i + 1 );
+            }
+
+            // static data
+            var data = new ChartData
+            {
+                Labels = months,
+                DatasetLabel = "Records",
+                DatasetData = recordData
+            };
+
+            ViewBag.Labels = data.Labels;
+            ViewBag.DatasetLabel = data.DatasetLabel;
+            ViewBag.DatasetData = data.DatasetData;
             return View(recordModel);
         }
 
@@ -213,10 +233,10 @@ namespace MotelBookingApp.Controllers
                 return View(recordModel);
             }
             recordModel.BookedRooms = bookedRooms;
-            string[] months = new[] { "January", "February", "March", "April", "May", "June", "July" };
+            string[] months = new[] { "January", "February", "March", "April", "May", "June" };
             int[] recordData = new int[6];
             for (int i = 0; i < months.Length; i++) {
-                recordData[i] = bookedRooms.Count(br => br.CheckinDate.Month == i);
+                recordData[i] = bookedRooms.Count(br => br.CheckinDate.Month == i + 1);
             }
 
             // static data
@@ -231,7 +251,7 @@ namespace MotelBookingApp.Controllers
             ViewBag.DatasetLabel = data.DatasetLabel;
             ViewBag.DatasetData = data.DatasetData;
 
-            return View();
+            return View(recordModel);
 
             //return View(recordModel);
         }

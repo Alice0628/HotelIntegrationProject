@@ -34,8 +34,8 @@ builder.Services
     .AddCookie()
     .AddGoogle(o =>
     {
-        o.ClientId = "41243224755-9etbgr6l5asi9vvh2h4rmjqg4b618crg.apps.googleusercontent.com";
-        o.ClientSecret = "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";
+        o.ClientId = "373602987509-ju7nf1ln5m18mhef8k43m4aehmaeu2ad.apps.googleusercontent.com";
+        o.ClientSecret = "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";
         // o.ClientId = "373602987509-ju7nf1ln5m18mhef8k43m4aehmaeu2ad.apps.googleusercontent.com";
         // o.ClientSecret = "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";
         o.SignInScheme = IdentityConstants.ExternalScheme;

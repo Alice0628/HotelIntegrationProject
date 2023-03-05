@@ -14,6 +14,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Identity;
 using System.Runtime.InteropServices;
 using Azure.Identity;
+using Stripe;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
+
 
 
 namespace MotelBookingApp.Controllers
@@ -134,6 +138,7 @@ namespace MotelBookingApp.Controllers
                 if (motels.Count > 0)
                 {
                     var motelList = new List<MotelInputModel>();
+                    var addressList = new List<string>();
                     foreach (var motel in motels)
                     {
                         string blobUrl = _client.Uri.ToString();
@@ -147,8 +152,11 @@ namespace MotelBookingApp.Controllers
                             PostalCode = motel.PostalCode,
                             ImageUrl = blobUrl + "/" + motel.ImageUrl
                         };
+                        addressList.Add(motel.Address + "," + motel.City + "," + motel.Province);
                         motelList.Add(newMotel);
                     }
+                    
+                    @ViewBag.Address = addressList;
                     return View(motelList);
                 }
                 else
@@ -281,9 +289,25 @@ namespace MotelBookingApp.Controllers
             }
 
             motelDetail.Motel = newMotel;
+            @ViewBag.Address = motel.Address + "," + motel.City + "," + motel.Province;
+            //var address = motel.Address + "," + motel.City + "," + motel.Province;
+            //using var client = new HttpClient();
+            //var response = await client.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={Uri.EscapeDataString(address)}&key=YOUR_API_KEY");
 
+            //var json = JObject.Parse(await response.Content.ReadAsStringAsync());
+            //var coordinates = json["results"][0]["geometry"]["location"].ToObject<Coordinates>();
+
+            //ViewData["Latitude"] = coordinates.Latitude;
+            //ViewData["Longitude"] = coordinates.Longitude;
             return View(motelDetail);
         }
+
+        public class Coordinates
+        {
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> RemoveComment(int id)

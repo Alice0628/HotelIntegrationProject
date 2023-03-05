@@ -4,11 +4,12 @@
     ViewData["Title"] = "List of rooms";
 }
 
-@*<head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>*@
-<div class="container">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container">
+    @if (Model != null)
+    {
     <div class="col-8">
         <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
         <h2 class="text-center text-primary">Booked Room List</h2>
@@ -97,33 +98,26 @@
                             </td>
                             <td>
                                 $@(br.Room.Price * (br.CheckoutDate - br.CheckinDate).Days)
-
                             </td>
-                            <td>
+                           @* <td>
                                 <form method="post"> <button class="btn btn-outline-danger" type="submit" asp-route-id="@br.Id">Remove</button></form>
-                            </td>
+                            </td>*@
                         </tr>
                     }
                 }
             </tbody>
-
         </table>
-        <div class="d-flex justify-content-end">
-            <sapn><b>HST:</b> $ @ViewBag.tax</sapn>
         </div>
-        <div class="d-flex justify-content-end">
-            <sapn><b>Total:</b> $ @ViewBag.Total</sapn>
-        </div>
-        <div class="d-flex justify-content-end"><a style="margin-right:1rem" asp-action="Index" class="btn btn-warning">Continue Booking</a><a asp-action="Payment" class="btn btn-success">Go to Pay</a></div>
-    </div>
-</div>
 
 
-<body>
+
+
+
     <canvas id="myChart"></canvas>
-</body>
+
 
 <script>
+   
     var ctx = document.getElementById("myChart").getContext("2d");
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -132,8 +126,8 @@
             datasets: [{
                 label: @Json.Serialize(ViewBag.DatasetLabel),
                 data: @Json.Serialize(ViewBag.DatasetData),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
                 borderWidth: 1
             }]
         },
@@ -147,8 +141,11 @@
             }
         }
     });
+    
 </script>
-
+        
+    }
+</div>
 
 
 
