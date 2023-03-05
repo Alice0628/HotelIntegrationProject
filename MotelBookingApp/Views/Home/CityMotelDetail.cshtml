@@ -23,19 +23,23 @@
                     <img src=@Model.Motel.ImageUrl width="150" heiht="150" alt="Motel picture" />
                 </div>
                 <div style="margin-right:1rem">
-                    <p>@Model.Motel.Name</p>
-                    <form method="post">
-                    
-                    @if(Model.Motel.IfFaivorite == true ){
-                            <i type="submit" asp-action="CityMotelDetail" asp-route-id="@Model.Motel.Id" class="fa-regular fa-heart" style="color:red"></i>
-                        }
-                        else
-                        {
-                            <i class="fa-regular fa-heart"></i>
-                        }
-                    </form>
-                   
+                    <div class="d-flex justify-content-start">
+                        <p style="margin-right:1rem">@Model.Motel.Name</p>
+                        <form method="post">
+                            <button style="border:none" asp-action="CityMotelDetail" asp-route-id="@Model.Motel.Id" type="submit">
+                                @if (Model.Motel.IfFaivorite == true)
+                                {
+                                    <i class="fa-regular fa-heart" style="color:red"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-regular fa-heart"></i>
+                                }
+                            </button>
+                        </form>
+                    </div>
                     <p>@Model.Motel.Address, @Model.Motel.City, @Model.Motel.Province, @Model.Motel.PostalCode</p>
+                    <a href="#map">View Map</a>
                 </div>
                
                 <div>

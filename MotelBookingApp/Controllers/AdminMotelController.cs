@@ -339,6 +339,12 @@ namespace MotelBookingApp.Controllers
             }
         }
 
+        public async Task<IActionResult> FavoriteMotelList()
+        {
+            ViewBag.Count = HttpContext.Session.GetString("Count");
+            var favoriteMotelList = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").ToListAsync();
+            return View(favoriteMotelList);
+        }
     }
 }
 

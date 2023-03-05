@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Motel>;
+﻿@model IEnumerable<FavoriteMotelList>;
 @{
     ViewData["Title"] = "All motels";
 }
@@ -43,21 +43,18 @@
                         <thead>
                             <tr>
 
-                                <th class="col-2">Name</th>
-                                <th class="col-2">City</th>
-                                <th class="col-2 text-center">Actions</th>
+                                <th class="col-2">User</th>
+                                <th class="col-2">MotelId</th>
+                                <th class="col-2">MotelName</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var motel in Model)
                             {
                                 <tr>
-                                    <td>@motel.Name</td>
-                                    <td>@motel.City </td>
-                                    <td class="d-flex justify-content-center">
-                                        <a asp-action="DeletFavmotel" class="btn btn-sm btn-danger"
-                                      asp-route-id="@motel.Id">Delete</a>
-                                    </td>
+                                    <td>@motel.Owner.UserName</td>
+                                    <td>@motel.Motel.Id</td>
+                                    <td>@motel.Motel.Name</td>
                                 </tr>
                             }
                         </tbody>
