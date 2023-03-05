@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Google;
-
+using MotelBookingApp.Models;
 
 namespace MotelBookingApp.Controllers
 {
     public class GoogleLoginController: Controller
     {
-        private UserManager<IdentityUser> userManager;
-        private SignInManager<IdentityUser> signInManager;
-        public GoogleLoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        private UserManager<AppUser> userManager;
+        private SignInManager<AppUser> signInManager;
+        public GoogleLoginController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
     {
         this.userManager = userManager;
         this.signInManager = signInManager;
@@ -43,15 +43,18 @@ namespace MotelBookingApp.Controllers
             }
  
             var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
-            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
+            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value, info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value };
             if (result.Succeeded){
             //    @TempData["loginFailed"] = "login succeed";
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                IdentityUser user = new IdentityUser
+                AppUser user = new AppUser
                 {
+                    FirstName = info.Principal.FindFirst(ClaimTypes.Name).Value,
+                    LastName = info.Principal.FindFirst(ClaimTypes.Name).Value,
+                    DOB = DateTime.Parse(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value),
                     Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     EmailConfirmed = true
