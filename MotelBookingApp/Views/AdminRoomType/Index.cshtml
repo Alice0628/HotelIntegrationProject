@@ -4,25 +4,39 @@
 }
 
 <div class="container">
-    <h2 class="text-center">List of Room Types</h2>
-    <br>
-    <!-- Search Bar -->
-    <div class="container d-flex justify-content-center">
-        <div class="col-8">
-            <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
-                <div class="input-group">
-                    <input type="search" name="searchWord" class="form-control rounded" placeholder="Search..." />
-                    <button type="submit" class="btn btn-outline-primary">Search</button>
-                </div>
-            </form>
+    <div class="register-photo">
+        <div class="container col-md-8">
+            <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
         </div>
     </div>
+    <h2 class="text-center">List of Room Types</h2>
     <br>
+
+
+    <!-- Search Bar -->
+      <div class="container d-flex justify-content-center">
+            <div class="col-8 row">
+                <h3 class="col-4 px-1" style="margin:auto;">Staff List</h3>
+                <div class="col-5 px-1">
+                    <form class="form-inline my-2 my-lg-0">
+                        <div class="input-group">
+                            <input type="search" name="searchWord" class="form-control rounded"
+                                   placeholder="Search..." />
+                            <button type="submit" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-3 px-1 d-flex justify-content-end" style="margin:auto;">
+                    <a class="btn btn-success" asp-action="Create">
+                        Create
+                    </a>
+                </div>
+            </div>
+        </div>
+        <br>
+
     <!-- RoomTypes List -->
     <div class="col-8" style="margin:auto">
-
-        <a class="btn btn-primary" style="margin-bottom: 10px;"
-           asp-action="Create">Add a Room Type</a>
         @if (TempData["TypeOption"] != null)
         {
             <div id="AirportOption" class="flash alert alert-warning">
@@ -35,7 +49,8 @@
                     <thead>
                         <tr>
                             <th class="col-3 text-center">Name</th>
-                            <th class="col-3 text-center">sleep</th>
+                            <th class="col-3 text-center"><i class="fa-solid fa-bed"></i>sleep</th>
+                            <th class="col-3 text-center"><i class="fa-regular fa-hand"></i>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,15 +60,12 @@
                                 <td class="col-3 text-center">@rt.Name</td>
 
                                 <td class="col-3 text-center">@rt.Sleep</td>
-                                <td class="d-flex justify-content-center">
-                                    <a class="btn btn-sm btn-warning" style="margin-right:4px;"
-                                   asp-action="Detail"
-                                   asp-route-id="@rt.Id">Detail</a>
-                                    <a class="btn btn-sm btn-info" style="margin-right:4px;"
+                                <td class="col-3 text-center">
+                                    <a style="margin-right:1rem;"
                                    asp-action="Edit"
-                                   asp-route-id="@rt.Id">Edit</a>
-                                    <a class="btn btn-sm btn-danger" asp-action="Delete"
-                                   asp-route-id="@rt.Id">Delete</a>
+                                   asp-route-id="@rt.Id"><i class="fa-solid fa-pen-to-square" style="color:orange"></i></a>
+                                    <a asp-action="Delete"
+                                   asp-route-id="@rt.Id"><i class="fa-solid fa-trash" style="color:red"></i></a>
                                 </td>
                             </tr>
                         }

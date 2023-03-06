@@ -10,37 +10,41 @@ using MotelBookingApp.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Azure.Storage.Blobs;
 using System.Net;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace MotelBookingApp.Controllers
 {
     public class StaffMotelController : Controller
     {
 
-        private readonly MotelDbContext _context;
+    private readonly MotelDbContext _context;
     private readonly string _storageConnectionString;
     private readonly string _storageContainerName;
     private readonly BlobContainerClient _client;
+    private readonly UserManager<AppUser> _userManager;
 
-    private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment;
 
-    public StaffMotelController(IConfiguration configuration, MotelDbContext context)
+    public StaffMotelController(IConfiguration configuration, UserManager<AppUser> userManager, MotelDbContext context)
     {
         _context = context;
         _storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
         _storageContainerName = configuration.GetValue<string>("BlobContainerName");
         _client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+        _userManager = userManager;
     }
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index()
         {
             try
             {
+                var userName = _userManager.GetUserName(User);
+                var user = await _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
                 var motelDetail = new MotelDetailModel();
                 var motel = await _context.Motels
-                    .FirstOrDefaultAsync(m => m.Id == id);
+                    .FirstOrDefaultAsync(m => m.Name ==user.Motel.Name);
                 if (motel == null)
                 {
-                    TempData["motel not exist"] = $"motel {id} does not exist";
+                    TempData["motel not exist"] = $"motel {motel.Name} does not exist";
                     return View();
                 }
                 MotelInputModel curMotel = new MotelInputModel()
@@ -53,10 +57,21 @@ namespace MotelBookingApp.Controllers
                     PostalCode = motel.PostalCode,
                     ImageUrl = _client.Uri.ToString() + "/" + motel.ImageUrl
                 };
-                if (await _context.Comments.Include("Motel").Where(c => c.Motel.Id == id).ToListAsync() != null)
+                if (await _context.Comments.Include("Motel").Where(c => c.Motel.Name== motel.Name).ToListAsync() != null)
                 {
-                    var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Id == id).ToListAsync();
+                    var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Name == motel.Name).ToListAsync();
                     motelDetail.Comments = comments;
+                    int totalScore = 0;
+                    int cnt = 0;
+                    foreach (var c in comments)
+                    {
+                        cnt++;
+                        totalScore += int.Parse(c.Score);
+                    }
+                    var score = totalScore/cnt;
+                    motelDetail.Score = score;
+
+
                 }
 
                 motelDetail.Motel = curMotel;

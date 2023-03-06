@@ -4,25 +4,32 @@
 }
 
 <div class="container">
-    <h2 class="text-center">List of Rooms</h2>
+    <div class="col-8" style="margin:auto">
+      <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
     <br>
-    <!-- Search Bar -->
-    <div class="container d-flex justify-content-center">
-        <div class="col-8">
-            <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
-                <div class="input-group">
-                    <input type="search" name="searchWord" class="form-control rounded" placeholder="Search..." />
-                    <button type="submit" class="btn btn-outline-primary">Search</button>
-                </div>
-            </form>
-        </div>
+
+     <div class="container d-flex justify-content-center">
+       
+            <h3 class="col-4 px-1" style="margin:auto;">Room List</h3>
+            <div class="col-5 px-1">
+                <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
+                    <div class="input-group">
+                        <input type="search" name="searchKeyWord" class="form-control rounded"
+                               placeholder="Search..." />
+                        <button type="submit" asp-controller="AdminMotel" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-3 px-1 d-flex justify-content-end" style="margin:auto;">
+                <a class="btn btn-success" asp-controller="StaffRoom" asp-action="Create">
+                    Create
+                </a>
+            </div>
+       
     </div>
     <br>
     <!-- RoomTypes List -->
-    <div class="col-8" style="margin:auto">
-
-        <a class="btn btn-primary" style="margin-bottom: 10px;"
-           asp-action="Create">Add a Room Type</a>
+    
         @if (TempData["RoomOption"] != null)
         {
             <div id="AirportOption" class="flash alert alert-warning">
@@ -30,16 +37,18 @@
             </div>
         }
         <div class="card text-black bg-light">
+
             <div class="card-body">
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             @*<th class="col-3 text-center">Image</th>*@
-                            <th class="col-3 text-center">Room Number</th>
+                            <th class="col-3 text-center"><i class="fa-solid fa-hashtag"></i>Number</th>
 
-                            <th class="col-3 text-center">Price</th>
+                            <th class="col-3 text-center"><i class="fa-solid fa-dollar-sign"></i>Price</th>
 
                             <th class="col-3 text-center">RoomType</th>
+                            <th class="col-3 text-center"><i class="fa-regular fa-hand"></i>Action</th>
 
 
                         </tr>
@@ -49,18 +58,18 @@
                         {
                             <tr>
                                 @*<td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>*@
-                                <td>@rt.RoomNum</td>
-                                <td>@rt.Price</td>
-                                <td>@rt.RoomType.Name</td>
+                                <td class="col-3 text-center">@rt.RoomNum</td>
+                                <td class="col-3 text-center">@rt.Price</td>
+                                <td class="col-3 text-center">@rt.RoomType.Name</td>
 
-                                <th class="d-flex justify-content-center">
+                                <td class="d-flex justify-content-center">
                                  
-                                    <a class="btn btn-sm btn-info" style="margin-right:4px;"
+                                    <a style="margin-right:1rem;"
                                    asp-action="Edit"
-                                   asp-route-id="@rt.Id">Detail/Edit</a>
-                                    <a class="btn btn-sm btn-danger" asp-action="Delete"
-                                   asp-route-id="@rt.Id">Delete</a>
-                                </th>
+                                   asp-route-id="@rt.Id"><i class="fa-solid fa-pen-to-square" style="color:orange"></i></a>
+                                    <a asp-action="Delete"
+                                   asp-route-id="@rt.Id"><i class="fa-solid fa-trash" style="color:red"></i></a>
+                                </td>
                             </tr>
                         }
                     </tbody>

@@ -11,24 +11,11 @@
 <div class="container">
     @if (Model != null)
     {
-        <div class="col-8">
+        <div>
             <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
             <h2 class="text-center text-primary">Booked Room List</h2>
             <form method="post">
-                <div>
-                    <input type="radio" id="User" name="searchOption" value="user">
-                    <label for="User">Username</label><br>
-                    <input type="radio" id="RoomNum" name="searchOption" value="roomNum">
-                    <label for="RoomNum">Room Number</label><br>
-                    <input type="radio" id="RoomType" name="searchOption" value="roomType">
-                    <label for="RoomType">Date</label>
-                    <input type="radio" id="Date" name="searchOption" value="date">
-                    <label for="Date">Date</label>
-                </div>
                 <div class="row">
-                    <div class="col-lg-3 mb-3">
-                        <input class="form-control" id="city" name="username" asp-for="UserName" />
-                    </div>
                     <div class="col-lg-4 mb-4">
                         <input type="date" class="form-control" name="checkin" id="check-in" asp-for="CheckinDate">
                     </div>
@@ -71,9 +58,7 @@
                         <th>
                             Subtotal
                         </th>
-                        <th>
-
-                        </th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -109,16 +94,18 @@
                 </tbody>
             </table>
         </div>
-     // chart 
-     
+     // chart
+    }
+        <div class="d-flex justify-content-between mt-2">
         <div>
-        <canvas id="recordMonthChart"></canvas>
+        <canvas id="recordMonthChart" ></canvas>
         </div>
         <div>
-            <canvas id="recordRoomTypeChart"></canvas>
+            <canvas id="recordRoomTypeChart" ></canvas>
         </div>
         <div>
-            <canvas id="turnoverMonthChart"></canvas>
+            <canvas id="turnoverMonthChart" ></canvas>
+        </div>
         </div>
 
         <script>
@@ -194,7 +181,7 @@
                 }
             });
         </script>
-    }
+  
 </div>
 
 
