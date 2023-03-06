@@ -536,7 +536,9 @@ Sprint 1:
 
 2023/03/05 Zhu Qichen
 1. Done / not done since last scrum:
- 
+ - google translate..ING
+ - star rating system
 2. To do until next Scrum:
- 
+ - google translate...Continue
+ - some layouts
 3. Need assistance / figure things out
