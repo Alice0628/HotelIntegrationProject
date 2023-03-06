@@ -33,7 +33,7 @@
                         }
                         else
                         {
-                            <input type="date" class="form-control" value=@ViewBag.checkin.ToString("yyyy-MM-dd") name="checkin" id="check-in">
+                            <input type="date" class="form-control" value=@ViewBag.checkin name="checkin" id="check-in">
                         }
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -43,7 +43,7 @@
                         }
                         else
                         {
-                            <input type="date" class="form-control" value=@ViewBag.checkout.ToString("yyyy-MM-dd") name="checkout" id="check-out">
+                            <input type="date" class="form-control" value=@ViewBag.checkout name="checkout" id="check-out">
                         }
                     </div>
                     <div class="col-lg-2 mb-2">
@@ -69,7 +69,7 @@
                         }
                     </div>
                     <div class="col-lg-1 mb-1">
-                        <button type="submit" class="btn btn-primary" asp-action="Index">Search</button>
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
             </form>

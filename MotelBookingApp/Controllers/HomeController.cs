@@ -33,26 +33,28 @@ namespace MotelBookingApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            if(HttpContext.Session.GetString("Count") == null)
+            if (_userManager.GetUserName != null)
             {
-                HttpContext.Session.SetString("Count", "0");
+                var userName = User.Identity.Name; // userName is email
+                var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.UserName == userName).ToList().Count.ToString();
+                HttpContext.Session.SetString("Count", count);
             }
             ViewBag.Count = HttpContext.Session.GetString("Count");
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             ViewBag.RoomTypeList = roomTypeList;
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("city")))
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("city")))
             {
                 ViewBag.city = HttpContext.Session.GetString("city");
             }
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")))
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")))
             {
                 ViewBag.checkin = HttpContext.Session.GetString("checkin");
             }
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("checkout")))
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkout")))
             {
                 ViewBag.checkout = HttpContext.Session.GetString("checkout");
             }
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
             {
                 ViewBag.roomType = HttpContext.Session.GetString("roomType");
             }
@@ -60,69 +62,50 @@ namespace MotelBookingApp.Controllers
         }
 
 
-        [HttpPost, ActionName("Index")]
-        public async Task<IActionResult> LaunchSearch(DateTime checkin, string city, DateTime checkout, string roomType)
+        [HttpPost]
+        public async Task<IActionResult> Index(DateTime checkin, string city, DateTime checkout, string roomType)
         {
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             ViewBag.RoomTypeList = roomTypeList;
             ViewBag.Count = HttpContext.Session.GetString("Count");
-            if (string.IsNullOrEmpty(city))
+            ViewBag.city = city;
+            ViewBag.checkin = checkin.ToString("yyyy-MM-dd");
+            ViewBag.checkout = checkout.ToString("yyyy-MM-dd");
+            ViewBag.roomType = roomType;
+            if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(roomType) || checkin.ToString().Equals("0001-01-01 12:00:00 AM") || checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
             {
-                TempData["searchOption"] = "Please choose city";
+                TempData["searchOption"] = "Please input all searching conditions";
                 return View();
             }
-            else { 
-            HttpContext.Session.SetString("city", city);
-            ViewBag.city = HttpContext.Session.GetString("city");
-            }
-            if (checkin.ToString().Equals("0001-01-01 12:00:00 AM"))
-            {
-                TempData["searchOption"] = "Please choose check in date";
-                return View();
-            }
-            else { 
-            HttpContext.Session.SetString("checkin", checkin.ToString());
-            ViewBag.checkin = HttpContext.Session.GetString("checkin");
-            }
-            if (checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
-            {
-                TempData["searchOption"] = "Please choose check out date";
-                return View();
-            }
-            else
-            {
-                HttpContext.Session.SetString("checkout", checkout.ToString());
-                ViewBag.checkout = HttpContext.Session.GetString("checkout");
-            }
-            if (string.IsNullOrEmpty(roomType))
-            {
-                TempData["searchOption"] = "Please choose roomType";
-                return View();
-            }
-            else
-            {
-                HttpContext.Session.SetString("roomType", roomType);
-                ViewBag.roomType = HttpContext.Session.GetString("roomType");
-            }
+
             if (checkin < DateTime.Now || checkout < DateTime.Now || checkout < checkin)
             {
-                TempData["searchOption"] = "Please choose valid check in and check out date";
+                TempData["searchOption"] = "Please choose valid check in and check out date"; 
                 return View();
             }
-            return RedirectToAction("CityMotelList","Home");
+
+            HttpContext.Session.SetString("city", city);
+
+            HttpContext.Session.SetString("checkin", checkin.Date.ToString("yyyy-MM-dd"));
+
+            HttpContext.Session.SetString("checkout", checkout.Date.ToString("yyyy-MM-dd"));
+
+            HttpContext.Session.SetString("roomType", roomType);
+
+            return RedirectToAction("CityMotelList");
 
         }
-
         [HttpGet]
         public async Task<IActionResult> CityMotelList()
         {
+            var roomTypeList = await _context.RoomTypes.ToListAsync();
+            ViewBag.RoomTypeList = roomTypeList;
             ViewBag.city = HttpContext.Session.GetString("city");
             ViewBag.roomType = HttpContext.Session.GetString("roomType");
             ViewBag.checkin = HttpContext.Session.GetString("checkin");
             ViewBag.checkout = HttpContext.Session.GetString("checkout");
             ViewBag.Count = HttpContext.Session.GetString("Count");
-            var roomTypeList = await _context.RoomTypes.ToListAsync();
-            ViewBag.RoomTypeList = roomTypeList;
+           
             try
             {
                 List<Motel> motels = await _context.Motels.Where(m => m.City == HttpContext.Session.GetString("city")).ToListAsync();
