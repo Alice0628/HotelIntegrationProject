@@ -50,6 +50,9 @@ else
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="Home" asp-action="FavoriteMotelList" asp-route-id="@UserManager.GetUserId(User)">Favorite Motels</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="History" asp-action="CustomerHistory" asp-route-id="@UserManager.GetUserId(User)">History</a>
+                </li>
             }
             else
             {

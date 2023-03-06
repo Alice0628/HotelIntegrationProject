@@ -72,7 +72,7 @@ namespace MotelBookingApp.Controllers
             var user = await _userManager.FindByEmailAsync(registerVM.Email);
             if (user != null)
             {
-                TempData["Error"] = "This email address is already in use";
+                TempData["RegisterError"] = "This email address is already in use";
                 return View(registerVM);
             }
 

@@ -95,7 +95,6 @@ namespace MotelBookingApp.Controllers
             Session session = service.Create(options);
 
             Response.Headers.Add("Location", session.Url);
-            HttpContext.Session.SetString("Count", "0");
             return new StatusCodeResult(303);
         }
 
@@ -126,7 +125,7 @@ namespace MotelBookingApp.Controllers
                     CheckoutDate = pr.CheckoutDate,
                     OccupantName = pr.AppUser.UserName,
                     Room = pr.Room,
-                    Price = pr.Room.Price,
+                    Price = Math.Round(pr.Room.Price * (pr.CheckoutDate-pr.CheckinDate).Days * (decimal)1.14975, 2),
                     Booking = booking,
                 };
                 // save to purchased
@@ -137,6 +136,8 @@ namespace MotelBookingApp.Controllers
                 _context.BookingCarts.Remove(pr);
                 await _context.SaveChangesAsync();
             }
+            // Clear ViewBag count
+            HttpContext.Session.SetString("Count", "0");
 
             // Create a new invoice
             string filePath = GenerateInvoice(session_id);
@@ -152,6 +153,7 @@ namespace MotelBookingApp.Controllers
 
         public ActionResult Cancel()
         {
+            ViewBag.Count = Convert.ToInt32(HttpContext.Session.GetString("Count"));
             return View();
         }
 
