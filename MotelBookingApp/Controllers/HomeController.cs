@@ -109,7 +109,7 @@ namespace MotelBookingApp.Controllers
                 TempData["searchOption"] = "Please choose valid check in and check out date";
                 return View();
             }
-            return RedirectToAction(nameof(CityMotelList));
+            return RedirectToAction("CityMotelList","Home");
 
         }
 
@@ -173,7 +173,7 @@ namespace MotelBookingApp.Controllers
                 else
                 {
                     TempData["searchResOption"] = "Sorry,there is no result for your search.";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index","Home");
                 }
             }
             catch (SystemException ex)
