@@ -35,7 +35,6 @@ namespace MotelBookingApp.Controllers
       [AllowAnonymous]
         public async Task<IActionResult> GoogleResponse()
         {
-            return RedirectToAction("Index", "Home");
             ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
             if (info == null){
                 @TempData["loginFailed"] = "login failed";
@@ -50,10 +49,11 @@ namespace MotelBookingApp.Controllers
             }
             else
             {
+                string[] name = info.Principal.FindFirst(ClaimTypes.Name).Value.Split(' ');
                 AppUser user = new AppUser
                 {
-                    FirstName = info.Principal.FindFirst(ClaimTypes.Name).Value,
-                    LastName = info.Principal.FindFirst(ClaimTypes.Name).Value,
+                    FirstName = name[1],
+                    LastName = name[0],
                     DOB = DateTime.Parse(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value),
                     Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
