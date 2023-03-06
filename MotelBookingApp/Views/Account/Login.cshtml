@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Password" class="control-label mt-3"></label>
-                        <input asp-for="Password" class="form-control p-0" />
+                        <input asp-for="Password" class="form-control p-0 @(TempData["Shake"] != null ? "shake" : "")" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -63,10 +63,41 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("LoginError").style.display = "none";   
+        document.getElementById("LoginError").style.display = "none";
     }, 3000);
     setTimeout(function () {
         document.getElementById("LoginFlash").style.display = "none";
     }, 3000);
 </script>
+
+<style>
+    <!-- password input shake -->
+    .shake {
+        border-color: #ff5f5f;
+        border:1.5px solid #ff5f5f;
+        animation: shake 0.2s ease-in-out 2;
+    }
+
+    @@keyframes shake {
+        0% {
+            margin-left: 0;
+        }
+
+        25% {
+            margin-left: 8px;
+        }
+
+        50% {
+            margin-left: 0;
+        }
+
+        75% {
+            margin-left: -8px;
+        }
+
+        100% {
+            margin-left: 0;
+        }
+    }
+</style>
 

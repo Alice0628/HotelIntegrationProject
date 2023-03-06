@@ -1,0 +1,73 @@
+﻿@using MotelBookingApp.Data.ViewModels
+@model List<BookedRecord>
+
+@{
+    ViewData["Title"] = "Purchase History";
+}
+
+<div class="container">
+    <h2 class="text-center">Purchase History</h2>
+    <br>
+    <!-- Search Bar -->
+    <div class="container d-flex justify-content-center">
+        <div class="col-8">
+            <form class="form-inline my-2 my-lg-0" method="Get" asp-controller="History" asp-action="CustomerHistory">
+                <div class="input-group">
+                    <input type="search" name="SearchString" class="form-control rounded"
+                           placeholder="Search Purchase..." />
+                    <button type="submit" asp-controller="History"
+                            class="btn btn-outline-primary">
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="col-12">
+        @if (TempData["CHNotFound"] != null)
+        {
+            <div id="CHNotFound" class="flash alert alert-danger">
+                @TempData["CHNotFound"]
+            </div>
+        }
+        <div class="card text-black bg-light" style="margin-bottom:50px;">
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Reference</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Motel</th>
+                            <th scope="col">Room</th>
+                            <th scope="col">Checkin Date</th>
+                            <th scope="col">Checkout Date</th>
+                            <th scope="col">Payment Date</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bookedRecord in Model)
+                        {
+                            <tr>
+                                <td class="notranslate">@bookedRecord.Id</td>
+                                <td class="notranslate">@bookedRecord.Booking.AppUser.FirstName @bookedRecord.Booking.AppUser.LastName</td>
+                                <td>
+                                    <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="@bookedRecord.Room.Motel.Id">
+                                        @bookedRecord.Room.Motel.Name
+                                    </a>
+                                </td>
+                                <td>@bookedRecord.Room.RoomType.Name</td>
+                                <td>@bookedRecord.CheckinDate.ToString("yyyy-MM-dd")</td>
+                                <td>@bookedRecord.CheckoutDate.ToString("yyyy-MM-dd")</td>
+                                <td>@bookedRecord.Booking.PayTime.ToString("yyyy-MM-dd")</td>
+                                <td class="notranslate">$@bookedRecord.Price</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

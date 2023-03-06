@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -10,14 +9,14 @@
     </script>
 }
 <div class="container">
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    @if(TempData["searchOption"] != null)
-    {
-        <div id="searchOption" class="flash alert alert-warning">
-            @TempData["searchOption"]
-        </div>
-    }
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        @if (TempData["searchOption"] != null)
+        {
+            <div id="searchOption" class="flash alert alert-warning">
+                @TempData["searchOption"]
+            </div>
+        }
         <div class="container border border-orange-2 px-3 py-2">
             <form method="post">
                 <div class="row">
@@ -88,9 +87,11 @@
     <img src="images/slider.jpg" class="imag">
 </div>
 
-<div class="rooms">
-    <h1>OUR ROOMS</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, reprehenderit!</p>
+<div class="container">
+
+    <h1 class="text-center mt-4">FEATURED ROOMS</h1>
+    <p class="delight">Come checkout our delightful rooms!</p>
+
     <div class="roomimages">
         <span class="innerimg">
             <img src="images/room-1.jpg" class="img2">

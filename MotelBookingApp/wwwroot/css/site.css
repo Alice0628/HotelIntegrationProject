@@ -530,3 +530,36 @@ body {
 
 
 
+
+/* Slide Animation for banner */
+.delight{
+    margin: auto;
+    padding: 0;
+    width: 400px;
+    color: black;
+    font-size: 24px;
+    position: relative;
+}
+    .delight::before {
+        content: "Come checkout our delightful rooms!";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 12px;
+        color: deeppink;
+        white-space: nowrap;
+        border-right: 2px solid deeppink;
+        overflow: hidden;
+        animation: move 5s linear infinite;
+    }
+
+@keyframes move{
+    0%{
+        width: 0;
+    }
+    100%{
+        width: 100%;
+    }
+}
+/* Slide Animation for banner End*/
+
