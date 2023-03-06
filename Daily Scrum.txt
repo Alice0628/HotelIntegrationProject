@@ -475,9 +475,9 @@ Sprint 1:
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------2023/03/03 Wu Wei
 1. Done / not done since last scrum:
-
+----favirate list add
 2. To do until next Scrum:
-
+--favirate list add
 3. Need assistance / figure things out
 --
 
@@ -509,9 +509,9 @@ Sprint 1:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 2023/03/05 Wu Wei
 1. Done / not done since last scrum:
-
+----favirate list add
 2. To do until next Scrum:
-
+--favirate list add
 3. Need assistance / figure things out
 --
 
