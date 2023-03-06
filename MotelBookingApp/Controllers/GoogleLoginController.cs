@@ -35,7 +35,7 @@ namespace MotelBookingApp.Controllers
       [AllowAnonymous]
         public async Task<IActionResult> GoogleResponse()
         {
-         
+            return RedirectToAction("Index", "Home");
             ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
             if (info == null){
                 @TempData["loginFailed"] = "login failed";

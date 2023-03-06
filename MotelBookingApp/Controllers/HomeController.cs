@@ -40,7 +40,8 @@ namespace MotelBookingApp.Controllers
             ViewBag.Count = HttpContext.Session.GetString("Count");
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             ViewBag.RoomTypeList = roomTypeList;
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("city"))){
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("city")))
+            {
                 ViewBag.city = HttpContext.Session.GetString("city");
             }
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")))
@@ -80,7 +81,7 @@ namespace MotelBookingApp.Controllers
                 return View();
             }
             else { 
-            HttpContext.Session.SetString("checkin", checkin.ToString("yyyy-MM-dd"));
+            HttpContext.Session.SetString("checkin", checkin.ToString());
             ViewBag.checkin = HttpContext.Session.GetString("checkin");
             }
             if (checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
@@ -90,7 +91,7 @@ namespace MotelBookingApp.Controllers
             }
             else
             {
-                HttpContext.Session.SetString("checkout", checkout.ToString("yyyy-MM-dd"));
+                HttpContext.Session.SetString("checkout", checkout.ToString());
                 ViewBag.checkout = HttpContext.Session.GetString("checkout");
             }
             if (string.IsNullOrEmpty(roomType))
