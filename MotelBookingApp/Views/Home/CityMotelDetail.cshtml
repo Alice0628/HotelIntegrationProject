@@ -114,28 +114,25 @@
             }
 
         </div>
-        <div id="map" style="width: 100%; height: 400px;"></div>
-        <script>
-            function initMap() {
-                var latitude = @ViewBag.Latitude;
-                var longitude = @ViewBag.Longitude;
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    center: { lat: latitude, lng: longitude },
-                    zoom: 16
-                });
-                var marker = new google.maps.Marker({
-                    position: { lat: latitude, lng: longitude },
-                    map: map,
-                    title: '@ViewBag.Address'
-                });
-            }
-        </script>
-            
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
-                    async defer></script>
 
-        <div>
-        </div>
     </div>
+    <div id="map" style="width: 100%; height: 400px;"></div>
+    <script>
+        function initMap() {
+            var latitude = @ViewBag.Latitude;
+            var longitude = @ViewBag.Longitude;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: latitude, lng: longitude },
+                zoom: 16
+            });
+            var marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                title: '@ViewBag.Address'
+            });
+        }
+    </script>
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
+            async defer></script>
 </div>

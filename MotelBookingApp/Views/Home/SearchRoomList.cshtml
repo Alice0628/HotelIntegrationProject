@@ -5,38 +5,45 @@
     ViewData["Title"] = $"Rooms of Motel";
 }
 <div class="container">
-    @if (TempData["roomRes"] != null)
-    {
-        <div class="flash alert alert-warning">
-            @TempData["roomRes"];
+    <div class="col-10">
+        <div class="register-photo">
+            <div class="container">
+                <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
+            </div>
         </div>
-    }
-    @if (Model != null)
-    {
-        <div class="row">
-            <div class="col-10">
+        @if (TempData["roomRes"] != null)
+        {
+            <div class="flash alert alert-warning">
+                @TempData["roomRes"];
+            </div>
+        }
+
+        @if (Model != null)
+        {
+            <div class="row">
                 <form method="post">
-                    <table>
+                    <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-2">Image</th>
+                                <th class="col-3">Image</th>
                                 <th class="col-2">Type</th>
-                                <th class="col-2">Room Number</th>
+                                <th class="col-3">Room Number</th>
                                 <th class="col-2">Price</th>
-                                <th class="col-2"></th>
+                                <th class="col-2"><i class="fa-regular fa-hand"></i>Action</th>
                             </tr>
+
                         </thead>
                         <tbody>
                             @foreach (var r in Model)
                             {
                                 <tr class="m-1">
-                                    <td class="col-2">
+                                    <td class="col-3">
                                         <img src=@r.RoomTypeImage width="150" heiht="150" alt="Motel picture" />
                                     </td>
                                     <td class="col-2">
                                         @r.RoomTypeName
                                     </td>
-                                    <td class="col-2">
+                                    <td class="col-3">
                                         @r.RoomNum
                                     </td>
                                     <td class="col-2">
@@ -48,12 +55,14 @@
                                 </tr>
                             }
                         </tbody>
-                </table>
-            </form>
-            
+                    </table>
+                </form>
+
+
+            </div>
+        }
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-outline-primary" asp-action="CityMotelList">check other motels</a>
         </div>
     </div>
-    }
-    <a class="btn btn-outline-primary" asp-action="CityMotelList">check other motels</a>
-
 </div>
