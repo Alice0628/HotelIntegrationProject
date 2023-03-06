@@ -8,17 +8,17 @@
 
 @{
     ViewData["Title"] = "Motel search result";
-    }
+}
+
 @if (TempData["removeFav"] != null)
 {
     <div class="flash alert alert-warning">
         @TempData["removeFav"]
     </div>
 }
+
 <div class="container">
-
     <div class="col-10 m-3 border">
-
         <div class="m-3">
             <div class="d-flex justify-content-around align-items-lg-center">
                 <div>
@@ -115,9 +115,9 @@
                 });
             }
         </script>
-            
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
-                    async defer></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
+                async defer></script>
 
         <div>
         </div>
