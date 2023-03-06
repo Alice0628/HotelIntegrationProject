@@ -26,7 +26,22 @@
                 </div>
                 <div style="margin-right:1rem">
                     <div class="d-flex justify-content-start">
+
                         <p style="margin-right:1rem">@Model.Motel.Name</p>
+                         <div class="d-flex justify-content-end m-1" style="color:gold">
+                            @for (int j = 1; j <= 5; j++)
+                            {
+                                if (j <= Model.Motel.Score)
+                                {
+                                    <i class="fa fa-star"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-star-o"></i>
+                                }
+
+                            }
+                        </div>
                         <form method="post">
                             <button style="border:none" asp-action="CityMotelDetail" asp-route-id="@Model.Motel.Id" type="submit">
                                 @if (Model.Motel.IfFaivorite == true)
@@ -59,7 +74,7 @@
                         <div style="position:relative">
                             <div class="d-flex justify-content-between">
                                 <p>
-                                    @c.User.UserName
+                                    <i style="color:blue" class="fa-regular fa-user"></i>@c.User.UserName
                                 </p>
                                 <div>
                                     <span>
@@ -88,8 +103,8 @@
                             {
                                 <div class="d-flex justify-content-end">
                                     <form method="post">
-                                        <a asp-action="EditComment" asp-route-id="@c.Id" class="btn btn-outline-warning">Edit</a>
-                                        <a asp-action="RemoveComment" type="submit" asp-route-id="@c.Id" class="btn btn-outline-danger">Remove</a>
+                                        <a asp-action="EditComment" asp-route-id="@c.Id" ><i class="fa-solid fa-pen-to-square" style="color:orange"></i></a>
+                                        <a asp-action="RemoveComment" type="submit" asp-route-id="@c.Id" ><i class="fa-solid fa-trash" style="color:red"></i></a>
                                     </form>
                                 </div>
                             }

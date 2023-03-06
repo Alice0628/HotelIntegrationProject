@@ -56,7 +56,7 @@ namespace MotelBookingApp.Controllers
                 List<Motel> searcheRes = await _context.Motels.Where(a => a.Name.ToLower().Contains(searchWord) || a.City.ToLower().Contains(searchWord)).ToListAsync();
                 if (searcheRes.Count == 0)
                 {
-                    TempData["motelOption"] = "No search results";
+                    TempData["MotelOption"] = "No search results";
                 }
                 return View(searcheRes);
             }
@@ -71,7 +71,7 @@ namespace MotelBookingApp.Controllers
                     .FirstOrDefaultAsync(m => m.Id == id);
                 if (motel == null)
                 {
-                    TempData["motel not exist"] = $"motel {id} does not exist";
+                    TempData["MotelPotion"] = $"motel {id} does not exist";
                     return View();
                 }
                 MotelInputModel curMotel = new MotelInputModel()
@@ -119,7 +119,7 @@ namespace MotelBookingApp.Controllers
 
                 if (ifMotel != null)
                 {
-                    TempData["MotelCreateOption"] = $"Motel {newMotel.Name} in {newMotel.City}has already existed";
+                    TempData["MotelOption"] = $"Motel {newMotel.Name} in {newMotel.City}has already existed";
                     return View(newMotel);
                 }
                 if (!ModelState.IsValid)
@@ -151,12 +151,12 @@ namespace MotelBookingApp.Controllers
                 };
                 _context.Motels.Add(motel);
                 await _context.SaveChangesAsync();
-                TempData["AirportOption"] = $"{motel.Name} has been created successfully";
+                TempData["MotlOption"] = $"{motel.Name} has been created successfully";
                 return RedirectToAction(nameof(Index));
             }
             catch (SystemException ex)
             {
-                TempData["MotelCreateOption"] = $"{ex.Message}";
+                TempData["MotelOption"] = $"{ex.Message}";
                 return View();
             }
         }
@@ -183,7 +183,7 @@ namespace MotelBookingApp.Controllers
             }
             catch (SystemException ex)
             {
-                TempData["AirportEditOption"] = $"{ex.Message}";
+                TempData["MotelOption"] = $"{ex.Message}";
                 return View();
             }
         }
@@ -205,7 +205,7 @@ namespace MotelBookingApp.Controllers
                 Motel ifMotel = motelsList.Find(a => a.Name == editMotel.Name && a.City == editMotel.City);
                 if (ifMotel != null)
                 {
-                    TempData["MotelEditOption"] = $"Airport Name {editMotel.Name} has already existed";
+                    TempData["MotelOption"] = $"Airport Name {editMotel.Name} has already existed";
                     return View(editMotel);
                 }
 
@@ -244,14 +244,14 @@ namespace MotelBookingApp.Controllers
                 motel.PostalCode = editMotel.PostalCode;
                 _context.Motels.Update(motel);
                 await _context.SaveChangesAsync();
-                TempData["AirportOption"] = $"{motel.Name} has been Edited successfully";
+                TempData["MotelOption"] = $"{motel.Name} has been Edited successfully";
                 return RedirectToAction(nameof(Index));
             }
 
 
             catch (SystemException ex)
             {
-                TempData["AirportEditOption"] = $"{ex.Message}";
+                TempData["MotelOption"] = $"{ex.Message}";
                 return View();
             }
         }
@@ -279,7 +279,7 @@ namespace MotelBookingApp.Controllers
             }
             catch (SystemException ex)
             {
-                TempData["AirportDeleteOption"] = $"{ex.Message}";
+                TempData["MotelOption"] = $"{ex.Message}";
                 return View();
             }
         }
@@ -301,7 +301,7 @@ namespace MotelBookingApp.Controllers
 
                     if (bookedRecord != null)
                     {
-                        TempData["MotelDeleteOption"] = "There are rooms in use or will be in use related to this Motel, can not delete it";
+                        TempData["MotelOption"] = "There are rooms in use or will be in use related to this Motel, can not delete it";
 
                         string blobUrl = _client.Uri.ToString();
                         MotelInputModel newMotel = new MotelInputModel
@@ -328,13 +328,13 @@ namespace MotelBookingApp.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                TempData["AirportDeleteOption"] = $"Airport {id} does not exist";
+                TempData["MotelOption"] = $"Motel {id} does not exist";
                 return View();
 
             }
             catch (SystemException ex)
             {
-                TempData["AirportDeleteOption"] = $"{ex.Message}";
+                TempData["MotelOption"] = $"{ex.Message}";
                 return View();
             }
         }

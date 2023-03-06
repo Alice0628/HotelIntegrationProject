@@ -15,17 +15,7 @@
         }
         <form method="post">
             <div class="row">
-                
-                <div class="col-lg-3 mb-3">
-                @if (ViewBag.city != null){
-                        <input class="form-control" id="city" name="city" asp-for="City" />
-                }
-                else
-                {
-                        <input class="form-control" value=@ViewBag.city id="city" name="city" asp-for="City" />
-                    }
-                </div>
-                 
+
                 <div class="col-lg-4 mb-4">
                     @if (ViewBag.checkin != null)
                     {

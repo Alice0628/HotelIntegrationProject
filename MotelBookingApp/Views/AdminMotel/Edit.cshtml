@@ -4,13 +4,18 @@
     ViewData["Title"] = "Edit a motel";
 }
 
-
 <div class="container">
     <div class="col-md-10 offset-2">
         <h2>Edit Motel</h2>
+        @if (TempData["MotelOption"] != null)
+        {
+            <div id="AirportOption" class="flash alert alert-warning">
+                @TempData["MotelOption"]
+            </div>
+        }
         <form enctype="multipart/form-data" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="d-flex justify-content-around align-content-center">
+            <div class="d-flex justify-content-around align-content-center flex-lg-wrap">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="Name">Name</label>
@@ -41,14 +46,14 @@
                     <br>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Update</button>
-                        @*<a class="btn btn-secondary" asp-controller="AdminFlight" asp-action="Index">Cancel</a>*@
+                        <a class="btn btn-outline-secondary"asp-action="Index">Cancel</a>
                     </div>
                 </div>
 
-                <div class="col-md-4 text-center" style="margin:4rem 1rem">
-                    <img id="preview" src=@Model.ImageUrl width="200" height="200" alt="motel picture" />
+                <div class="col-md-4 text-center" style="margin:0 1rem">
+                    <img id="preview" src=@Model.ImageUrl width="280" height="280" alt="motel picture" />
 
-                    <input style="margin:1rem 1rem" value="@Model.ImageUrl" type="file" asp-for="MotelImage" id="chooseImg" onchange="previewImage()" class="form-control form-control-sm" />
+                    <input style="margin:1rem 0" value="@Model.ImageUrl" type="file" asp-for="MotelImage" id="chooseImg" onchange="previewImage()" class="form-control form-control-sm" />
 
                     <span asp-validation-for="MotelImage" class="text-danger"></span>
                 </div>
@@ -73,5 +78,10 @@
             reader.readAsDataURL(file);
         }
     }
+
+        setTimeout(function () {
+            document.getElementById("MotelOption").style.display = "none";
+        }, 3000);
 </script>
+
 

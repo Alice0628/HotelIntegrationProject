@@ -9,6 +9,7 @@ using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Identity;
 using Geocoding;
 using Geocoding.Google;
+using GoogleApi.Entities.Search.Video.Common;
 
 namespace MotelBookingApp.Controllers
 {
@@ -35,7 +36,7 @@ namespace MotelBookingApp.Controllers
         {
             if (_userManager.GetUserName != null)
             {
-                var userName = User.Identity.Name; // userName is email
+                var userName = _userManager.GetUserName(User); 
                 var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.UserName == userName).ToList().Count.ToString();
                 HttpContext.Session.SetString("Count", count);
             }
@@ -60,7 +61,6 @@ namespace MotelBookingApp.Controllers
             }
             return View(); ;
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Index(DateTime checkin, string city, DateTime checkout, string roomType)
@@ -112,7 +112,7 @@ namespace MotelBookingApp.Controllers
                 if (motels.Count > 0)
                 {
                     var motelList = new List<MotelInputModel>();
-                    var addressList = new List<string>();
+                    //var addressList = new List<string>();
                     var motelLocations = new List<Location>();
                     IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyCZClJxke6nBFR5PImzPBpjdUZn8FxxhDU" };
                     string city = "";
@@ -129,8 +129,19 @@ namespace MotelBookingApp.Controllers
                             PostalCode = motel.PostalCode,
                             ImageUrl = _client.Uri.ToString() + "/" + motel.ImageUrl
                         };
-                        string address =motel.Address + "," + motel.City + "," + motel.Province;
+                        var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Id == motel.Id).ToListAsync();
+                        if (comments.Count > 0)
+                        {
+                            int totalScore = 0;
+                            foreach (var c in comments)
+                            {
+                                totalScore += int.Parse(c.Score);
+                            }
+                            var score = totalScore / comments.Count;
+                            newMotel.Score = score;
+                        }
                         motelList.Add(newMotel);
+                        string address =motel.Address + "," + motel.City + "," + motel.Province;       
                         var motelLocation = await geocoder.GeocodeAsync(address);
                         city = motel.City;
                         Location targetMotel = new Location
@@ -155,13 +166,14 @@ namespace MotelBookingApp.Controllers
                 }
                 else
                 {
-                    TempData["searchResOption"] = "Sorry,there is no result for your search.";
+                    TempData["searchOption"] = "Sorry,there is no result for your search.";
                     return RedirectToAction("Index","Home");
                 }
             }
             catch (SystemException ex)
             {
-                return View();
+                TempData["searchOption"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -178,85 +190,32 @@ namespace MotelBookingApp.Controllers
         {
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             ViewBag.RoomTypeList = roomTypeList;
+            ViewBag.city = HttpContext.Session.GetString("city");
+            ViewBag.roomType = HttpContext.Session.GetString("roomType");
+            ViewBag.checkin = HttpContext.Session.GetString("checkin");
+            ViewBag.checkout = HttpContext.Session.GetString("checkout");
             ViewBag.Count = HttpContext.Session.GetString("Count");
-            if (string.IsNullOrEmpty(city))
+            if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(roomType) || checkin.ToString().Equals("0001-01-01 12:00:00 AM") || checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
             {
-                TempData["searchOption"] = "Please choose city";
+                TempData["searchResOption"] = "Please input all searching conditions";
                 return View();
             }
-            else
-            {
-                HttpContext.Session.SetString("city", city);
-                ViewBag.city = HttpContext.Session.GetString("city");
-            }
-            if (checkin.ToString().Equals("0001-01-01 12:00:00 AM"))
-            {
-                TempData["searchOption"] = "Please choose check in date";
-                return View();
-            }
-            else
-            {
-                HttpContext.Session.SetString("checkin", checkin.ToString("yyyy-MM-dd"));
-                ViewBag.checkin = HttpContext.Session.GetString("checkin");
-            }
-            if (checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
-            {
-                TempData["searchOption"] = "Please choose check out date";
-                return View();
-            }
-            else
-            {
-                HttpContext.Session.SetString("checkout", checkout.ToString("yyyy-MM-dd"));
-                ViewBag.checkout = HttpContext.Session.GetString("checkout");
-            }
-            if (string.IsNullOrEmpty(roomType))
-            {
-                TempData["searchOption"] = "Please choose roomType";
-                return View();
-            }
-            else
-            {
-                HttpContext.Session.SetString("roomType", roomType);
-                ViewBag.roomType = HttpContext.Session.GetString("roomType");
-            }
+
             if (checkin < DateTime.Now || checkout < DateTime.Now || checkout < checkin)
             {
-                TempData["searchOption"] = "Please choose valid check in and check out date";
+                TempData["searchResOption"] = "Please choose valid check in and check out date";
                 return View();
             }
-            try
-            {
-                List<Motel> motels = await _context.Motels.Where(m => m.City == HttpContext.Session.GetString("city")).ToListAsync();
-                if (motels.Count > 0)
-                {
-                    var motelList = new List<MotelInputModel>();
-                    foreach (var motel in motels)
-                    {
-                        string blobUrl = _client.Uri.ToString();
-                        MotelInputModel newMotel = new MotelInputModel
-                        {
-                            Id = motel.Id,
-                            Name = motel.Name,
-                            Address = motel.Address,
-                            Province = motel.Province,
-                            City = motel.City,
-                            PostalCode = motel.PostalCode,
-                            ImageUrl = blobUrl + "/" + motel.ImageUrl
-                        };
-                        motelList.Add(newMotel);
-                    }
-                    return View(motelList);
-                }
-                else
-                {
-                    TempData["searchResOption"] = "Sorry,there is no result for your search.";
-                    return RedirectToAction(nameof(Index));
-                }
-            }
-            catch (SystemException ex)
-            {
-                return View();
-            }
+
+            HttpContext.Session.SetString("city", city);
+
+            HttpContext.Session.SetString("checkin", checkin.Date.ToString("yyyy-MM-dd"));
+
+            HttpContext.Session.SetString("checkout", checkout.Date.ToString("yyyy-MM-dd"));
+
+            HttpContext.Session.SetString("roomType", roomType);
+
+            return RedirectToAction("CityMotelList");
         }
 
      
@@ -285,10 +244,17 @@ namespace MotelBookingApp.Controllers
             {
                 newMotel.IfFaivorite = true;
             }
-            if (await _context.Comments.Include("Motel").Where(c => c.Motel.Id == id).ToListAsync() != null)
-            {
-                var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Id == id).ToListAsync();
+            var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Id == id).ToListAsync();
+            if (comments.Count > 0) { 
                 motelDetail.Comments = comments;
+                int totalScore = 0;
+                foreach (var c in comments)
+                {
+            
+                    totalScore += int.Parse(c.Score);
+                }
+                var score = totalScore / comments.Count;
+                motelDetail.Score = score;
             }
 
             motelDetail.Motel = newMotel;
@@ -299,50 +265,15 @@ namespace MotelBookingApp.Controllers
 
             ViewBag.Latitude = addresses.First().Coordinates.Latitude;
             ViewBag.Longitude = addresses.First().Coordinates.Longitude;
-            //var locationService = new GoogleLocationService();
-
-            //// get the geocoding results for the address
-            //var geocodingResults = locationService.GetLatLongFromAddress(address);
-
-            //// get the latitude and longitude values from the first result
-            //ViewBag.Latitude = geocodingResults.Latitude;
-            //ViewBag.Longitude = geocodingResults.Longitude;
-
-            //var geocodingService = new GeocodingService();
-            //var request = new GeocodingRequest { Address = address };
-
-            //var response = await geocodingService.GetResponseAsync(request);
-            //ViewBag.Latitude = response.Results.FirstOrDefault()?.Geometry.Location.Latitude;
-            //ViewBag.Longitude = response.Results.FirstOrDefault()?.Geometry.Location.Longitude;
-            //var address = motel.Address + "," + motel.City + "," + motel.Province;
-            //using var client = new HttpClient();
-            //var response = await client.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={Uri.EscapeDataString(address)}&key=YOUR_API_KEY");
-
-            //var json = JObject.Parse(await response.Content.ReadAsStringAsync());
-            //var coordinates = json["results"][0]["geometry"]["location"].ToObject<Coordinates>();
-
-            //ViewData["Latitude"] = coordinates.Latitude;
-            //ViewData["Longitude"] = coordinates.Longitude;
             return View(motelDetail);
         }
-
-    
-        //public class Coordinates
-        //{
-        //    public double Latitude { get; set; }
-        //    public double Longitude { get; set; }
-        //}
 
 
         [HttpGet]
         public async Task<IActionResult> RemoveComment(int id)
         {
-           
-                var comment = await _context.Comments.Include("User").Include("Motel").Where(c => c.Id == id).FirstOrDefaultAsync();
-                
-                return View(comment);
-                //return RedirectToAction(nameof(CityMotelDetail), new { id = id2 });
-            
+                var comment = await _context.Comments.Include("User").Include("Motel").Where(c => c.Id == id).FirstOrDefaultAsync(); 
+                return View(comment);  
         }
 
 
@@ -375,8 +306,7 @@ namespace MotelBookingApp.Controllers
                 var favMotel = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Motel.Id == id && fm.Owner.UserName == userName).FirstOrDefaultAsync();
                 if (favMotel != null) 
                 {   
-                    _context.FavoriteMotelLists.Remove(favMotel);
-                   
+                    _context.FavoriteMotelLists.Remove(favMotel);  
                 }
                 else
                 {
@@ -416,11 +346,9 @@ namespace MotelBookingApp.Controllers
         [HttpPost, ActionName("AddAComment")]
         public async Task<IActionResult> AddCommentUpload(int id, string content, int score)
         {
-
             var motel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == id);
             var userName = _userManager.GetUserName(User);
             var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
-
             var comment = new Comment
             {
                 User = user,
@@ -529,7 +457,6 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> RoomDetail(int id)
         {
             ViewBag.Count = HttpContext.Session.GetString("Count");
-            ViewBag.Count = HttpContext.Session.GetString("Count");
             var room = await _context.Rooms.Include("Motel").Include("RoomType").FirstOrDefaultAsync(r => r.Id == id);
             RoomInputModel newRoom = new RoomInputModel
             {
@@ -549,6 +476,7 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> Cart()
         {
             ViewBag.Count = HttpContext.Session.GetString("Count");
+            // todo 
             var userName = _userManager.GetUserName(User);
 
             List<BookingCart> cartItems = await _context.BookingCarts.Include("AppUser").Include("Room").Where(bc => bc.AppUser.UserName == userName).ToListAsync();
@@ -579,7 +507,7 @@ namespace MotelBookingApp.Controllers
             return RedirectToAction(nameof(Cart));
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,User,Staff")]
         [HttpPost, ActionName("RoomDetail")]
         public async Task<ActionResult> AddToCart(int id)
         {
@@ -595,7 +523,7 @@ namespace MotelBookingApp.Controllers
                     TempData["addtocart"] = "no room found";
                     return View();
                 }
-
+                // todo
                 var userName = _userManager.GetUserName(User);
                 var user = await _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
                 BookingCart bookingCart = new BookingCart
@@ -623,7 +551,7 @@ namespace MotelBookingApp.Controllers
         }
 
 
-        [Authorize(Roles = "User,Staff")]
+        [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<IActionResult> FavoriteMotelList(int id)
         {
@@ -638,7 +566,7 @@ namespace MotelBookingApp.Controllers
         }
 
         // todo
-        [Authorize(Roles = "User,Staff")]
+        [Authorize(Roles = "User")]
         [HttpPost,ActionName("DeletFavmotel")]
         public async Task<IActionResult> DeleteFavoriteMote(int id)
         {   
@@ -650,7 +578,7 @@ namespace MotelBookingApp.Controllers
             return RedirectToAction("FavoriteMotelList", new {id = user.Id });
         }
 
-        [Authorize(Roles = "User,Staff")]
+        [Authorize(Roles = "User")]
         [HttpGet]
         public  async Task<IActionResult> DeletFavmotel(int id)
         {
@@ -669,11 +597,6 @@ namespace MotelBookingApp.Controllers
             return View(curMotel);
           
         }
-
-
-
-
-
 
         public IActionResult Privacy()
         {

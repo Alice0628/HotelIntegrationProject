@@ -4,22 +4,18 @@
     ViewData["Title"] = "All motels";
 }
 
-@if (TempData["noImage"] != null)
-{
-    <div>@TempData["noImage"] </div>
-}
-
-@if (TempData["no result"] != null)
-{
-    <div>@TempData["no result"]</div>
-}
-
 <div class="col-12 justify-content-center" style="margin-bottom:50px;">
     <div class="register-photo">
         <div class="container col-md-8">
             <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
         </div>
     </div>
+      @if (TempData["MotelOption"] != null)
+            {
+                <div class="flash alert alert-warning">
+                    @TempData["MotelOption"]
+                </div>
+            }
     <!-- Search Bar -->
     <div class="container d-flex justify-content-center">
         <div class="col-10 row">
@@ -27,7 +23,7 @@
             <div class="col-5 px-1">
                 <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
                     <div class="input-group">
-                        <input type="search" name="searchKeyWord" class="form-control rounded"
+                        <input type="search" name="searchWord" class="form-control rounded"
                                placeholder="Search..." />
                         <button type="submit" asp-controller="AdminMotel" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
@@ -59,13 +55,6 @@
     <div class="container d-flex justify-content-center">
         <div class="col-10">
 
-            @if (TempData["MotelOption"] != null)
-            {
-                <div id="AirportOption" class="flash alert alert-warning">
-                    @TempData["MotelOption"]
-                </div>
-            }
-
             <div class="card text-black bg-light">
                 <div class="card-body">
                     <table class="table table-hover">
@@ -73,7 +62,7 @@
                             <tr>
                                 <th class="col-2"><i class="fa-solid fa-hotel"></i>Name</th>
                                 <th class="col-2"><i class="fas fa-city"></i>City</th>
-                                <th class="col-2 text-center"><i class="fa-solid fa-hand"></i>Actions</th>
+                                <th class="col-2 text-center"><i class="fa-regular fa-hand"></i>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,14 +72,10 @@
                                     <td>@motel.Name</td>
                                     <td>@motel.City </td>
                                     <td class="d-flex justify-content-center">
-                                        <a class="btn btn-sm btn-warning" style="margin-right:4px;"
-                                       asp-action="Detail"
-                                       asp-route-id="@motel.Id">Detail</a>
-                                        <a class="btn btn-sm btn-info" style="margin-right:4px;"
+                                        <a style="margin-right:1rem;"
                                        asp-action="Edit"
-                                       asp-route-id="@motel.Id">Edit</a>
-                                        <a class="btn btn-sm btn-danger"
-                                       asp-action="Delete" asp-route-id="@motel.Id">Delete</a>
+                                       asp-route-id="@motel.Id"><i class="fa-solid fa-pen-to-square" style="color:orange"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@motel.Id"><i class="fa-solid fa-trash" style="color:red"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -102,4 +87,10 @@
     </div>
 
 </div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("MotelOption").style.display = "none";
+    }, 3000);
+</script>
 
