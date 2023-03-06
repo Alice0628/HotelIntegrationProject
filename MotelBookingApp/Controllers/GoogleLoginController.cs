@@ -42,7 +42,7 @@ namespace MotelBookingApp.Controllers
             }
  
             var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
-            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value, info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value };
+            //string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value};
             if (result.Succeeded){
             //    @TempData["loginFailed"] = "login succeed";
                 return RedirectToAction("Index", "Home");
@@ -50,11 +50,17 @@ namespace MotelBookingApp.Controllers
             else
             {
                 string[] name = info.Principal.FindFirst(ClaimTypes.Name).Value.Split(' ');
+                DateTime dbo = DateTime.Now;
+                if (string.IsNullOrEmpty(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value))
+                {
+                   dbo = DateTime.Parse(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value);
+                }
+
                 AppUser user = new AppUser
                 {
                     FirstName = name[1],
                     LastName = name[0],
-                    DOB = DateTime.Parse(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value),
+                    DOB = dbo,
                     Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     EmailConfirmed = true
