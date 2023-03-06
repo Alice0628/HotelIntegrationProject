@@ -278,19 +278,21 @@ namespace MotelBookingApp.Controllers
 
 
 
-        [HttpPost,ActionName("RemoveComent")]
-        public async Task<IActionResult> RemoveCommentConfirm(int id, string motelId)
+        [HttpPost,ActionName("RemoveComment")]
+        public async Task<IActionResult> RemoveCommentConfirm(int id)
         {
-
+            int motelId;
             try { 
-            var comment = await _context.Comments.Include("AppUser").Include("Motel").Where(c => c.Id == id).FirstOrDefaultAsync();
+            var comment = await _context.Comments.Include("User").Include("Motel").Where(c => c.Id == id).FirstOrDefaultAsync();
+                motelId = comment.Motel.Id;
                 _context.Comments.Remove(comment);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("CityMotelDetail", new { id = motelId });
             }
             catch (SystemException ex)
             {
                 TempData["removeComment"] = ex.Message;
-                return View(motelId);
+                return View();
             }
         }
 

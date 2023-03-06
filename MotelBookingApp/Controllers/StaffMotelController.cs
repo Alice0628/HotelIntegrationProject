@@ -57,21 +57,17 @@ namespace MotelBookingApp.Controllers
                     PostalCode = motel.PostalCode,
                     ImageUrl = _client.Uri.ToString() + "/" + motel.ImageUrl
                 };
-                if (await _context.Comments.Include("Motel").Where(c => c.Motel.Name== motel.Name).ToListAsync() != null)
+                var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Name == motel.Name).ToListAsync();
+                if (comments.Count > 0)
                 {
-                    var comments = await _context.Comments.Include("Motel").Include("User").Where(c => c.Motel.Name == motel.Name).ToListAsync();
                     motelDetail.Comments = comments;
                     int totalScore = 0;
-                    int cnt = 0;
                     foreach (var c in comments)
-                    {
-                        cnt++;
+                    { 
                         totalScore += int.Parse(c.Score);
                     }
-                    var score = totalScore/cnt;
+                    var score = totalScore/ comments.Count;
                     motelDetail.Score = score;
-
-
                 }
 
                 motelDetail.Motel = curMotel;
