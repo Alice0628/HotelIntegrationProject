@@ -6,6 +6,12 @@
 
 <div class="container">
     <div class="col-md-10 offset-2">
+        @if (TempData["MotelCreateOption"] != null)
+        {
+            <div id="MotelCreateOption" class="flash alert alert-warning">
+                @TempData["MotelCreateOption"]
+            </div>
+        }
         <h2>Create a Motel</h2>
         <form asp-action="Create" enctype="multipart/form-data" method="post">
 
@@ -56,6 +62,9 @@
 
 
 <script>
+    setTimeout(function () {
+        document.getElementById("MotelCreateOption").style.display = "none";
+    }, 3000);
     function previewImage() {
         var preview = document.querySelector('#preview');
        

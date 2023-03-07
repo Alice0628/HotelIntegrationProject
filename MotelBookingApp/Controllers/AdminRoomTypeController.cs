@@ -55,7 +55,7 @@ namespace MotelBookingApp.Controllers
                 List<RoomType> searcheRes = await _context.RoomTypes.Where(a => a.Name.ToLower().Equals(searchWord)).ToListAsync();
                 if (searcheRes.Count == 0)
                 {
-                    TempData["roomTypeOption"] = "No search results";
+                    TempData["TypeOption"] = "No search results";
                 }
                 return View(searcheRes);
             }
@@ -69,8 +69,8 @@ namespace MotelBookingApp.Controllers
                     .FirstOrDefaultAsync(m => m.Id == id);
                 if (roomType == null)
                 {
-                    TempData["room type not exist"] = $"room type {id} does not exist";
-                    return View();
+                    TempData["TypeOption"] = $"room type {id} does not exist";
+                    return RedirectToAction(nameof(Index));
                 }
                 RoomTypeInputModel curRoomType = new RoomTypeInputModel
                 {
@@ -85,8 +85,8 @@ namespace MotelBookingApp.Controllers
             }
             catch (SystemException ex)
             {
-                TempData["AirportOption"] = $"{ex.Message}";
-                return View();
+                TempData["TypeDetailOption"] = $"{ex.Message}";
+                return View(new RoomTypeInputModel());
             }
         }
 
@@ -109,7 +109,7 @@ namespace MotelBookingApp.Controllers
 
                 if (ifRoomType != null)
                 {
-                    TempData["MotelCreateOption"] = $"Room Type {newRoomType.Name} has already existed";
+                    TempData["TypeCreateOption"] = $"Room Type {newRoomType.Name} has already existed";
                     return View(newRoomType);
                 }
                 if (!ModelState.IsValid)
@@ -169,8 +169,8 @@ namespace MotelBookingApp.Controllers
         }
             catch (SystemException ex)
             {
-                TempData["AirportEditOption"] = $"{ex.Message}";
-                return View();
+                TempData["TypeOption"] = $"{ex.Message}";
+                return RedirectToAction(nameof(Index));
     }
 }
 
@@ -191,7 +191,7 @@ public async Task<IActionResult> Edit(RoomTypeInputModel editRoomType, int id)
         RoomType ifRoomType = roomTypesList.Find(a => a.Name == editRoomType.Name);
         if (ifRoomType != null)
         {
-            TempData["MotelEditOption"] = $"Room Type {editRoomType.Name} has already existed";
+            TempData["TypeEditOption"] = $"Room Type {editRoomType.Name} has already existed";
             return View(editRoomType);
         }
 
@@ -228,15 +228,15 @@ public async Task<IActionResult> Edit(RoomTypeInputModel editRoomType, int id)
                 roomType.Description = editRoomType.Description;
                 _context.RoomTypes.Update(roomType);
         await _context.SaveChangesAsync();
-        TempData["RoomTypeOption"] = $"{roomType.Name} has been Edited successfully";
+        TempData["TypeOption"] = $"{roomType.Name} has been Edited successfully";
         return RedirectToAction(nameof(Index));
     }
 
 
     catch (SystemException ex)
     {
-        TempData["AirportEditOption"] = $"{ex.Message}";
-        return View();
+        TempData["TypeEditOption"] = $"{ex.Message}";
+        return View(editRoomType);
     }
 }
 
@@ -264,8 +264,8 @@ public async Task<IActionResult> Delete(int? id)
     }
     catch (SystemException ex)
     {
-        TempData["AirportDeleteOption"] = $"{ex.Message}";
-        return View();
+        TempData["TypeOption"] = $"{ex.Message}";
+        return RedirectToAction(nameof(Index));
     }
 }
 
@@ -286,7 +286,7 @@ public async Task<IActionResult> DeleteConfirmed(int id)
 
             if (bookedRecord != null)
             {
-                TempData["MotelDeleteOption"] = "There are rooms in use or will be in use related to this Type, can not delete it";
+                TempData["TypeDeleteOption"] = "There are rooms in use or will be in use related to this Type, can not delete it";
 
                 string blobUrl = _client.Uri.ToString();
                 RoomTypeInputModel newRoomType = new RoomTypeInputModel
@@ -310,18 +310,18 @@ public async Task<IActionResult> DeleteConfirmed(int id)
             await file.DeleteAsync();
 
             _context.RoomTypes.Remove(roomType);
-            TempData["RoomTypeOption"] = $"Motel {roomType.Name} has been deleted successfully";
+            TempData["TypeOption"] = $"Motel {roomType.Name} has been deleted successfully";
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        TempData["RoomTypeDeleteOption"] = $"RoomType {id} does not exist";
-        return View();
+        TempData["TypeDeleteOption"] = $"RoomType {id} does not exist";
+        return View(roomType);
 
     }
     catch (SystemException ex)
     {
-        TempData["AirportDeleteOption"] = $"{ex.Message}";
+        TempData["TypeDeleteOption"] = $"{ex.Message}";
         return View();
     }
 }

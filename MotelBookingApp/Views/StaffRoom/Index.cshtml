@@ -15,7 +15,7 @@
                 <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
                     <div class="input-group">
                         <input type="search" name="searchKeyWord" class="form-control rounded"
-                               placeholder="Search..." />
+                               placeholder="Room Type name/Room Number...">
                         <button type="submit" asp-controller="AdminMotel" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </form>
@@ -28,7 +28,7 @@
        
     </div>
     <br>
-    <!-- RoomTypes List -->
+    <!-- Room List -->
     
         @if (TempData["RoomOption"] != null)
         {

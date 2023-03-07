@@ -1,0 +1,109 @@
+﻿@using MotelBookingApp.Data.ViewModels
+@model StaffBookingVM
+
+@{
+    ViewData["Title"] = "Available Rooms";
+}
+<div class="container">
+    <div>
+        <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
+        @if (TempData["staffSearchOption"] != null)
+        {
+            <div id="staffSearchOption" class="flash alert alert-warning">
+                @TempData["staffSearchOption"]
+            </div>
+        }
+        <form method="post">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    
+                        <input type="date" class="form-control" name="checkin" id="check-in" asp-for="CheckinDate" />
+                </div>
+                <div class="col-lg-4 mb-4">
+                   
+                        <input type="date" class="form-control" name="checkout" id="check-out" asp-for="CheckoutDate" />
+                </div>
+                <div class="col-lg-3 mb-3">
+                   
+                        <select class="form-select" id="room-type" name="roomType" asp-for="SearchType">
+                            <option value=""></option>
+                            @foreach (var rt in Model.RoomTypeList)
+                            {
+                                <option value="@rt.Name">@rt.Name</option>
+                            }
+                        </select>
+                </div>
+                <div class="col-lg-1 mb-3">
+                    <button type="submit" name="button1" value="submit1" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+
+
+        @if (TempData["addtocart"] != null)
+        {
+            <div id="addtocart" class="flash alert alert-success">
+                @TempData["addtocart"]
+            </div>
+        }
+
+        @if (Model.AvailableRooms != null)
+        {
+            <div class="border border-orange-2">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            @*<th class="col-3 text-center">Image</th>*@
+                            <th class="col-3 text-center">Room Number</th>
+
+                            <th class="col-3 text-center">Price</th>
+
+                            <th class="col-3 text-center">RoomType</th>
+
+                            <th class="col-2 text-center"></th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rt in Model.AvailableRooms)
+                        {
+                            <tr>
+
+                                @*<td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>*@
+                                <td class="col-3 text-center">@rt.RoomNum</td>
+                                <td class="col-3 text-center notranslate">@rt.Price</td>
+                                <td class="col-3 text-center">@rt.RoomTypeName</td>
+                                <td class="col-3">
+                                    <a class="btn btn-outline-primary" asp-action="RoomDetail" asp-route-id="@rt.Id"> To Book </a>
+                                </td>
+                                @* <td class="d-flex justify-content-center">*@
+
+                                @*<a class="btn btn-sm btn-info" style="margin-right:4px;"
+                        asp-action="Detail"
+                        asp-route-id="@rt.Id">Detail</a>*@
+                                @*   <a class="btn btn-sm btn-danger" asp-action="AddToCart"
+                        asp-route-id="@rt.Id"></a>*@
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("addtocart").style.display = "none";
+    }, 3000);
+    setTimeout(function () {
+        document.getElementById("staffSearchOption").style.display = "none";
+    }, 3000);
+</script>

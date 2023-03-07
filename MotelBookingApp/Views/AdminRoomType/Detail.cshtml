@@ -6,6 +6,12 @@
 
 <div class="container">
     <div class="col-md-8 offset-2">
+        @if (TempData["TypeDetailOption"] != null)
+        {
+                <div id="TypeDetailOption" class="flash alert alert-warning">
+                @TempData["TypeDetailOption"];
+                </div>
+        }
         <h2>RoomType Detail</h2>
 
         <div class="d-flex justify-content-around align-content-center">
@@ -68,6 +74,12 @@
 
 
 </div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("TypeDetailOption").style.display = "none";
+    }, 3000);
+</script>
 
 
 

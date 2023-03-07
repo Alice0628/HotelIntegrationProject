@@ -36,39 +36,99 @@ namespace MotelBookingApp.Controllers
             _userManager = userManager;
             _client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
         }
+
         [HttpGet]
-        public async Task<IActionResult> Index()
+        [AllowAnonymous]
+        public IActionResult Index() => View(new RegisterVM());
+
+        [HttpPost, ActionName("Index")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(RegisterVM registerVM)
+        {
+            var user = await _userManager.FindByEmailAsync(registerVM.Email);
+            if (user != null)
+            {
+                HttpContext.Session.SetString("userEmail", registerVM.Email);
+                return RedirectToAction(nameof(SearchRoom));
+            }
+            if (!ModelState.IsValid) return View(registerVM);
+            var newUser = new AppUser()
+            {
+                Email = registerVM.Email,
+                UserName = registerVM.UserName,
+                PhoneNumber = registerVM.PhoneNumber,
+                FirstName = registerVM.FirstName,
+                LastName = registerVM.LastName,
+                DOB = registerVM.DOB,
+            };
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+
+            if (newUserResponse.Succeeded)
+            {
+                // sign user to "User"
+                var signToUser = await _userManager.AddToRoleAsync(newUser, "User");
+
+                if (signToUser.Succeeded)
+                {
+                    // set EmailConfirmation to true
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                    var result = await _userManager.ConfirmEmailAsync(newUser, code);
+                    HttpContext.Session.SetString("userEmail", registerVM.Email);
+                    return RedirectToAction(nameof(SearchRoom));
+                }
+                else
+                {
+                    TempData["CreateCustomer"] = "Registration failed";
+                    await _userManager.DeleteAsync(newUser);
+                    return View(registerVM);
+                }
+            }
+            foreach (var error in newUserResponse.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(registerVM);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchRoom()
         {
             StaffBookingVM searchModel = new StaffBookingVM();
             ViewBag.count = HttpContext.Session.GetString("count");
-            if (HttpContext.Session.GetString("checkin") == null)
+            var roomTypeList = await _context.RoomTypes.ToListAsync();
+            searchModel.RoomTypeList = roomTypeList;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")))
             {
-                //todo
-                HttpContext.Session.SetString("count", "0");
-                var roomTypeList = await _context.RoomTypes.ToListAsync();
-                searchModel.CheckinDate = DateTime.Now;
-                searchModel.CheckoutDate = DateTime.Now;
-                searchModel.RoomTypeList = roomTypeList;
-                return View(searchModel);
+                searchModel.CheckinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
             }
             else
             {
-                ViewBag.CheckinDate = HttpContext.Session.GetString("checkin");
-                ViewBag.RoomType = HttpContext.Session.GetString("roomType");
-                var roomTypeList = await _context.RoomTypes.ToListAsync();
-                searchModel.RoomTypeList = roomTypeList;
-                searchModel.CheckinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
-                searchModel.CheckoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
-                searchModel.RoomTypeName = HttpContext.Session.GetString("roomType");
-                var availableRooms = GetRooms(searchModel.CheckinDate, searchModel.CheckoutDate, searchModel.RoomTypeName).Result;
-                searchModel.AvailableRooms = availableRooms;
-                return View(searchModel);
+                searchModel.CheckinDate = DateTime.Now;
             }
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkout")))
+            {
+                searchModel.CheckoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
+            }
+            else
+            {
+                searchModel.CheckoutDate = DateTime.Now;
+            }
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
+            {
+                searchModel.SearchType = HttpContext.Session.GetString("roomType");
+            }
+            var availableRooms = GetRooms(searchModel.CheckinDate, searchModel.CheckoutDate, searchModel.SearchType).Result;
+            if(availableRooms != null && availableRooms.Count > 0)
+            {
+                searchModel.AvailableRooms = availableRooms;
+            }   
+            return View(searchModel);
         }
+
 
         public async Task<List<RoomInputModel>> GetRooms(DateTime? checkin, DateTime? checkout, string? roomType)
         {
-
             try
             {
                 //List<Motel> motels = await _context.Motels.Where(m => m.City == searchCity).ToListAsync();
@@ -117,20 +177,20 @@ namespace MotelBookingApp.Controllers
                 }
                 else
                 {
-                    
+
                     return null;
                 }
             }
 
             catch (SystemException ex)
             {
-                TempData["searchOption"] = ex.Message;
+                TempData["staffsearchOption"] = ex.Message;
                 return null;
             }
         }
 
 
-        [HttpPost, ActionName("Index")]
+        [HttpPost, ActionName("SearchRoom")]
         public async Task<IActionResult> LaunchSearch(DateTime checkin, DateTime checkout, string roomType)
         {
             StaffBookingVM searchModel = new StaffBookingVM();
@@ -150,13 +210,14 @@ namespace MotelBookingApp.Controllers
                 TempData["staffSearchOption"] = "Please choose valid check in and check out date";
                 return View(searchModel);
             }
-            //HttpContext.Session.SetString("checkin", checkin.ToString());
-            //HttpContext.Session.SetString("checkout", checkout.ToString());
-            //HttpContext.Session.SetString("roomType", roomType);
+            HttpContext.Session.SetString("checkin", checkin.ToString());
+            HttpContext.Session.SetString("checkout", checkout.ToString());
+            HttpContext.Session.SetString("roomType", roomType);
 
             var availableRooms = GetRooms(checkin, checkout, roomType).Result;
-            if (availableRooms != null) { 
-            searchModel.AvailableRooms = availableRooms;
+            if (availableRooms != null && availableRooms.Count > 0)
+            {
+                searchModel.AvailableRooms = availableRooms;
             }
             else
             {
@@ -164,7 +225,7 @@ namespace MotelBookingApp.Controllers
             }
             return View(searchModel);
         }
-       
+
 
         [HttpGet]
         public async Task<IActionResult> RoomDetail(int id)
@@ -192,45 +253,61 @@ namespace MotelBookingApp.Controllers
             DateTime checkoutDate;
             if (HttpContext.Session.GetString("checkin") != null && HttpContext.Session.GetString("checkout") != null)
             {
-               checkinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
-               checkoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
+                checkinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
+                checkoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
+                try
+                {
+
+                    Room room = await _context.Rooms.Include("RoomType").Include("Motel").Where(r => r.Id == id).FirstOrDefaultAsync();
+                    if (room == null)
+                    {
+                        TempData["addtocart"] = "no room found";
+                        return View();
+                    }
+                    var email = HttpContext.Session.GetString("userEmail");
+                    if (email != null)
+                    {
+                        var user = await _context.Users.Include("Motel").Where(u => u.Email == email).FirstOrDefaultAsync();
+                        if (user == null)
+                        {
+                            TempData["CreateCustomer"] = "User does not exist";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.Email == email).ToList().Count.ToString();
+                        HttpContext.Session.SetString("count", count);
+                        BookingCart bookingCart = new BookingCart
+                        {
+                            AppUser = user,
+                            CheckinDate = checkinDate,
+                            CheckoutDate = checkoutDate,
+                            Room = room
+                        };
+
+                        _context.BookingCarts.Add(bookingCart);
+                        await _context.SaveChangesAsync();
+
+                        var newCount = int.Parse(HttpContext.Session.GetString("count")) + 1;
+                        HttpContext.Session.SetString("count", newCount.ToString());
+                        ViewBag.Count = newCount;
+                        HttpContext.Session.SetString("count", count.ToString());
+                        TempData["addtocart"] = $"Room {room.RoomNum} has been added to cart";
+                        return RedirectToAction(nameof(SearchRoom));
+                    }
+                    TempData["CreateCustomer"] = "User does not exist";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (SystemException ex)
+                {
+                    TempData["addtocart"] = ex.Message;
+                    return View();
+                }
             }
             else
             {
-                return RedirectToAction(nameof(Index));
+                TempData["addtocart"] = "please choose valide checkin and checkout date";
+                return RedirectToAction(nameof(SearchRoom));
             }
-            try
-            {
-                
-                Room room = await _context.Rooms.Include("RoomType").Include("Motel").Where(r => r.Id == id).FirstOrDefaultAsync();
-                if (room == null)
-                {
-                    TempData["addtocart"] = "no room found";
-                    return View();
-                }
-                // todo
-                var userName = _userManager.GetUserName(User);
-                var user = await _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
-                BookingCart bookingCart = new BookingCart
-                {
-                    AppUser = user,
-                    CheckinDate = checkinDate,
-                    CheckoutDate = checkoutDate,
-                    Room = room
-                };
-
-                _context.BookingCarts.Add(bookingCart);
-                await _context.SaveChangesAsync();
-                var count = int.Parse(HttpContext.Session.GetString("count")) + 1;
-                HttpContext.Session.SetString("count", count.ToString());
-                TempData["addtocart"] = $"Room {room.RoomNum} has been added to cart";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (SystemException ex)
-            {
-                TempData["addtocart"] = ex.Message;
-                return View();
-            }
+           
         }
 
 

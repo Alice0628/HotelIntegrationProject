@@ -15,7 +15,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MotelBookingApp.Controllers
 {
-
     public class HomeController : Controller
     {
         private readonly MotelDbContext _context;
@@ -71,31 +70,10 @@ namespace MotelBookingApp.Controllers
                 searchModel.SearchType = HttpContext.Session.GetString("roomType");
             }
             return View(searchModel);
-            
-            
-            
-            //var roomTypeList = await _context.RoomTypes.ToListAsync();
-            //ViewBag.RoomTypeList = roomTypeList;
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("city")))
-            //{
-            //    ViewBag.city = HttpContext.Session.GetString("city");
-            //}
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")))
-            //{
-            //    ViewBag.checkin = HttpContext.Session.GetString("checkin");
-            //}
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkout")))
-            //{
-            //    ViewBag.checkout = HttpContext.Session.GetString("checkout");
-            //}
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
-            //{
-            //    ViewBag.roomType = HttpContext.Session.GetString("roomType");
-            //}
-            //return View(); ;
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(DateTime checkin, string city, DateTime checkout, string roomType)
         {
             var searchModel = new CustomerSearchVM();
@@ -164,8 +142,8 @@ namespace MotelBookingApp.Controllers
                string.IsNullOrEmpty(HttpContext.Session.GetString("city")) ||
                string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
             {
-                TempData["searchOption"] = "Please input all searching condition";
-                return RedirectToAction(nameof(Index));
+                TempData["searchResOption"] = "Please input all searching condition";
+                return View(searchModel);
             }
             try
             {
@@ -342,8 +320,8 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> RemoveCommentConfirm(int id)
         {
             int motelId;
-            try { 
             var comment = await _context.Comments.Include("User").Include("Motel").Where(c => c.Id == id).FirstOrDefaultAsync();
+            try { 
                 motelId = comment.Motel.Id;
                 _context.Comments.Remove(comment);
                 await _context.SaveChangesAsync();
@@ -352,7 +330,7 @@ namespace MotelBookingApp.Controllers
             catch (SystemException ex)
             {
                 TempData["removeComment"] = ex.Message;
-                return View();
+                return View(comment);
             }
         }
 
@@ -387,7 +365,7 @@ namespace MotelBookingApp.Controllers
             }
             catch (SystemException ex)
             {
-                TempData["removeFav"] = ex.Message;
+                TempData["opeFav"] = ex.Message;
         
                 return RedirectToAction(nameof(CityMotelDetail), new { id = id });
             }
@@ -454,11 +432,11 @@ namespace MotelBookingApp.Controllers
         {
             ViewBag.Count = HttpContext.Session.GetString("Count");
 
-            if(HttpContext.Session.GetString("checkin") == null || HttpContext.Session.GetString("checkout") == null)
-            {
-                TempData["alertMsg"] = "Please select checkin and checkout date first";
-                return RedirectToAction("Index", "Home");
-            }
+            //if(HttpContext.Session.GetString("checkin") == null || HttpContext.Session.GetString("checkout") == null)
+            //{
+            //    TempData["alertMsg"] = "Please select checkin and checkout date first";
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             var checkin = DateTime.Parse(HttpContext.Session.GetString("checkin"));
             var checkout = DateTime.Parse(HttpContext.Session.GetString("checkout"));
@@ -504,21 +482,20 @@ namespace MotelBookingApp.Controllers
                     else
                     {
                         TempData["roomRes"] = "Sorry,no available rooms";
-                        return View();
+                        return View(new List<RoomInputModel>());
                     }
 
                 }
                 else
                 {
                     TempData["roomRes"] = "Sorry,no available rooms";
-                    return View();
+                    return View(new List<RoomInputModel>());
                 }
             }
-
             catch (SystemException ex)
             {
-                TempData["searchOption"] = ex.Message;
-                return View();
+                TempData["roomRes"] = ex.Message;
+                return View(new List<RoomInputModel>());
             }
         }
 
@@ -548,11 +525,20 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> Cart()
         {
             ViewBag.Count = HttpContext.Session.GetString("Count");
-            // todo 
+            List<BookingCart> cartItems = new List<BookingCart>();
+            if (User.IsInRole("Staff")){
+                var email = HttpContext.Session.GetString("userEmail");
+                if(email == null)
+                {
+                    TempData["CartOption"] = "No customer specified";
+                    return View(new List<BookingCart>());
+                }
+                cartItems = await _context.BookingCarts.Include("AppUser").Include("Room").Where(bc => bc.AppUser.Email == email).ToListAsync();
+            }
+            else { 
             var userName = _userManager.GetUserName(User);
-
-            List<BookingCart> cartItems = await _context.BookingCarts.Include("AppUser").Include("Room").Where(bc => bc.AppUser.UserName == userName).ToListAsync();
-
+            cartItems = await _context.BookingCarts.Include("AppUser").Include("Room").Where(bc => bc.AppUser.UserName == userName).ToListAsync();
+            }
             decimal subTotal = 0;
             foreach (var cartItem in cartItems)
             {

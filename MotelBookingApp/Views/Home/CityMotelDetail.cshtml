@@ -10,10 +10,10 @@
     ViewData["Title"] = "Motel search result";
 }
 
-@if (TempData["removeFav"] != null)
+@if (TempData["opeFav"] != null)
 {
-    <div class="flash alert alert-warning">
-        @TempData["removeFav"]
+    <div id="opeFav" class="flash alert alert-warning">
+        @TempData["opeFav"]
     </div>
 }
 
@@ -118,6 +118,11 @@
     </div>
     <div id="map" style="height: 400px;"></div>
     <script>
+        setTimeout(function () {
+            document.getElementById("opeFav").style.display = "none";
+        }, 3000);
+
+
         function initMap() {
             var latitude = @ViewBag.Latitude;
             var longitude = @ViewBag.Longitude;
@@ -135,4 +140,6 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
             async defer></script>
+
+
 </div>

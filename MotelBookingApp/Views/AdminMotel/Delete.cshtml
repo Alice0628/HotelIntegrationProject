@@ -4,18 +4,13 @@
     ViewData["Title"] = "Delete a motel";
 }
 <div class="container col-8">
-    @if (TempData["MotelOption"] != null)
+    @if (TempData["MotelDeleteOption"] != null)
     {
-        <div id="AirportOption" class="flash alert alert-warning">
-            @TempData["MotelOption"]
+        <div id="MotelDeleteOption" class="flash alert alert-warning">
+            @TempData["MoteleleteOption"]
         </div>
     }
-    @if (TempData["AirportDeleteOption"] != null)
-    {
-        <div id="AirportDeleteOption" class="flash alert alert-warning">
-            @TempData["AirportDeleteOption"]
-        </div>
-    }
+    
     <div class="flash alert alert-success">
         <p>Are you sure you want to delete Motel @Model.Name ?</p>
         <form method="post">
@@ -87,7 +82,7 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("MotelOption").style.display = "none";
+        document.getElementById("MotelDeleteOption").style.display = "none";
     }, 3000);
 </script>
 

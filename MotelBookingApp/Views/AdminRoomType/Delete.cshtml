@@ -3,14 +3,13 @@
     ViewData["Title"] = "Delete an RoomType";
 }
 
-
 <div class="container col-8">
-    @*   @if (TempData["roomTypeDeleteOption"] != null)
+       @if (TempData["TypeDeleteOption"] != null)
     {
-    <div id="roomTypeDeleteOption" class="flash alert alert-warning">
-    @TempData["roomTypeDeleteOption"]
+    <div id="TypeDeleteOption" class="flash alert alert-warning">
+    @TempData["TypeDeleteOption"]
     </div>
-    }*@
+    }
     <div class="flash alert alert-success">
         <p>Are you sure you want to delete roomType @Model.Id ?</p>
         <form method="post">
@@ -44,3 +43,8 @@
         </dl>
     </div>
 </div>
+<script>
+    setTimeout(function () {
+        document.getElementById("TypeDeleteOption").style.display = "none";
+    }, 3000);
+</script>

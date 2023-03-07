@@ -37,7 +37,7 @@ namespace MotelBookingApp.Controllers
         {
             return _context.Motels != null ?
                        View(await _context.Motels.ToListAsync()) :
-                       Problem("Entity set 'MotelBookingAppContext.Airports'  is null.");
+                       Problem("Entity set 'MotelBookingAppContext.Motels'  is null.");
         }
 
         [HttpPost]
@@ -58,7 +58,7 @@ namespace MotelBookingApp.Controllers
                 {
                     TempData["MotelOption"] = "No search results";
                 }
-                return View(searcheRes);
+                return View(new List<Motel>());
             }
         }
         // GET: AdminAirport/Details/5
@@ -119,7 +119,7 @@ namespace MotelBookingApp.Controllers
 
                 if (ifMotel != null)
                 {
-                    TempData["MotelOption"] = $"Motel {newMotel.Name} in {newMotel.City}has already existed";
+                    TempData["MotelCreateOption"] = $"Motel {newMotel.Name} in {newMotel.City}has already existed";
                     return View(newMotel);
                 }
                 if (!ModelState.IsValid)
@@ -184,7 +184,7 @@ namespace MotelBookingApp.Controllers
             catch (SystemException ex)
             {
                 TempData["MotelOption"] = $"{ex.Message}";
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -205,7 +205,7 @@ namespace MotelBookingApp.Controllers
                 Motel ifMotel = motelsList.Find(a => a.Name == editMotel.Name && a.City == editMotel.City);
                 if (ifMotel != null)
                 {
-                    TempData["MotelOption"] = $"Airport Name {editMotel.Name} has already existed";
+                    TempData["MotelEditOption"] = $"Motel Name {editMotel.Name} has already existed";
                     return View(editMotel);
                 }
 
@@ -247,12 +247,10 @@ namespace MotelBookingApp.Controllers
                 TempData["MotelOption"] = $"{motel.Name} has been Edited successfully";
                 return RedirectToAction(nameof(Index));
             }
-
-
             catch (SystemException ex)
             {
-                TempData["MotelOption"] = $"{ex.Message}";
-                return View();
+                TempData["MotelEditOption"] = $"{ex.Message}";
+                return View(editMotel);
             }
         }
 
@@ -280,7 +278,7 @@ namespace MotelBookingApp.Controllers
             catch (SystemException ex)
             {
                 TempData["MotelOption"] = $"{ex.Message}";
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -289,36 +287,32 @@ namespace MotelBookingApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
+           
                 var motel = await _context.Motels.FirstOrDefaultAsync(a => a.Id == id);
-                if (motel != null)
-                {
+               
                     //var blobClient = new BlobClient( _storageConnectionString,  _storageContainerName, newAirport.LogoImage.FileName);
-
+                    MotelInputModel newMotel = new MotelInputModel
+                    {
+                        Id = motel.Id,
+                        Name = motel.Name,
+                        Address = motel.Address,
+                        Province = motel.Province,
+                        City = motel.City,
+                        PostalCode = motel.PostalCode,
+                        ImageUrl = _client.Uri.ToString() + "/" + motel.ImageUrl
+                    };
 
                     var bookedRecord = await _context.BookedRecords.Include("Room").FirstOrDefaultAsync(br => br.Room.Motel.Name == motel.Name && br.Room.Motel.City == motel.City && br.CheckoutDate > DateTime.Now);
 
                     if (bookedRecord != null)
                     {
-                        TempData["MotelOption"] = "There are rooms in use or will be in use related to this Motel, can not delete it";
-
-                        string blobUrl = _client.Uri.ToString();
-                        MotelInputModel newMotel = new MotelInputModel
-                        {
-                            Id = motel.Id,
-                            Name = motel.Name,
-                            Address = motel.Address,
-                            Province = motel.Province,
-                            City = motel.City,
-                            PostalCode = motel.PostalCode,
-                            ImageUrl = blobUrl + "/" + motel.ImageUrl
-                        };
+                        TempData["MotelDeleteOption"] = "There are rooms in use or will be in use related to this Motel, can not delete it";
                         return View(newMotel);
 
                     }
-
-                    BlobClient file = _client.GetBlobClient(motel.ImageUrl);
+            try
+            {
+                BlobClient file = _client.GetBlobClient(motel.ImageUrl);
 
                     await file.DeleteAsync();
 
@@ -326,25 +320,20 @@ namespace MotelBookingApp.Controllers
                     TempData["MotelOption"] = $"Motel {motel.Name} has been deleted successfully";
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
-                }
-
-                TempData["MotelOption"] = $"Motel {id} does not exist";
-                return View();
-
             }
             catch (SystemException ex)
             {
-                TempData["MotelOption"] = $"{ex.Message}";
-                return View();
+                TempData["MotelDeleteOption"] = $"{ex.Message}";
+                return View(newMotel);
             }
         }
 
-        public async Task<IActionResult> FavoriteMotelList()
-        {
-            ViewBag.Count = HttpContext.Session.GetString("Count");
-            var favoriteMotelList = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").ToListAsync();
-            return View(favoriteMotelList);
-        }
+        //public async Task<IActionResult> FavoriteMotelList()
+        //{
+        //    ViewBag.Count = HttpContext.Session.GetString("Count");
+        //    var favoriteMotelList = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").ToListAsync();
+        //    return View(favoriteMotelList);
+        //}
     }
 }
 

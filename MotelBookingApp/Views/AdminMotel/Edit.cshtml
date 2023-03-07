@@ -7,10 +7,10 @@
 <div class="container">
     <div class="col-md-10 offset-2">
         <h2>Edit Motel</h2>
-        @if (TempData["MotelOption"] != null)
+        @if (TempData["MotelEditOption"] != null)
         {
-            <div id="AirportOption" class="flash alert alert-warning">
-                @TempData["MotelOption"]
+            <div id="MotelEditOption" class="flash alert alert-warning">
+                @TempData["MotelEditOption"]
             </div>
         }
         <form enctype="multipart/form-data" method="post">
@@ -80,7 +80,7 @@
     }
 
         setTimeout(function () {
-            document.getElementById("MotelOption").style.display = "none";
+            document.getElementById("MotelEditOption").style.display = "none";
         }, 3000);
 </script>
 

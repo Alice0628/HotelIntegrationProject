@@ -21,7 +21,7 @@
                     <form class="form-inline my-2 my-lg-0">
                         <div class="input-group">
                             <input type="search" name="searchWord" class="form-control rounded"
-                                   placeholder="Search..." />
+                                   placeholder="Type name ..." />
                             <button type="submit" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </form>
@@ -39,7 +39,7 @@
     <div class="col-8" style="margin:auto">
         @if (TempData["TypeOption"] != null)
         {
-            <div id="AirportOption" class="flash alert alert-warning">
+            <div id="TypeOption" class="flash alert alert-warning">
                 @TempData["TypeOption"]
             </div>
         }
@@ -79,7 +79,7 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("AirportOption").style.display = "none";
+        document.getElementById("TypeOption").style.display = "none";
     }, 3000);
 </script>
 
