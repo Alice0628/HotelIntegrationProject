@@ -296,7 +296,7 @@ body {
 /* Slide Animation for banner */
 .delight {
     margin: auto;
-    width: 520px;
+    width: 375px;
     color: black;
     font-family: cursive;
     text-transform: uppercase;
@@ -305,10 +305,10 @@ body {
 }
 
     .delight::before {
-        content: "Come checkout some delightful rooms!";
+        content: "Checkout delightful rooms!";
         position: absolute;
         left: 0;
-        top: 8px;
+        top: 15px;
         width: 12px;
         color: deeppink;
         white-space: nowrap;
