@@ -528,11 +528,13 @@ namespace MotelBookingApp.Controllers
         {
             ViewBag.Count = HttpContext.Session.GetString("Count");
             var room = await _context.Rooms.Include("Motel").Include("RoomType").FirstOrDefaultAsync(r => r.Id == id);
+            var motel = await _context.Motels.FirstOrDefaultAsync(r => r.Id == room.Motel.Id);
             RoomInputModel newRoom = new RoomInputModel
             {
                 Id = room.Id,
                 RoomNum = room.RoomNum,
                 Price = room.Price,
+                Motel = motel,
                 MotelName = room.Motel.Name,
                 RoomType = room.RoomType.Id,
                 RoomTypeImage = _client.Uri.ToString() + "/" + room.RoomType.ImageUrl,
