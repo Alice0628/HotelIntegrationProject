@@ -6,9 +6,10 @@
 }
 
 <div class="container">
+    <div class="container col-10"></div>
     <form method="post">
         <div class="register-photo">
-            <div class="container col-md-8">
+            <div>
                 <img src="https://ninamagon.com/wp-content/uploads/2020/02/Hotel-Header-Image.png" alt="" width="100%" />
             </div>
         </div>
@@ -20,28 +21,28 @@
         }
         <div class="container d-flex justify-content-between">
             <div class="col-lg-2 mb-3">
-                    <input class="form-control" id="city" asp-for="City" name="city" />
+                <input class="form-control" id="city" asp-for="City" name="city" />
             </div>
 
             <div class="col-lg-2 mb-3">
-             
-                    <input type="date" class="form-control" name="checkin" asp-for="CheckinDate" id="check-in">
-              
+
+                <input type="date" class="form-control" name="checkin" asp-for="CheckinDate" id="check-in">
+
             </div>
             <div class="col-lg-2 mb-3">
-                
-                    <input type="date" class="form-control"  asp-for="CheckoutDate" name="checkout" id="check-out">
-               
+
+                <input type="date" class="form-control" asp-for="CheckoutDate" name="checkout" id="check-out">
+
             </div>
             <div class="col-lg-2 mb-2">
-               
-                    <select class="form-select" id="room-type" asp-for="SearchType" name="roomType">
-                        <option value=""></option>
-                        @foreach (var rt in Model.RoomTypeList)
-                        {
-                            <option value=@rt.Name>@rt.Name</option>
-                        }
-                    </select>
+
+                <select class="form-select" id="room-type" asp-for="SearchType" name="roomType">
+                    <option value=""></option>
+                    @foreach (var rt in Model.RoomTypeList)
+                    {
+                        <option value=@rt.Name>@rt.Name</option>
+                    }
+                </select>
 
             </div>
             <div class="col-lg-1 mb-1">
@@ -49,78 +50,81 @@
             </div>
         </div>
     </form>
-    @if(Model.AvailableMotels != null){
-    <div class="container">
-        @foreach (var m in Model.AvailableMotels)
-        {
-            <div class="d-flex mt-1 border justify-content-start align-items-center">
-                <div style="background-image:url(@m.ImageUrl);background-position:center;width:300px;height:250px">
-                    @*<img src=@m.ImageUrl width="250" heiht="250" alt="Motel picture" />*@
-                </div>
-                <div style="margin:1rem 8rem">
-                    <div>
-                        <b>Motel Name:</b> @m.Name
-                        <span style="color:gold">
-                            @for (int j = 1; j <= 5; j++)
-                            {
-                                if (j <= m.Score)
-                                {
-                                    <i class="fa fa-star"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa fa-star-o"></i>
-                                }
-
-                            }
-                        </span>
+    @if (Model.AvailableMotels != null)
+    {
+        <div class="container">
+            @foreach (var m in Model.AvailableMotels)
+            {
+                <div class="d-flex mt-1 border justify-content-start align-items-center">
+                    <div style="background-image:url(@m.ImageUrl);background-position:center;width:300px;height:250px">
+                        @*<img src=@m.ImageUrl width="250" heiht="250" alt="Motel picture" />*@
                     </div>
-                    @*<p><b>Telephon Number:</b> @m.Telephone</p>*@
-                    <div class="mt-2"><b>Motel Address:</b>@m.Address, @m.City, @m.Province, @m.PostalCode</div>
-                    <a class="btn btn-primary" asp-action="CityMotelDetail" asp-route-id="@m.Id"><b>View Detail</b></a>
-                </div>
-            </div>
-        }
+                    <div style="margin:1rem 8rem">
+                        <div>
+                            <b>Motel Name:</b> @m.Name
+                            <span style="color:gold">
+                                @for (int j = 1; j <= 5; j++)
+                                {
+                                    if (j <= m.Score)
+                                    {
+                                        <i class="fa fa-star"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-star-o"></i>
+                                    }
 
+                                }
+                            </span>
+                        </div>
+                        @*<p><b>Telephon Number:</b> @m.Telephone</p>*@
+                        <div class="mt-2"><b>Motel Address:</b>@m.Address, @m.City, @m.Province, @m.PostalCode</div>
+                        <a class="btn btn-primary" asp-action="CityMotelDetail" asp-route-id="@m.Id"><b>View Detail</b></a>
+                    </div>
+                </div>
+            }
+        </div>
         <div id="map" style="width: 100%; height: 600px;margin-top:1rem"></div>
 
-        <script>S
-        setTimeout(function () {
-            document.getElementById("searchResOption").style.display = "none";
-        }, 3000);
+        <script>
+            S
+            setTimeout(function () {
+                document.getElementById("searchResOption").style.display = "none";
+            }, 3000);
 
-        function initMap() {
-            var motelLocations = @Html.Raw(Json.Serialize(ViewBag.motelLocations));
-            console.log(motelLocations);
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: @ViewBag.center.Latitude, lng: @ViewBag.center.Longitude },
-                zoom: 12
-            });
-            var markers = [];
-
-            for (var i = 0; i < motelLocations.length; i++) {
-                var latitude = parseFloat(motelLocations[i].latitude);
-                var longitude = parseFloat(motelLocations[i].longitude);
-                markers.push({ lat: latitude, lng: longitude });
-            }
-
-            var address = motelLocations[0].address;
-            for (var j = 0; j < markers.length; j++) {
-                var marker = new google.maps.Marker({
-                    position: markers[j],
-                    map: map,
-                    title: motelLocations[j].address
+            function initMap() {
+                var motelLocations = @Html.Raw(Json.Serialize(ViewBag.motelLocations));
+                console.log(motelLocations);
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: @ViewBag.center.Latitude, lng: @ViewBag.center.Longitude },
+                    zoom: 12
                 });
+                var markers = [];
+
+                for (var i = 0; i < motelLocations.length; i++) {
+                    var latitude = parseFloat(motelLocations[i].latitude);
+                    var longitude = parseFloat(motelLocations[i].longitude);
+                    markers.push({ lat: latitude, lng: longitude });
+                }
+
+                var address = motelLocations[0].address;
+                for (var j = 0; j < markers.length; j++) {
+                    var marker = new google.maps.Marker({
+                        position: markers[j],
+                        map: map,
+                        title: motelLocations[j].address
+                    });
+                }
             }
-        }
 
-    </script>
+        </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
-        async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
+            async defer></script>
 
-    </div>
+  
     }
+
 </div>
 
 

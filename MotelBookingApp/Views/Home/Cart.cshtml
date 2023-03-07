@@ -5,9 +5,9 @@
 }
 
 
-<div class="container col-10">
+<div class="container col-12">
     <div class="col-12">
-        <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
+        <div style="width:100%; height:14rem; margin-bottom: 1rem; background-image:url(https://ninamagon.com/wp-content/uploads/2020/02/Hotel-Header-Image.png);background-position:center; background-size:cover"></div>
         <h2 class="text-center text-primary">Your Cart Items</h2>
         <br />
         @if (TempData["CartOption"] != null)
@@ -39,7 +39,7 @@
                         <th>
                             Subtotal
                         </th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,10 +60,10 @@
                                 <td class="text-center">
                                     @bc.CheckoutDate.ToString("yyyy-MM-dd")
                                 </td>
-                                <td class="notranslate text-center">
+                                <td class="notranslate">
                                     $@bc.Room.Price
                                 </td>
-                                <td class="notranslate text-center">
+                                <td class="notranslate">
                                     $@(
                                bc.Room.Price * (bc.CheckoutDate - bc.CheckinDate).Days
                                )
