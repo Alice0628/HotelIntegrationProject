@@ -47,7 +47,7 @@ namespace MotelBookingApp.Controllers
                             return RedirectToAction("Index", "Home");
                         }
                     }
-                    TempData["LoginError"] = "Wrong credentials. Please, try again!";
+                    TempData["Shake"] = "/";
                     return View(loginVM);
                 }
                 TempData["LoginError"] = "Please go to your email address to confirm first.";

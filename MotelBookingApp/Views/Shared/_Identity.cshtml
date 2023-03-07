@@ -35,7 +35,7 @@ else
                     <a class="nav-link text-dark" asp-controller="AdminCustomer" asp-action="CustomerList">Customers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="AdminMotel" asp-action="FavoriteMotelList">Favorite Motels</a>
+                    <a class="nav-link text-dark" asp-controller="History" asp-action="Detail" asp-route-id="@UserManager.GetUserId(User)">History</a>
                 </li>
             }
             else if (User.IsInRole("User"))
@@ -51,7 +51,7 @@ else
                     <a class="nav-link text-dark" asp-controller="Home" asp-action="FavoriteMotelList" asp-route-id="@UserManager.GetUserId(User)">Favorite Motels</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="History" asp-action="CustomerHistory" asp-route-id="@UserManager.GetUserId(User)">History</a>
+                    <a class="nav-link text-dark" asp-controller="History" asp-action="Detail" asp-route-id="@UserManager.GetUserId(User)">History</a>
                 </li>
             }
             else

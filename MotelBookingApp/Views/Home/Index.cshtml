@@ -11,14 +11,14 @@
     </script>
 }
 <div class="container">
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    @if(TempData["searchOption"] != null)
-    {
-        <div id="searchOption" class="flash alert alert-warning">
-            @TempData["searchOption"]
-        </div>
-    }
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        @if (TempData["searchOption"] != null)
+        {
+            <div id="searchOption" class="flash alert alert-warning">
+                @TempData["searchOption"]
+            </div>
+        }
         <div class="container border border-orange-2 px-3 py-2">
             <form method="post">
                 <div class="row">
@@ -57,54 +57,36 @@
     <img src="images/slider.jpg" class="imag">
 </div>
 
-<div class="rooms">
-    <h1>OUR ROOMS</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, reprehenderit!</p>
-    <div class="roomimages">
-        <span class="innerimg">
-            <img src="images/room-1.jpg" class="img2">
-            <p class="h11">DELUX ROOM</p>
-            <p class="pricetag">89$ / Night</p>
-        </span>
-        <span class="innerimg">
-            <img src="images/room-2.jpg" class="img2">
-            <p class="h11">DELUX ROOM</p>
-            <p class="pricetag">89$ / Night</p>
-        </span>
-        <span class="innerimg">
-            <img src="images/room-3.jpg" class="img2">
-            <p class="h11">DELUX ROOM</p>
-            <p class="pricetag">89$ / Night</p>
-        </span>
-        <span class="innerimg">
-            <img src="images/room-4.jpg" class="img2">
-            <p class="h11">DELUX ROOM</p>
-            <p class="pricetag">89$ / Night</p>
-        </span>
-        <span class="innerimg">
-            <img src="images/room-5.jpg" class="img2">
-            <p class="h11">DELUX ROOM</p>
-            <p class="pricetag">89$ / Night</p>
-        </span>
-        <span class="innerimg">
-            <img src="images/room-6.jpg" class="img2">
-            <p class="h11">DELUX ROOM</p>
-            <p class="pricetag">89$ / Night</p>
-        </span>
+<!-- Featured rooms -->
+<div class="container p-0">
+    <h1 class="text-center mt-4">FEATURED ROOMS</h1>
+    <p class="delight">Come checkout our delightful rooms!</p>
+
+    <div class="rooms">
+        <div class="innerimg">
+            <img src="https://s7d2.scene7.com/is/image/ritzcarlton/pnqrz-king-50668318?$XlargeViewport100pct$" class="roomimg">
+            <p class="pt-3">DELUXE</p>
+        </div>
+        <div class="innerimg">
+            <img src="https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-Dublin-family-room-with-2-double-beds.jpg" class="roomimg">
+            <p class="pt-3">DOUBLE</p>
+        </div>
+        <div class="innerimg">
+            <img src="https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/70/2016/11/22095538/suite-novotel-bangkok-ploenchit-sukhumvit-1.jpeg" class="roomimg">
+            <p class="pt-3">SUITE</p>
+        </div>
     </div>
 </div>
 
-
-
+<!-- Google Map -->
 <style>
     #map {
         height: 400px;
-        width: 400px;
+        width: 100;
     }
 </style>
 
-
-<div id="map"></div>
+<div class="container col-12 mt-5" id="map"></div>
 
 <script>
     let map;
