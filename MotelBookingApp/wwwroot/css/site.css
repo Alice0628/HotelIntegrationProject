@@ -24,54 +24,6 @@ body {
 }
 
 
-
-/* Register & Login Page */
-.register-photo {
-    background: #f1f7fc;
-    padding-bottom: 40px;
-}
-
-    .register-photo .image-holder {
-        display: table-cell;
-        width: auto;
-        background: url(https://images.squarespace-cdn.com/content/v1/57a43cf715d5db0bee1397d9/1548384311392-BZK4AS3RPYPDPIIO3BN1/checkbeforebookinghotel?format=750w);
-        background-size: cover;
-    }
-
-    .register-photo .image-holder-2 {
-        display: table-cell;
-        width: auto;
-        background: url(https://cdn.audleytravel.com/1050/749/79/1321212-ten-square-hotel-belfast.webp);
-        background-size: cover;
-    }
-
-    .register-photo .form-container {
-        display: table;
-        width: 90%;
-        margin: 0 auto;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    }
-
-    .register-photo form {
-        display: table-cell;
-        width: 500px;
-        background-color: #ffffff;
-        padding: 40px 40px;
-        color: #505e6c;
-    }
-
-        .register-photo form .form-control {
-            background: #f7f9fc;
-            color: inherit;
-            text-indent: 3px;
-            height: 40px;
-        }
-
-/* ------------------- register-image finish ------------------- */
-
-
-
-
 /* ************For Index Home Page*************** */
 
 * {
@@ -329,17 +281,62 @@ body {
 
 
 
+/* Register & Login Page */
+.register-photo {
+    background: #f1f7fc;
+    padding-bottom: 40px;
+}
+
+    .register-photo .image-holder {
+        display: table-cell;
+        width: auto;
+        background: url(https://images.squarespace-cdn.com/content/v1/57a43cf715d5db0bee1397d9/1548384311392-BZK4AS3RPYPDPIIO3BN1/checkbeforebookinghotel?format=750w);
+        background-size: cover;
+    }
+
+    .register-photo .image-holder-2 {
+        display: table-cell;
+        width: auto;
+        background: url(https://cdn.audleytravel.com/1050/749/79/1321212-ten-square-hotel-belfast.webp);
+        background-size: cover;
+    }
+
+    .register-photo .form-container {
+        display: table;
+        width: 90%;
+        margin: 0 auto;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .register-photo form {
+        display: table-cell;
+        width: 500px;
+        background-color: #ffffff;
+        padding: 40px 40px;
+        color: #505e6c;
+    }
+
+        .register-photo form .form-control {
+            background: #f7f9fc;
+            color: inherit;
+            text-indent: 3px;
+            height: 40px;
+        }
+
+/* Register & Login Page End */
+
+
 /* Slide Animation for banner */
 .delight {
     margin: auto;
-    width: 400px;
+    width: 420px;
     color: black;
     font-size: 24px;
     position: relative;
 }
 
     .delight::before {
-        content: "Come checkout our delightful rooms!";
+        content: "Come checkout some delightful rooms!";
         position: absolute;
         left: 0;
         top: 0;

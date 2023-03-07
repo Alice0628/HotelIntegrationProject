@@ -330,6 +330,7 @@ namespace MotelBookingApp.Controllers
                     // set EmailConfirmation to true
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var result = await _userManager.ConfirmEmailAsync(newUser, code);
+                    HttpContext.Session.SetString("UserName", newUser.UserName);
 
                     if (result.Succeeded)
                     {

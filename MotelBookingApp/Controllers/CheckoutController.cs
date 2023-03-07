@@ -123,7 +123,7 @@ namespace MotelBookingApp.Controllers
                 {
                     CheckinDate = pr.CheckinDate,
                     CheckoutDate = pr.CheckoutDate,
-                    OccupantName = pr.AppUser.UserName,
+                    OccupantName = HttpContext.Session.GetString("UserName"),
                     Room = pr.Room,
                     Price = Math.Round(pr.Room.Price * (pr.CheckoutDate-pr.CheckinDate).Days * (decimal)1.14975, 2),
                     Booking = booking,

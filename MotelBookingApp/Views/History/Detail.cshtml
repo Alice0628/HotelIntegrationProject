@@ -51,7 +51,7 @@
                         {
                             <tr>
                                 <td class="notranslate">@bookedRecord.Id</td>
-                                <td class="notranslate">@bookedRecord.Booking.AppUser.FirstName @bookedRecord.Booking.AppUser.LastName</td>
+                                <td class="notranslate">@bookedRecord.OccupantName</td>
                                 <td>
                                     <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="@bookedRecord.Room.Motel.Id">
                                         @bookedRecord.Room.Motel.Name
