@@ -4,12 +4,12 @@
 }
 
 <div class="container col-8">
-    @*   @if (TempData["roomTypeDeleteOption"] != null)
+       @if (TempData["RoomDeleteOption"] != null)
     {
-        <div id="roomTypeDeleteOption" class="flash alert alert-warning">
-            @TempData["roomTypeDeleteOption"]
+        <div id="RoomDeleteOption" class="flash alert alert-warning">
+            @TempData["RoomDeleteOption"]
         </div>
-    }*@
+    }
     <div class="flash alert alert-success">
         <p>Are you sure you want to delete roomType @Model.Id ?</p>
         <form method="post">
@@ -46,3 +46,9 @@
 
     </div>
 </div>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("RoomDeleteOption").style.display = "none";
+    }, 3000);
+<script>

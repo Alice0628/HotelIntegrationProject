@@ -2,11 +2,17 @@
 @using MotelBookingApp.Models
 @model RoomInputModel
 @{
-    ViewData["Title"] = "Edit a room type";
+    ViewData["Title"] = "Edit a room";
 }
 
 <div class="container">
     <div class="col-md-10 offset-2">
+        @if (TempData["RoomEditOption"] != null)
+        {
+            <div id="RoomEditOption" class="flash alert alert-warning">
+                @TempData["RoomEditOption"]
+            </div>
+        }
         <h2>Edit room</h2>
         <form method="post" asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -63,7 +69,7 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("AirportEditOption").style.display = "none";
+        document.getElementById("RoomEditOption").style.display = "none";
     }, 3000);
 
     function previewImage() {

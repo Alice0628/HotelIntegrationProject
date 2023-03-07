@@ -10,31 +10,41 @@
         alert('@TempData["alertMsg"]');
     </script>
 }
+<div class="container col-12">
+    <div style="background-image:url(https://th.bing.com/th/id/R.03370c9731cfdc3042e923f24d7dce38?rik=6CLvggdFoGi4hQ&riu=http%3a%2f%2fbetterdailyhabits.com%2fwp-content%2fuploads%2f2015%2f06%2fhotel-generic.jpg&ehk=XKlFtkvZLx%2fyxPWdFdNXYlbbfxGUO9aUesXHibH6vN0%3d&risl=&pid=ImgRaw&r=0);
+                background-size:cover;
+                background-repeat:no-repeat;
+                background-position: center;
+                width:100%;height:18rem;
+                margin-bottom:2rem">
+        @*<img src="https://th.bing.com/th/id/R.03370c9731cfdc3042e923f24d7dce38?rik=6CLvggdFoGi4hQ&riu=http%3a%2f%2fbetterdailyhabits.com%2fwp-content%2fuploads%2f2015%2f06%2fhotel-generic.jpg&ehk=XKlFtkvZLx%2fyxPWdFdNXYlbbfxGUO9aUesXHibH6vN0%3d&risl=&pid=ImgRaw&r=0" class="imag">*@
+    </div>
+</div>
 <div class="container">
     <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
+        @*  <h1 class="display-4">Welcome</h1>*@
         @if (TempData["searchOption"] != null)
         {
             <div id="searchOption" class="flash alert alert-warning">
                 @TempData["searchOption"]
             </div>
         }
-        <div class="container border border-orange-2 px-3 py-2">
+        <div class="container border border-orange-2 p-1">
             <form method="post">
-                <div class="row">
-                    <div class="col-lg-3 mb-3">
+                <div class="d-flex justify-content-between">
+                    <div class="col-lg-3">
                         <input class="form-control" id="city" placeholder="input city name..." asp-for="City" name="city" />
                     </div>
 
-                    <div class="col-lg-3 mb-3">
+                    <div class="col-lg-2">
 
                         <input type="date" class="form-control" asp-for="CheckinDate" name="checkin" id="check-in">
 
                     </div>
-                    <div class="col-lg-3 mb-3">
+                    <div class="col-lg-2">
                         <input type="date" class="form-control" asp-for="CheckoutDate" name="checkout" id="check-out">
                     </div>
-                    <div class="col-lg-2 mb-2">
+                    <div class="col-lg-2">
                         <select class="form-select" id="room-type" asp-for="SearchType" name="roomType">
                             <option value=""></option>
                             @foreach (var rt in Model.RoomTypeList)
@@ -43,7 +53,7 @@
                             }
                         </select>
                     </div>
-                    <div class="col-lg-1 mb-1">
+                    <div class="col-lg-1">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
@@ -52,53 +62,50 @@
     </div>
 </div>
 
-<div class="container col-12 mt-3">
-    <div class="slider">
-        <img src="images/slider.jpg" class="imag">
-    </div>
-</div>
+
 
 <!-- Featured rooms -->
-<div class="container pb-3">
-    <h1 class="text-center">FEATURED ROOMS</h1>
-    <p class="delight">Come checkout some delightful rooms!</p>
-
-    <div class="rooms">
-        <div class="innerimg">
-            <div class="item">
-                <img src="https://s7d2.scene7.com/is/image/ritzcarlton/pnqrz-king-50668318?$XlargeViewport100pct$" class="roomimg">
-                <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="8">
-                    <div class="caption">
-                        <h3>Deluxe Room - Cambridge Suites</h3>
-                        <p>Modern decorated, can accommodate up to 2 persons, totally sound proofed and equipped with high tech such as high speed internet access, USB ports, smart TV, room cleaning touch system and private hydromassage bathtub.</p>
-                    </div>
-                </a>
+<div class="container p-3">
+    @*<h1 class="text-center">FEATURED ROOMS</h1>*@
+    <div style="background-color:skyblue; padding:12px;">
+        <p class="delight display-6 py-3" style="font-weight:500;">Checkout delightful rooms!</p>
+        <div class="rooms" style="margin-top:0;">
+            <div class="innerimg">
+                <div class="item">
+                    <img src="https://s7d2.scene7.com/is/image/ritzcarlton/pnqrz-king-50668318?$XlargeViewport100pct$" class="roomimg">
+                    <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="8">
+                        <div class="caption">
+                            <h3>Deluxe Room - Cambridge Suites</h3>
+                            <p>Modern decorated, can accommodate up to 2 persons, totally sound proofed and equipped with high tech such as high speed internet access, USB ports, smart TV, room cleaning touch system and private hydromassage bathtub.</p>
+                        </div>
+                    </a>
+                </div>
+                <p class="pt-3 title"><b>DELUXE</b></p>
             </div>
-            <p class="pt-3 title"><b>DELUXE</b></p>
-        </div>
-        <div class="innerimg">
-            <div class="item">
-                <img src="https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-Dublin-family-room-with-2-double-beds.jpg" class="roomimg">
-                <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="10">
-                    <div class="caption">
-                        <h3>Double Room - Park Hyaat</h3>
-                        <p>Well decorated, can accommodate up to 2 persons with 1 queen or 2 double, totally sound proofed and equipped with high tech comforts such as internet access, USB ports , smart TV, room cleaning touch system and private shower.</p>
-                    </div>
-                </a>
+            <div class="innerimg">
+                <div class="item">
+                    <img src="https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-Dublin-family-room-with-2-double-beds.jpg" class="roomimg">
+                    <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="10">
+                        <div class="caption">
+                            <h3>Double Room - Park Hyaat</h3>
+                            <p>Well decorated, can accommodate up to 2 persons with 1 queen or 2 double, totally sound proofed and equipped with high tech comforts such as internet access, USB ports , smart TV, room cleaning touch system and private shower.</p>
+                        </div>
+                    </a>
+                </div>
+                <p class="pt-3 title"><b>DOUBLE</b></p>
             </div>
-            <p class="pt-3 title"><b>DOUBLE</b></p>
-        </div>
-        <div class="innerimg">
-            <div class="item">
-                <img src="https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/70/2016/11/22095538/suite-novotel-bangkok-ploenchit-sukhumvit-1.jpeg" class="roomimg">
-                <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="6">
-                    <div class="caption">
-                        <h3>Suite - Fairmont Royal York</h3>
-                        <p>Magnificent decorated, can accommodate up to 6 persons, with an attached bathroom, a living area, and a dining area as well. A furnitured apartment-like stay that can be up to 800 sq.ft, and with all the equipments you can imagine.</p>
-                    </div>
-                </a>
+            <div class="innerimg">
+                <div class="item">
+                    <img src="https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/70/2016/11/22095538/suite-novotel-bangkok-ploenchit-sukhumvit-1.jpeg" class="roomimg">
+                    <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="6">
+                        <div class="caption">
+                            <h3>Suite - Fairmont Royal York</h3>
+                            <p>Magnificent decorated, can accommodate up to 6 persons, with an attached bathroom, a living area, and a dining area as well. A furnitured apartment-like stay that can be up to 800 sq.ft, and with all the equipments you can imagine.</p>
+                        </div>
+                    </a>
+                </div>
+                <p class="pt-3 title"><b>SUITE</b></p>
             </div>
-            <p class="pt-3 title"><b>SUITE</b></p>
         </div>
     </div>
 </div>
@@ -117,13 +124,15 @@
     let map;
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 45.501690, lng: -73.567253 },
-            zoom: 8,
+            center: { lat: 45.4980372, lng: -73.5690002 },
+            zoom: 13.5,
         });
 
         const markers = [
-            { lat: 45.501690, long: - 73.567253, Name: "Grand", Address: "2000 rue darlington" },
-            { lat: 45.501690, long: - 74.567253, Name: "Light", Address: "1000 rue darlington" },
+            { lat: 45.4991549, long: -73.5678749, Name: "Hotel Bonaventure", Address: "900 de La Gauchetiere West", Phone: "(514) 878-2332" },
+            { lat: 45.5078467, long: -73.5604833, Name: "Hampton Inn", Address: "985 St. Laurent Street", Phone: "(514) 370-7777" },
+            { lat: 45.5119579, long: -73.5515093, Name: "Hyaat Centric Ville Marie", Address: "621 Rue Notre Dame", Phone: "(514) 657-2444" },
+            { lat: 45.5043395, long: -73.5622569, Name: "Hôtel Le Dauphin Montréal", Address: "1025 Rue de Bleury", Phone: "(514) 788-3888" }
 
         ]
 
@@ -138,8 +147,10 @@
 
             var contentString =
                 '<h4 id="firstHeading" class="firstHeading">' + m.Name + '</h4>' +
-                '<div id="bodyContent">' +
-                '<p><b>Address:</b> ' + m.Address;
+                '<div id="bodyContent">' + 
+                '<p><b>Address:</b> ' + m.Address + '<br/>' +
+                '<b>Phone:</b> ' + m.Phone + '</p>' +
+                '</div>';
 
             const popupContent = new google.maps.InfoWindow()
             google.maps.event.addListener(marker, 'mouseover', (function (marker) {
@@ -168,11 +179,31 @@
         defer></script>
 
 
-
-
-<div class="room-deal">
-    <img src="images/room-deal.jpg" id="imgdeal">
+<div id="carouselExampleControls" class="carousel slide room-deal" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img id="imgdeal" src="https://images.trvl-media.com/lodging/1000000/10000/8100/8010/0453f001.jpg?impolicy=resizecrop&rw=1200&ra=fit" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img id="imgdeal" src="https://images.trvl-media.com/lodging/1000000/10000/8100/8010/0cf6239a.jpg?impolicy=resizecrop&rw=1200&ra=fit" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img id="imgdeal" src="https://images.trvl-media.com/lodging/1000000/10000/8100/8010/11d9a17c.jpg?impolicy=resizecrop&rw=1200&ra=fit" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+@*<div class="room-deal">
+    <img src="https://www.redrockresort.com/wp-content/uploads/2020/12/RR-Standard-2-Queen.jpg" id="imgdeal">
+</div>*@
 <div class="about">
     <img src="images/about-us-2.jpg">
     <div class='about-p'>
@@ -188,10 +219,10 @@
     </div>
 </div>
 <div class="clirev">
-    <span class="espan"><i class="fspan fa-4x far fa-smile-beam"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
-    <span class="espan"><i class="fspan fa-4x far fa-heart"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
-    <span class="espan"><i class="fspan fa-4x far fa-thumbs-up"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
-    <span class="espan"><i class="fspan fa-4x far fa-star"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
+    <span class="espan"><i class="fspan fa-4x far fa-smile-beam"></i><span>Lorem ipsum dolor Aspernatur, soluta.</span></span>
+    <span class="espan"><i class="fspan fa-4x far fa-heart"></i><span>Lorem ipsum dolor sit Aspernatur, soluta.</span></span>
+    <span class="espan"><i class="fspan fa-4x far fa-thumbs-up"></i><span>Lorem ipsum dolor sit amet, Aspernatur, soluta.</span></span>
+    <span class="espan"><i class="fspan fa-4x far fa-star"></i><span>Lorem ipsum dolor sit amet, Aspernatur, soluta.</span></span>
 </div>
 <div class="staff">
     <h1>OUR TEAM MEMBERS</h1>
@@ -202,11 +233,11 @@
         <img src="images/team-2-3.jpg" alt="">
     </div>
 </div>
-</div>
+
 
 <script>
     setTimeout(function () {
-        document.getElementById("MotelOption").style.display = "none";
+        document.getElementById("searchOption").style.display = "none";
     }, 3000);
 </script>
 

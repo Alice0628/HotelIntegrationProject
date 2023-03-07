@@ -12,7 +12,7 @@
     </div>
       @if (TempData["MotelOption"] != null)
             {
-                <div class="flash alert alert-warning">
+                <div id="MotelOption" class="flash alert alert-warning">
                     @TempData["MotelOption"]
                 </div>
             }
@@ -24,7 +24,7 @@
                 <form class="form-inline my-2 my-lg-0" method="post" asp-action="Index">
                     <div class="input-group">
                         <input type="search" name="searchWord" class="form-control rounded"
-                               placeholder="Search..." />
+                               placeholder="Motel name or City name ..." />
                         <button type="submit" asp-controller="AdminMotel" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </form>

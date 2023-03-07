@@ -59,7 +59,7 @@ namespace MotelBookingApp.Controllers
             else
             {
                 searchWord = searchWord.ToLower();
-                List<Room> searcheRes = await _context.Rooms.Include("RoomType").Include("Motel").Where(a => a.RoomNum.ToLower().Contains(searchWord) || a.RoomType.Name.ToLower().Contains(searchWord) || a.Motel.Name.ToLower().Contains(searchWord)).ToListAsync();
+                List<Room> searcheRes = await _context.Rooms.Include("RoomType").Include("Motel").Where(a => a.RoomNum.ToLower().Contains(searchWord) || a.RoomType.Name.ToLower().Contains(searchWord)).ToListAsync();
                 
                 if (searcheRes.Count == 0)
                 {
@@ -89,22 +89,19 @@ namespace MotelBookingApp.Controllers
             try
             {
                 Room ifRoom = await _context.Rooms.FirstOrDefaultAsync(a => a.RoomNum == newRoom.RoomNum);
-
-                if (ifRoom != null)
-                {
-                    TempData["MotelCreateOption"] = $"Room {newRoom.RoomNum}has already existed";
-                    return View(newRoom);
-                }
                 if (!ModelState.IsValid)
                 {
                     return View(newRoom);
                 }
-            
+                if (ifRoom != null)
+                {
+                    TempData["RoomCreateOption"] = $"Room {newRoom.RoomNum}has already existed";
+                    return View(newRoom);
+                }
                 RoomType roomType = await _context.RoomTypes.FirstOrDefaultAsync(rt => rt.Id == newRoom.RoomType);
                 var userName = _userManager.GetUserName(User);
                 var user = _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefault();
                 Motel motel = await _context.Motels.FirstOrDefaultAsync(m => m.Name == user.Motel.Name);
-
                 Room room = new Room()
                 {
                     RoomNum = newRoom.RoomNum,
@@ -121,7 +118,7 @@ namespace MotelBookingApp.Controllers
             catch (SystemException ex)
             {
                 TempData["RoomCreateOption"] = $"{ex.Message}";
-                return View();
+                return View(newRoom);
             }
         }
 
@@ -151,8 +148,8 @@ namespace MotelBookingApp.Controllers
             }
             catch (SystemException ex)
             {
-                TempData["AirportEditOption"] = $"{ex.Message}";
-                return View();
+                TempData["RoomOption"] = $"{ex.Message}";
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -185,12 +182,10 @@ namespace MotelBookingApp.Controllers
                 TempData["RoomOption"] = $"{room.RoomNum} has been Edited successfully";
                 return RedirectToAction(nameof(Index));
             }
-
-
             catch (SystemException ex)
             {
                 TempData["RoomEditOption"] = $"{ex.Message}";
-                return View();
+                return View(editRoom);
             }
         }
 
@@ -207,8 +202,8 @@ namespace MotelBookingApp.Controllers
             }
             catch (SystemException ex)
             {
-                TempData["RoomDeleteOption"] = $"{ex.Message}";
-                return View();
+                TempData["RoomOption"] = $"{ex.Message}";
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -239,7 +234,7 @@ namespace MotelBookingApp.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                TempData["RoomDeleteOption"] = $"Room {id} does not exist";
+                TempData["RoomDeleteOption"] = $"Room {room.RoomNum} does not exist";
                 return View();
 
             }

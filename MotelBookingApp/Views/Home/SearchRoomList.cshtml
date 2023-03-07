@@ -13,9 +13,9 @@
                 <img src="https://ninamagon.com/wp-content/uploads/2020/02/Hotel-Header-Image.png" alt="" width="100%" />
             </div>
         </div>
-        @if (TempData["roomRes"] != null)
+        @if (TempData["roomRes"] != null)  
         {
-            <div class="flash alert alert-warning">
+            <div id="roomRes" class="flash alert alert-warning">
                 @TempData["roomRes"];
             </div>
         }
@@ -68,3 +68,9 @@
         </div>
     </div>
 </div>
+<script>
+  setTimeout(function () {
+            document.getElementById("roomRes").style.display = "none";
+        }, 3000);
+</script>
+ 

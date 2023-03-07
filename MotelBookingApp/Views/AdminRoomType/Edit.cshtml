@@ -7,6 +7,12 @@
 <div>@TempData["id"]</div>
 <div class="container">
     <div class="col-md-10 offset-2">
+        @if(TempData["TypeEditOption"] != null)
+        {
+            <div id="TypeEditOption" class="flash alert alert-warning">
+                @TempData["TypeEditOption"];
+            </div>
+        }
         <h2>Edit room type</h2>
         <form method="post" asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -59,7 +65,7 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("AirportEditOption").style.display = "none";
+        document.getElementById("TypeEditOption").style.display = "none";
     }, 3000);
 
     function previewImage() {

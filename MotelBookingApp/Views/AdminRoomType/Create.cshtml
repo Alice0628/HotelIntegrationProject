@@ -4,9 +4,15 @@
     ViewData["Title"] = "Add a Room Type";
 }
 
-<div>@TempData["id"]</div>
+
 <div class="container">
     <div class="col-md-10 offset-2">
+        @if(TempData["TypeCreateOption"] != null)
+        {
+            <div class="flash alert alert-warning">
+                @TempData["TypeCreateOption"];
+            </div>
+        }
         <h2>Create Type</h2>
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -54,7 +60,7 @@
 
 <script>
     setTimeout(function () {
-        document.getElementById("AirportCreateOption").style.display = "none";
+        document.getElementById("TypeCreateOption").style.display = "none";
     }, 3000);
 
     function previewImage() {

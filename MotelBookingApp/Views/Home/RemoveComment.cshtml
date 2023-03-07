@@ -4,7 +4,7 @@
 }
 @if (TempData["removeComment"] != null)
 {
-    <div class="flash alert alert-danger">@TempData["removeComment"]</div>
+    <div id="removeComment" class="flash alert alert-danger">@TempData["removeComment"]</div>
 }
 <div onload="showScore()" class="container">
     <div class="col-md-10 offset-2">
@@ -23,4 +23,8 @@
     </div>
 </div>
 
-
+   <script>
+            setTimeout(function () {
+                document.getElementById("removeComment").style.display = "none";
+            }, 3000);
+   <Script>

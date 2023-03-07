@@ -3,14 +3,15 @@
 @{
     ViewData["Title"] = "Add a Room";
 }
-@if (TempData["RoomCreateOption"] != null)
-{
-    <div class="flash alert alert-danger">@TempData["RoomCreateOption"] </div>
-}
+
 
 <div>@TempData["id"]</div>
 <div class="container">
     <div class="col-md-10 offset-2">
+        @if (TempData["RoomCreateOption"] != null)
+        {
+            <div id="RoomCreatOption" class="flash alert alert-danger">@TempData["RoomCreateOption"] </div>
+        }
         <h2>Create Room</h2>
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -59,6 +60,10 @@
         </form>
     </div>
 </div>
-
+<script>
+    setTimeout(function () {
+        document.getElementById("RoomCreateOption").style.display = "none";
+    }, 3000);
+</script>
 
 

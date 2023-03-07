@@ -576,3 +576,36 @@ Sprint 1:
  - google translate...Continue
  - some layouts
 3. Need assistance / figure things out
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2023/03/07 Wu Wei
+1. Done / not done since last scrum:
+----favirate list add
+2. To do until next Scrum:
+--favirate list add
+3. Need assistance / figure things out
+--
+
+2023/03/07 Zhou Lei
+1. Done / not done since last scrum:
+-- merge room availability search function 
+2. To do until next Scrum:
+-- improve UI
+3. Need assistance / figure things out
+--
+
+2023/03/07 Zhang Xiao
+1. Done / not done since last scrum:
+-  google login succeeded
+-  fixed some bugs
+-  some Layout
+2. To do until next Scrum:
+-  bug fixing  
+-  presentation preparation of tomorrow
+3. Need assistance / figure things out
+
+2023/03/07 Zhu Qichen
+1. Done / not done since last scrum:
+
+2. To do until next Scrum:
+
+3. Need assistance / figure things out

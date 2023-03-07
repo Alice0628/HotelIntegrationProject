@@ -5,6 +5,12 @@
 }
 <div class="container">
     <div class="col-lg-10">
+        @if (TempData["addtocart"] != null)
+        {
+            <div id="addtocart" class="flash alert alert-warning">
+                @TempData["addtocart"];
+            </div>
+        }
         <div class="register-photo">
             <div class="container">
                 <img src="https://ninamagon.com/wp-content/uploads/2020/02/Hotel-Header-Image.png" alt="" width="100%" />
@@ -22,7 +28,7 @@
                 <p><b>Detail:</b> @Model.RoomTypeDescription</p>
                 <br />
                 <form method="post">
-                    <button type="submit" class="btn btn-sm btn-outline-success"asp-route-id=@Model.Id>Add to Cart</button>
+                    <button type="submit" class="btn btn-sm btn-outline-success" asp-route-id=@Model.Id>Add to Cart</button>
                     <a style="margin-left:1rem" class="btn btn-sm btn-outline-info" asp-action="SearchRoomList" asp-route-id=@Model.Motel.Id>Back</a>
                 </form>
 
@@ -30,3 +36,8 @@
         </div>
     </div>
 </div>
+<script>
+    setTimeout(function () {
+        document.getElementById("addtocart").style.display = "none";
+    }, 3000);
+<script>

@@ -1,110 +1,84 @@
-﻿@using MotelBookingApp.Data.ViewModels
-@model StaffBookingVM
+﻿@using MotelBookingApp.Data.ViewModels;
+@model RegisterVM;
 
 @{
-    ViewData["Title"] = "Available Rooms";
+    ViewData["Title"] = "Create Account";
 }
-<div class="container">
-    <div>
-        <div style="width:100%; height:8rem; margin-bottom: 1rem; background-image:url('../images/cartBackground.jpg');background-position:center; background-size:cover"></div>
-        @if (TempData["staffSearchOption"] != null)
-        {
-            <div id="staffSearchOption" class="flash alert alert-warning">
-                @TempData["staffSearchOption"]
-            </div>
-        }
-        <form method="post">
-            <div class="row">
 
-                <div class="col-lg-4 mb-4">
-                    
-                        <input type="date" class="form-control" name="checkin" id="check-in" asp-for="CheckinDate" />
+<div class="col-12 justify-content-center">
+    <div class="col-md-12">
+        <div class="register-photo">
+            @if (TempData["CreateCustomer"] != null)
+            {
+                <div id="CreateCustomer" class="col-md-12 alert alert-danger">
+                    <span><b>Sorry!</b> - @TempData["CreateCustomer"] </span>
                 </div>
-                <div class="col-lg-4 mb-4">
-                   
-                        <input type="date" class="form-control" name="checkout" id="check-out" asp-for="CheckoutDate" />
-                </div>
-                <div class="col-lg-3 mb-3">
-                   
-                        <select class="form-select" id="room-type" name="roomType" asp-for="SearchType">
-                            <option value=""></option>
-                            @foreach (var rt in Model.RoomTypeList)
-                            {
-                                <option value="@rt.Name">@rt.Name</option>
-                            }
-                        </select>
-                </div>
-                <div class="col-lg-1 mb-3">
-                    <button type="submit" name="button1" value="submit1" class="btn btn-primary" asp-action="Index">Search</button>
-                </div>
+            }
+            <h3 class="px-5 py-3">Create Customer</h3>
+            <div class="form-container">
+                <div class="image-holder"></div>
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="FirstName" class="control-label mt-2"></label>
+                            <input asp-for="FirstName" class="form-control p-0" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="LastName" class="control-label mt-2"></label>
+                            <input asp-for="LastName" class="form-control p-0" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="UserName" class="control-label mt-2"></label>
+                            <input asp-for="UserName" class="form-control p-0" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="DOB" class="control-label mt-2"></label>
+                            <input type="date" asp-for="DOB" class="form-control p-0" />
+                            <span asp-validation-for="DOB" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="Email" class="control-label mt-2"></label>
+                            <input asp-for="Email" class="form-control p-0" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="PhoneNumber" class="control-label mt-2"></label>
+                            <input asp-for="PhoneNumber" class="form-control p-0" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="Password" class="control-label mt-2"></label>
+                            <input asp-for="Password" class="form-control p-0" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="ConfirmPassword" class="control-label mt-2"></label>
+                            <input asp-for="ConfirmPassword" class="form-control p-0" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group mt-4">
+                        <input class="btn btn-outline-primary float-right" type="submit" value="Create" />
+                        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Cancel</a>
+                    </div>
+                </form>
             </div>
-        </form>
-
-
-        @if (TempData["addtocart"] != null)
-        {
-            <div id="addtocart" class="flash alert alert-success">
-                @TempData["addtocart"]
-            </div>
-        }
-
-        @if (Model.AvailableRooms != null)
-        {
-            <div class="border border-orange-2">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            @*<th class="col-3 text-center">Image</th>*@
-                            <th class="col-3 text-center">Room Number</th>
-
-                            <th class="col-3 text-center">Price</th>
-
-                            <th class="col-3 text-center">RoomType</th>
-
-                            <th class="col-2 text-center"></th>
-
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var rt in Model.AvailableRooms)
-                        {
-                            <tr>
-
-                                @*<td><img src=@rt.ImageUrl alt="room picture" width="50" height="50" /></td>*@
-                                <td class="col-3 text-center">@rt.RoomNum</td>
-                                <td class="col-3 text-center notranslate">@rt.Price</td>
-                                <td class="col-3 text-center">@rt.RoomTypeName</td>
-                                <td class="col-3">
-                                    <a class="btn btn-outline-primary" asp-action="RoomDetail" asp-route-id="@rt.Id"> To Book </a>
-                                </td>
-                                @* <td class="d-flex justify-content-center">*@
-
-                                @*<a class="btn btn-sm btn-info" style="margin-right:4px;"
-                        asp-action="Detail"
-                        asp-route-id="@rt.Id">Detail</a>*@
-                                @*   <a class="btn btn-sm btn-danger" asp-action="AddToCart"
-                        asp-route-id="@rt.Id"></a>*@
-
-                            </tr>
-
-                        }
-
-                    </tbody>
-                </table>
-
-            </div>
-        }
-
+        </div>
     </div>
-
 </div>
 
 <script>
     setTimeout(function () {
-        document.getElementById("addtocart").style.display = "none";
-    }, 3000);
-    setTimeout(function () {
-        document.getElementById("staffSearchOption").style.display = "none";
+        document.getElementById("CreateCustomer").style.display = "none";
     }, 3000);
 </script>
