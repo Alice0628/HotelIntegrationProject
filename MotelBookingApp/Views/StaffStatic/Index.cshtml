@@ -9,6 +9,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="container">
+    @if (TempData["staffStatic"] != null)
+    {
+        <div id="staffStatic" class="flash alert alert-warning">
+            @TempData["staffStatic"];
+        </div>
+    }
+    <div>@ViewBag.checkin</div>
     @if (Model != null)
     {
         <div>
@@ -16,13 +23,16 @@
             <h2 class="text-center text-primary">Booked Room List</h2>
             <form method="post">
                 <div class="row">
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-lg-3 mb-4">
+                        <input type="string" class="form-control" name="username" id="check-in" asp-for="UserName">
+                    </div>
+                    <div class="col-lg-3 mb-4">
                         <input type="date" class="form-control" name="checkin" id="check-in" asp-for="CheckinDate">
                     </div>
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-lg-3 mb-4">
                         <input type="date" class="form-control" name="checkout" id="check-out" asp-for="CheckoutDate">
                     </div>
-                    <div class="col-lg-3 mb-3">
+                    <div class="col-lg-2 mb-3">
                         <select class="form-select" id="room-type" name="roomType" asp-for="SearchType">
                             <option value=""></option>
                             @foreach (var rt in Model.RoomTypeList)
@@ -58,11 +68,11 @@
                         <th>
                             Subtotal
                         </th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model != null)
+                    @if (Model.BookedRooms != null)
                     {
                         @foreach (BookedRecord br in @Model.BookedRooms)
                         {
@@ -94,94 +104,98 @@
                 </tbody>
             </table>
         </div>
-     // chart
+        // chart
     }
-        <div class="d-flex justify-content-between mt-2">
+    <div class="d-flex justify-content-between mt-2">
         <div>
-        <canvas id="recordMonthChart" ></canvas>
-        </div>
-        <div>
-            <canvas id="recordRoomTypeChart" ></canvas>
+            <canvas id="recordMonthChart"></canvas>
         </div>
         <div>
-            <canvas id="turnoverMonthChart" ></canvas>
+            <canvas id="recordRoomTypeChart"></canvas>
         </div>
+        <div>
+            <canvas id="turnoverMonthChart"></canvas>
         </div>
+    </div>
 
-        <script>
-            var ctx = document.getElementById("recordMonthChart").getContext("2d");
-            var myChart1 = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: @Json.Serialize(ViewBag.monthLabels),
-                    datasets: [{
-                        label: @Json.Serialize(ViewBag.monthDatasetLabel),
-                        data: @Json.Serialize(ViewBag.monthDatasetData),
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
+    <script>
+         setTimeout(function () {
+            document.getElementById("staffStatic").style.display = "none";
+        }, 3000);
 
-            var ctx = document.getElementById("recordRoomTypeChart").getContext("2d");
-            var myChart2 = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: @Json.Serialize(ViewBag.roomTypeLabels),
-                    datasets: [{
-                        label: @Json.Serialize(ViewBag.roomTypeDatasetLabel),
-                        data: @Json.Serialize(ViewBag.roomTypeDatasetData),
-                        backgroundColor: 'rgb(132, 255, 99)',
-                        borderColor: 'rgb(132, 255, 99)',
-                        borderWidth: 1
+        var ctx = document.getElementById("recordMonthChart").getContext("2d");
+        var myChart1 = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Json.Serialize(ViewBag.monthLabels),
+                datasets: [{
+                    label: @Json.Serialize(ViewBag.monthDatasetLabel),
+                    data: @Json.Serialize(ViewBag.monthDatasetData),
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
                     }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
                 }
-            });
+            }
+        });
 
-            var ctx = document.getElementById("turnoverMonthChart").getContext("2d");
-            var myChart3 = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: @Json.Serialize(ViewBag.turnoverLabels),
-                    datasets: [{
-                        label: @Json.Serialize(ViewBag.turnoverDatasetLabel),
-                        data: @Json.Serialize(ViewBag.turnoverDatasetData),
-                        backgroundColor: 'rgb(0, 132, 255)',
-                        borderColor: 'rgb(0, 132, 255)',
-                        borderWidth: 1
+        var ctx = document.getElementById("recordRoomTypeChart").getContext("2d");
+        var myChart2 = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Json.Serialize(ViewBag.roomTypeLabels),
+                datasets: [{
+                    label: @Json.Serialize(ViewBag.roomTypeDatasetLabel),
+                    data: @Json.Serialize(ViewBag.roomTypeDatasetData),
+                    backgroundColor: 'rgb(132, 255, 99)',
+                    borderColor: 'rgb(132, 255, 99)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
                     }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
                 }
-            });
-        </script>
-  
+            }
+        });
+
+        var ctx = document.getElementById("turnoverMonthChart").getContext("2d");
+        var myChart3 = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Json.Serialize(ViewBag.turnoverLabels),
+                datasets: [{
+                    label: @Json.Serialize(ViewBag.turnoverDatasetLabel),
+                    data: @Json.Serialize(ViewBag.turnoverDatasetData),
+                    backgroundColor: 'rgb(0, 132, 255)',
+                    borderColor: 'rgb(0, 132, 255)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
 </div>
 
 
