@@ -67,9 +67,9 @@
 <!-- Featured rooms -->
 <div class="container p-3">
     @*<h1 class="text-center">FEATURED ROOMS</h1>*@
-    <div style="background-color:skyblue">
-        <p class="delight display-6">Come checkout some delightful rooms!</p>
-        <div class="rooms" style="margin-top:0">
+    <div style="background-color:skyblue; padding:12px;">
+        <p class="delight display-6 py-2" style="font-weight:500;">Come checkout some delightful rooms!</p>
+        <div class="rooms" style="margin-top:0;">
             <div class="innerimg">
                 <div class="item">
                     <img src="https://s7d2.scene7.com/is/image/ritzcarlton/pnqrz-king-50668318?$XlargeViewport100pct$" class="roomimg">
@@ -124,13 +124,15 @@
     let map;
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 45.501690, lng: -73.567253 },
-            zoom: 8,
+            center: { lat: 45.4980372, lng: -73.5690002 },
+            zoom: 13.5,
         });
 
         const markers = [
-            { lat: 45.501690, long: - 73.567253, Name: "Grand", Address: "2000 rue darlington" },
-            { lat: 45.501690, long: - 74.567253, Name: "Light", Address: "1000 rue darlington" },
+            { lat: 45.4991549, long: -73.5678749, Name: "Hotel Bonaventure", Address: "900 de La Gauchetiere West", Phone: "(514) 878-2332" },
+            { lat: 45.5078467, long: -73.5604833, Name: "Hampton Inn", Address: "985 St. Laurent Street", Phone: "(514) 370-7777" },
+            { lat: 45.5119579, long: -73.5515093, Name: "Hyaat Centric Ville Marie", Address: "621 Rue Notre Dame", Phone: "(514) 657-2444" },
+            { lat: 45.5043395, long: -73.5622569, Name: "Hôtel Le Dauphin Montréal", Address: "1025 Rue de Bleury", Phone: "(514) 788-3888" }
 
         ]
 
@@ -145,8 +147,10 @@
 
             var contentString =
                 '<h4 id="firstHeading" class="firstHeading">' + m.Name + '</h4>' +
-                '<div id="bodyContent">' +
-                '<p><b>Address:</b> ' + m.Address;
+                '<div id="bodyContent">' + 
+                '<p><b>Address:</b> ' + m.Address + '<br/>' +
+                '<b>Phone:</b> ' + m.Phone + '</p>' +
+                '</div>';
 
             const popupContent = new google.maps.InfoWindow()
             google.maps.event.addListener(marker, 'mouseover', (function (marker) {
@@ -175,11 +179,31 @@
         defer></script>
 
 
-
-
-<div class="room-deal">
-    <img src="images/room-deal.jpg" id="imgdeal">
+<div id="carouselExampleControls" class="carousel slide room-deal" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img id="imgdeal" src="https://images.trvl-media.com/lodging/1000000/10000/8100/8010/0453f001.jpg?impolicy=resizecrop&rw=1200&ra=fit" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img id="imgdeal" src="https://images.trvl-media.com/lodging/1000000/10000/8100/8010/0cf6239a.jpg?impolicy=resizecrop&rw=1200&ra=fit" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img id="imgdeal" src="https://images.trvl-media.com/lodging/1000000/10000/8100/8010/11d9a17c.jpg?impolicy=resizecrop&rw=1200&ra=fit" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+@*<div class="room-deal">
+    <img src="https://www.redrockresort.com/wp-content/uploads/2020/12/RR-Standard-2-Queen.jpg" id="imgdeal">
+</div>*@
 <div class="about">
     <img src="images/about-us-2.jpg">
     <div class='about-p'>
@@ -195,10 +219,10 @@
     </div>
 </div>
 <div class="clirev">
-    <span class="espan"><i class="fspan fa-4x far fa-smile-beam"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
-    <span class="espan"><i class="fspan fa-4x far fa-heart"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
-    <span class="espan"><i class="fspan fa-4x far fa-thumbs-up"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
-    <span class="espan"><i class="fspan fa-4x far fa-star"></i><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, soluta.</p></span>
+    <span class="espan"><i class="fspan fa-4x far fa-smile-beam"></i><span>Lorem ipsum dolor Aspernatur, soluta.</span></span>
+    <span class="espan"><i class="fspan fa-4x far fa-heart"></i><span>Lorem ipsum dolor sit Aspernatur, soluta.</span></span>
+    <span class="espan"><i class="fspan fa-4x far fa-thumbs-up"></i><span>Lorem ipsum dolor sit amet, Aspernatur, soluta.</span></span>
+    <span class="espan"><i class="fspan fa-4x far fa-star"></i><span>Lorem ipsum dolor sit amet, Aspernatur, soluta.</span></span>
 </div>
 <div class="staff">
     <h1>OUR TEAM MEMBERS</h1>
