@@ -6,6 +6,19 @@
 }
 
 <div class="container">
+    <div class="register-photo">
+        <div class="container col-md-8">
+            @if (User.IsInRole("User"))
+            {
+                <img src="https://t4.ftcdn.net/jpg/03/81/89/61/360_F_381896172_z2QE8bV3z7FxzpGM6uzukJ3JAz6y6N0w.jpg" alt="" width="100%" />
+            }
+            else
+            {
+                <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
+            }
+        </div>
+    </div>
+    <br />
     <h2 class="text-center">Purchase History</h2>
     <br>
     <!-- Search Bar -->

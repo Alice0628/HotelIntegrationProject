@@ -432,11 +432,11 @@ namespace MotelBookingApp.Controllers
         {
             ViewBag.Count = HttpContext.Session.GetString("Count");
 
-            //if(HttpContext.Session.GetString("checkin") == null || HttpContext.Session.GetString("checkout") == null)
-            //{
-            //    TempData["alertMsg"] = "Please select checkin and checkout date first";
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (HttpContext.Session.GetString("checkin") == null || HttpContext.Session.GetString("checkout") == null)
+            {
+                TempData["alertMsg"] = "Please select CheckIn and CheckOut date first";
+                return RedirectToAction("Index", "Home");
+            }
 
             var checkin = DateTime.Parse(HttpContext.Session.GetString("checkin"));
             var checkout = DateTime.Parse(HttpContext.Session.GetString("checkout"));
