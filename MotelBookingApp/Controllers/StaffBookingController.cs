@@ -18,7 +18,7 @@ using Azure.Storage.Blobs.Models;
 
 namespace MotelBookingApp.Controllers
 {
-
+    [Authorize(Roles = "Staff")]
     public class StaffBookingController : Controller
     {
         private readonly MotelDbContext _context;
