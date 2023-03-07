@@ -90,26 +90,6 @@ body {
 
 /* -------------------------------Rooms----------------------------- */
 
-.rooms {
-    width: 100%;
-    margin: 20px 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.innerimg {
-    margin: 10px 8px 0 8px;
-    text-align: center;
-}
-
-.roomimg {
-    width: 100%;
-    height: 80%;
-}
-
-.roomimage:hover {
-    transform: scale(1.01);
-}
 
 @media all and (max-width:400px) {
     .rooms h1 {
@@ -359,3 +339,129 @@ body {
 }
 /* Slide Animation for banner End*/
 
+
+/* Home grid room image */
+
+/*.rooms {
+    max-width: 100%;
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+    .innerimg {
+    margin: 10px 8px 0 8px;
+    text-align: center;
+}
+
+.roomimg {
+    width: 100%;
+    height: 80%;
+}
+*/
+
+.rooms {
+    max-width: 100%;
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: 300px 100px;
+    background: #fff;
+}
+
+.innerimg {
+    max-width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.item {
+    position: relative;
+    width: 320px;
+    height: 190px;
+    margin: 10px;
+    perspective: 600px;
+}
+
+.roomimg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-origin: right;
+    transform: rotateY(0deg);
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.item:hover .roomimg {
+    transform: rotateY(-90deg);
+    opacity: 0;
+}
+
+.item:hover .caption {
+    transform: rotateY(0deg);
+    opacity: 1;
+}
+
+.caption {
+    position: absolute;
+    padding-top: 5px;
+    z-index: 0;
+    background-color: #97b8a3;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    padding: 0, 20px;
+    box-sizing: border-box;
+    letter-spacing: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transform-origin: left;
+    transform: rotateY(90deg);
+    opacity: 0;
+}
+
+    .caption h3 {
+        font-size: 16px;
+        padding: 5px;
+        padding-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .caption p {
+        font-size: 12px;
+        padding: 0 5px 5px 5px;
+    }
+
+@media screen and (max-width: 982px) {
+    .caption h3 {
+        font-size: 12px;
+        padding: 5px;
+        padding-top: 8px;
+        margin-bottom: 5px;
+    }
+
+    .caption p {
+        font-size: 10px;
+        padding: 0 5px 5px 5px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .caption h3 {
+        font-size: 10px;
+        padding: 5px;
+        padding-top: 8px;
+        margin-bottom: 5px;
+    }
+
+    .caption p {
+        font-size: 7.5px;
+        padding: 0 5px 5px 5px;
+    }
+}
+
+/* Home grid room image End */

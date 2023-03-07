@@ -23,25 +23,25 @@
             <form method="post">
                 <div class="row">
                     <div class="col-lg-3 mb-3">
-                            <input class="form-control" id="city" placeholder="input city name..." asp-for="City" name="city" />
+                        <input class="form-control" id="city" placeholder="input city name..." asp-for="City" name="city" />
                     </div>
 
                     <div class="col-lg-3 mb-3">
-                       
-                            <input type="date" class="form-control" asp-for="CheckinDate" name="checkin" id="check-in">
-                         
+
+                        <input type="date" class="form-control" asp-for="CheckinDate" name="checkin" id="check-in">
+
                     </div>
                     <div class="col-lg-3 mb-3">
-                            <input type="date" class="form-control" asp-for="CheckoutDate" name="checkout" id="check-out">   
+                        <input type="date" class="form-control" asp-for="CheckoutDate" name="checkout" id="check-out">
                     </div>
                     <div class="col-lg-2 mb-2">
                         <select class="form-select" id="room-type" asp-for="SearchType" name="roomType">
-                                <option value=""></option>
-                                @foreach (var rt in Model.RoomTypeList)
-                                {
-                                    <option value=@rt.Name>@rt.Name</option>
-                                }
-                            </select>
+                            <option value=""></option>
+                            @foreach (var rt in Model.RoomTypeList)
+                            {
+                                <option value=@rt.Name>@rt.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="col-lg-1 mb-1">
                         <button type="submit" class="btn btn-primary">Search</button>
@@ -64,16 +64,40 @@
 
     <div class="rooms">
         <div class="innerimg">
-            <img src="https://s7d2.scene7.com/is/image/ritzcarlton/pnqrz-king-50668318?$XlargeViewport100pct$" class="roomimg">
-            <p class="pt-3">DELUXE</p>
+            <div class="item">
+                <img src="https://s7d2.scene7.com/is/image/ritzcarlton/pnqrz-king-50668318?$XlargeViewport100pct$" class="roomimg">
+                <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="8">
+                    <div class="caption">
+                        <h3>Deluxe Room - Cambridge Suites</h3>
+                        <p>Modern decorated, can accommodate up to 2 persons, totally sound proofed and equipped with high tech such as high speed internet access, USB ports, smart TV, room cleaning touch system and private hydromassage bathtub.</p>
+                    </div>
+                </a>
+            </div>
+            <p class="pt-3"><b>DELUXE</b></p>
         </div>
         <div class="innerimg">
-            <img src="https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-Dublin-family-room-with-2-double-beds.jpg" class="roomimg">
-            <p class="pt-3">DOUBLE</p>
+            <div class="item">
+                <img src="https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-Dublin-family-room-with-2-double-beds.jpg" class="roomimg">
+                <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="10">
+                    <div class="caption">
+                        <h3>Double Room - Park Hyaat</h3>
+                        <p>Well decorated, can accommodate up to 2 persons with 1 queen or 2 double, totally sound proofed and equipped with high tech comforts such as internet access, USB ports , smart TV, room cleaning touch system and private shower.</p>
+                    </div>
+                </a>
+            </div>
+            <p class="pt-3"><b>DOUBLE</b></p>
         </div>
         <div class="innerimg">
-            <img src="https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/70/2016/11/22095538/suite-novotel-bangkok-ploenchit-sukhumvit-1.jpeg" class="roomimg">
-            <p class="pt-3">SUITE</p>
+            <div class="item">
+                <img src="https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/70/2016/11/22095538/suite-novotel-bangkok-ploenchit-sukhumvit-1.jpeg" class="roomimg">
+                <a asp-controller="Home" asp-action="CityMotelDetail" asp-route-id="6">
+                    <div class="caption">
+                        <h3>Suite - Fairmont Royal York</h3>
+                        <p>Magnificent decorated, can accommodate up to 6 persons, with an attached bathroom, a living area, and a dining area as well. A furnitured apartment-like stay that can be up to 800 sq.ft, and with all the equipments you can imagine.</p>
+                    </div>
+                </a>
+            </div>
+            <p class="pt-3"><b>SUITE</b></p>
         </div>
     </div>
 </div>
