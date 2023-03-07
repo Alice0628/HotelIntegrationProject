@@ -484,9 +484,9 @@ Sprint 1:
 
 2023/03/03 Zhou Lei
 1. Done / not done since last scrum:
-
+-- merge room availability search function 
 2. To do until next Scrum:
-
+-- merge room availability search function 
 3. Need assistance / figure things out
 --
 
@@ -518,9 +518,9 @@ Sprint 1:
 
 2023/03/05 Zhou Lei
 1. Done / not done since last scrum:
-
+-- merge room availability search function 
 2. To do until next Scrum:
-
+-- merge room availability search function 
 3. Need assistance / figure things out
 --
 
@@ -553,9 +553,9 @@ Sprint 1:
 
 2023/03/06 Zhou Lei
 1. Done / not done since last scrum:
-
+-- merge room availability search function 
 2. To do until next Scrum:
-
+-- improve UI
 3. Need assistance / figure things out
 --
 
