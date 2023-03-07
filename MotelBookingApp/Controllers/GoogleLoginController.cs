@@ -51,10 +51,11 @@ namespace MotelBookingApp.Controllers
             {
                 string[] name = info.Principal.FindFirst(ClaimTypes.Name).Value.Split(' ');
                 DateTime dbo = DateTime.Now;
-                if (!string.IsNullOrEmpty(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value))
-                {
-                   dbo = DateTime.Parse(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value);
-                }
+
+                //if (!string.IsNullOrEmpty(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value))
+                //{
+                //    dbo = DateTime.Parse(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value); ;
+                //}
 
                 AppUser user = new AppUser
                 {

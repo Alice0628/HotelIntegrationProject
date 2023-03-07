@@ -312,13 +312,11 @@ namespace MotelBookingApp.Controllers
                 int totalScore = 0;
                 foreach (var c in comments)
                 {
-            
                     totalScore += int.Parse(c.Score);
                 }
                 var score = totalScore / comments.Count;
-                motelDetail.Score = score;
+                newMotel.Score = score;
             }
-
             motelDetail.Motel = newMotel;
             var address = motel.Address + "," + motel.City + "," + motel.Province + motel.PostalCode;
             @ViewBag.Address = address;
