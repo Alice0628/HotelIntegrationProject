@@ -17,9 +17,9 @@
     </div>
 }
 
-<div class="container">
-    <div class="col-10 m-3 border">
-        <div class="m-3">
+<div class="container col-10 flex-md-column align-content-center">
+    <div class="border">
+        <div>
             <div class="d-flex justify-content-around align-items-lg-center">
                 <div>
                     <img src=@Model.Motel.ImageUrl width="150" heiht="150" alt="Motel picture" />
@@ -74,7 +74,7 @@
                         <div style="position:relative">
                             <div class="d-flex justify-content-between">
                                 <p>
-                                    <i style="color:blue" class="fa-regular fa-user"></i>@c.User.UserName
+                                    <i style="color:blue; margin-right:0.5rem" class="fa-regular fa-user"></i>@c.User.UserName
                                 </p>
                                 <div>
                                     <span>
@@ -116,7 +116,7 @@
         </div>
 
     </div>
-    <div id="map" style="width: 100%; height: 400px;"></div>
+    <div id="map" style="height: 400px;"></div>
     <script>
         function initMap() {
             var latitude = @ViewBag.Latitude;

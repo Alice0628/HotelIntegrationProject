@@ -22,8 +22,8 @@
                 <p><b>Detail:</b> @Model.RoomTypeDescription</p>
                 <br />
                 <form method="post">
-                    <button type="submit" class="btn btn-sm btn-outline-success" asp-route-id=@Model.Id>Add to Cart</button>
-                    <a style="margin-left:1rem" class="btn btn-sm btn-outline-info" asp-action="SearchRoomList" asp-route-id=@Model.Id>Back</a>
+                    <button type="submit" class="btn btn-sm btn-outline-success"asp-route-id=@Model.Id>Add to Cart</button>
+                    <a style="margin-left:1rem" class="btn btn-sm btn-outline-info" asp-action="SearchRoomList" asp-route-id=@Model.Motel.Id>Back</a>
                 </form>
 
             </div>

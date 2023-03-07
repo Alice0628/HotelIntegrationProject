@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Geocoding;
 using Geocoding.Google;
 using GoogleApi.Entities.Search.Video.Common;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MotelBookingApp.Controllers
 {
@@ -33,7 +35,7 @@ namespace MotelBookingApp.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> Index()
-        {
+        { 
             if (_userManager.GetUserName != null)
             {
                 var userName = _userManager.GetUserName(User); 
@@ -41,47 +43,79 @@ namespace MotelBookingApp.Controllers
                 HttpContext.Session.SetString("Count", count);
             }
             ViewBag.Count = HttpContext.Session.GetString("Count");
+            var searchModel = new CustomerSearchVM();
             var roomTypeList = await _context.RoomTypes.ToListAsync();
-            ViewBag.RoomTypeList = roomTypeList;
+            searchModel.RoomTypeList = roomTypeList;
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("city")))
             {
-                ViewBag.city = HttpContext.Session.GetString("city");
+                searchModel.City = HttpContext.Session.GetString("city");
             }
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")))
             {
-                ViewBag.checkin = HttpContext.Session.GetString("checkin");
+                searchModel.CheckinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
+            }
+            else 
+            {
+                searchModel.CheckinDate = DateTime.Now;
             }
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkout")))
             {
-                ViewBag.checkout = HttpContext.Session.GetString("checkout");
+                searchModel.CheckoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
+            }
+            else
+            {
+                searchModel.CheckoutDate = DateTime.Now;
             }
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
             {
-                ViewBag.roomType = HttpContext.Session.GetString("roomType");
+                searchModel.SearchType = HttpContext.Session.GetString("roomType");
             }
-            return View(); ;
+            return View(searchModel);
+            
+            
+            
+            //var roomTypeList = await _context.RoomTypes.ToListAsync();
+            //ViewBag.RoomTypeList = roomTypeList;
+            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("city")))
+            //{
+            //    ViewBag.city = HttpContext.Session.GetString("city");
+            //}
+            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")))
+            //{
+            //    ViewBag.checkin = HttpContext.Session.GetString("checkin");
+            //}
+            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkout")))
+            //{
+            //    ViewBag.checkout = HttpContext.Session.GetString("checkout");
+            //}
+            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
+            //{
+            //    ViewBag.roomType = HttpContext.Session.GetString("roomType");
+            //}
+            //return View(); ;
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(DateTime checkin, string city, DateTime checkout, string roomType)
         {
+            var searchModel = new CustomerSearchVM();
             var roomTypeList = await _context.RoomTypes.ToListAsync();
-            ViewBag.RoomTypeList = roomTypeList;
             ViewBag.Count = HttpContext.Session.GetString("Count");
-            ViewBag.city = city;
-            ViewBag.checkin = checkin.ToString("yyyy-MM-dd");
-            ViewBag.checkout = checkout.ToString("yyyy-MM-dd");
-            ViewBag.roomType = roomType;
-            if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(roomType) || checkin.ToString().Equals("0001-01-01 12:00:00 AM") || checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
+            searchModel.RoomTypeList = roomTypeList;
+            searchModel.City = city;
+            searchModel.CheckinDate = checkin;
+            searchModel.CheckoutDate = checkout;
+            searchModel.SearchType = roomType;
+            if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(roomType))
             {
                 TempData["searchOption"] = "Please input all searching conditions";
-                return View();
+                return View(searchModel);
             }
 
             if (checkin < DateTime.Now || checkout < DateTime.Now || checkout < checkin)
             {
                 TempData["searchOption"] = "Please choose valid check in and check out date"; 
-                return View();
+                return View(searchModel);
             }
 
             HttpContext.Session.SetString("city", city);
@@ -98,14 +132,41 @@ namespace MotelBookingApp.Controllers
         [HttpGet]
         public async Task<IActionResult> CityMotelList()
         {
+            var searchModel = new CustomerSearchVM();
             var roomTypeList = await _context.RoomTypes.ToListAsync();
-            ViewBag.RoomTypeList = roomTypeList;
-            ViewBag.city = HttpContext.Session.GetString("city");
-            ViewBag.roomType = HttpContext.Session.GetString("roomType");
-            ViewBag.checkin = HttpContext.Session.GetString("checkin");
-            ViewBag.checkout = HttpContext.Session.GetString("checkout");
             ViewBag.Count = HttpContext.Session.GetString("Count");
-           
+            searchModel.RoomTypeList = roomTypeList;
+            if(HttpContext.Session.GetString("checkin") != null)
+            {
+                searchModel.CheckinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
+            }else
+            {
+                searchModel.CheckinDate = DateTime.Now;
+            }
+            if (HttpContext.Session.GetString("checkout") != null)
+            {
+                searchModel.CheckoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
+            }
+            else
+            {
+                searchModel.CheckoutDate = DateTime.Now;
+            }
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("city")))
+            {
+                searchModel.City = HttpContext.Session.GetString("city");
+            }
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
+            {
+                searchModel.SearchType = HttpContext.Session.GetString("roomType");
+            }
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")) ||
+               string.IsNullOrEmpty(HttpContext.Session.GetString("checkout")) ||
+               string.IsNullOrEmpty(HttpContext.Session.GetString("city")) ||
+               string.IsNullOrEmpty(HttpContext.Session.GetString("roomType")))
+            {
+                TempData["searchOption"] = "Please input all searching condition";
+                return RedirectToAction(nameof(Index));
+            }
             try
             {
                 List<Motel> motels = await _context.Motels.Where(m => m.City == HttpContext.Session.GetString("city")).ToListAsync();
@@ -161,19 +222,19 @@ namespace MotelBookingApp.Controllers
                     };
                     ViewBag.center = center;
                     ViewBag.motelLocations = motelLocations;
- 
-                    return View(motelList);
+                    searchModel.AvailableMotels = motelList;
+                    return View(searchModel);
                 }
                 else
                 {
-                    TempData["searchOption"] = "Sorry,there is no result for your search.";
-                    return RedirectToAction("Index","Home");
+                    TempData["searchResOption"] = "Sorry,there is no result for your search.";
+                    return View(searchModel);
                 }
             }
             catch (SystemException ex)
             {
-                TempData["searchOption"] = ex.Message;
-                return RedirectToAction("Index", "Home");
+                TempData["searchResOption"] = ex.Message;
+                return View(searchModel);
             }
         }
 
@@ -188,23 +249,24 @@ namespace MotelBookingApp.Controllers
         [HttpPost,ActionName("CityMotelList")]
         public async Task<IActionResult> ReSearch(DateTime checkin, string city, DateTime checkout, string roomType)
         {
+            StaffBookingVM searchModel = new StaffBookingVM();
             var roomTypeList = await _context.RoomTypes.ToListAsync();
-            ViewBag.RoomTypeList = roomTypeList;
-            ViewBag.city = HttpContext.Session.GetString("city");
-            ViewBag.roomType = HttpContext.Session.GetString("roomType");
-            ViewBag.checkin = HttpContext.Session.GetString("checkin");
-            ViewBag.checkout = HttpContext.Session.GetString("checkout");
+            searchModel.RoomTypeList = roomTypeList;
+            searchModel.City = city;
+            searchModel.CheckinDate = checkin;
+            searchModel.CheckoutDate = checkout;
+            searchModel.SearchType = roomType; ;
             ViewBag.Count = HttpContext.Session.GetString("Count");
-            if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(roomType) || checkin.ToString().Equals("0001-01-01 12:00:00 AM") || checkout.ToString().Equals("0001-01-01 12:00:00 AM"))
+            if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(roomType))
             {
                 TempData["searchResOption"] = "Please input all searching conditions";
-                return View();
+                return View(searchModel);
             }
 
             if (checkin < DateTime.Now || checkout < DateTime.Now || checkout < checkin)
             {
                 TempData["searchResOption"] = "Please choose valid check in and check out date";
-                return View();
+                return View(searchModel);
             }
 
             HttpContext.Session.SetString("city", city);
@@ -250,13 +312,11 @@ namespace MotelBookingApp.Controllers
                 int totalScore = 0;
                 foreach (var c in comments)
                 {
-            
                     totalScore += int.Parse(c.Score);
                 }
                 var score = totalScore / comments.Count;
-                motelDetail.Score = score;
+                newMotel.Score = score;
             }
-
             motelDetail.Motel = newMotel;
             var address = motel.Address + "," + motel.City + "," + motel.Province + motel.PostalCode;
             @ViewBag.Address = address;
@@ -431,6 +491,7 @@ namespace MotelBookingApp.Controllers
                                 Id = room.Id,
                                 RoomNum = room.RoomNum,
                                 Price = room.Price,
+                                Motel = room.Motel,
                                 MotelName = room.Motel.Name,
                                 RoomTypeName = room.RoomType.Name,
                                 RoomTypeImage = _client.Uri.ToString() + "/" + room.RoomType.ImageUrl

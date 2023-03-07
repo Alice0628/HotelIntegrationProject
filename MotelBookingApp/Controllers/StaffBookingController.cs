@@ -142,12 +142,12 @@ namespace MotelBookingApp.Controllers
 
             if (string.IsNullOrEmpty(roomType))
             {
-                TempData["searchOption"] = "Please input roomType";
+                TempData["staffSearchOption"] = "Please input roomType";
                 return View(searchModel);
             }
             if (checkin < DateTime.Now || checkout < DateTime.Now || checkout < checkin)
             {
-                TempData["searchOption"] = "Please choose valid check in and check out date";
+                TempData["staffSearchOption"] = "Please choose valid check in and check out date";
                 return View(searchModel);
             }
             //HttpContext.Session.SetString("checkin", checkin.ToString());
@@ -160,7 +160,7 @@ namespace MotelBookingApp.Controllers
             }
             else
             {
-                TempData["searchOption"] = "Sorry,there is no result for your search.";
+                TempData["staffSearchOption"] = "Sorry,there is no result for your search.";
             }
             return View(searchModel);
         }
@@ -188,8 +188,17 @@ namespace MotelBookingApp.Controllers
         [HttpPost, ActionName("RoomDetail")]
         public async Task<IActionResult> AddToCart(int id)
         {
-            DateTime checkinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
-            DateTime checkoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
+            DateTime checkinDate;
+            DateTime checkoutDate;
+            if (HttpContext.Session.GetString("checkin") != null && HttpContext.Session.GetString("checkout") != null)
+            {
+               checkinDate = DateTime.Parse(HttpContext.Session.GetString("checkin"));
+               checkoutDate = DateTime.Parse(HttpContext.Session.GetString("checkout"));
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
             try
             {
                 
