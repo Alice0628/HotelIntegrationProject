@@ -605,7 +605,8 @@ Sprint 1:
 
 2023/03/07 Zhu Qichen
 1. Done / not done since last scrum:
-
+- Bug Fix
+- Home Layout
 2. To do until next Scrum:
-
+- PPT
 3. Need assistance / figure things out
