@@ -1,5 +1,5 @@
 ﻿@using MotelBookingApp.Data.ViewModels
-@model List<MotelInputModel>
+@model CustomerSearchVM
 
 @{
     ViewData["Title"] = "Motel search result";
@@ -12,75 +12,46 @@
                 <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
             </div>
         </div>
+        @if (TempData["searchResOption"] != null)
+        {
+            <div id="searchResOption" class="flash alert alert-warning">
+                @TempData["searchResOption"]
+            </div>
+        }
         <div class="container d-flex justify-content-between">
-            @if (TempData["searchResOption"] != null)
-            {
-                <div id="searchResOption" class="flash alert alert-warning">
-                    @TempData["searchResOption"]
-                </div>
-            }
-
             <div class="col-lg-2 mb-3">
-                @if (string.IsNullOrEmpty(ViewBag.city))
-                {
-                    <input class="form-control" id="city" name="city" />
-                }
-                else
-                {
-                    <input class="form-control" value=@ViewBag.city id="city" name="city" />
-                }
+                    <input class="form-control" id="city" asp-for="City" name="city" />
             </div>
 
             <div class="col-lg-2 mb-3">
-                @if (string.IsNullOrEmpty(ViewBag.checkin))
-                {
-                    <input type="date" class="form-control" name="checkin" id="check-in">
-                }
-                else
-                {
-                    <input type="date" class="form-control" value=@ViewBag.checkin name="checkin" id="check-in">
-                }
+             
+                    <input type="date" class="form-control" name="checkin" asp-for="CheckinDate" id="check-in">
+              
             </div>
             <div class="col-lg-2 mb-3">
-                @if (string.IsNullOrEmpty(ViewBag.checkout))
-
-                {
-                    <input type="date" class="form-control" name="checkout" id="check-out">
-                }
-                else
-                {
-                    <input type="date" class="form-control" value=@ViewBag.checkout name="checkout" id="check-out">
-                }
+                
+                    <input type="date" class="form-control"  asp-for="CheckoutDate" name="checkout" id="check-out">
+               
             </div>
             <div class="col-lg-2 mb-2">
-                @if (string.IsNullOrEmpty(ViewBag.roomType))
-                {
-                    <select class="form-select" id="room-type" name="roomType">
+               
+                    <select class="form-select" id="room-type" asp-for="SearchType" name="roomType">
                         <option value=""></option>
-                        @foreach (var rt in ViewBag.RoomTypeList)
+                        @foreach (var rt in Model.RoomTypeList)
                         {
                             <option value=@rt.Name>@rt.Name</option>
                         }
                     </select>
-                }
-                else
-                {
-                    <select class="form-select" id="room-type" value=@ViewBag.roomType name="roomType">
-                        <option value=""></option>
-                        @foreach (var rt in ViewBag.RoomTypeList)
-                        {
-                            <option value=@rt.Name>@rt.Name</option>
-                        }
-                    </select>
-                }
+
             </div>
             <div class="col-lg-1 mb-1">
-                <button type="submit" name="button1" value="submit1" class="btn btn-primary" asp-action="Index">Search</button>
+                <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </div>
     </form>
+    @if(Model.AvailableMotels != null){
     <div class="container">
-        @foreach (var m in Model)
+        @foreach (var m in Model.AvailableMotels)
         {
             <div class="d-flex mt-1 border justify-content-start align-items-center">
                 <div style="background-image:url(@m.ImageUrl);background-position:center;width:300px;height:250px">
@@ -108,48 +79,51 @@
                     <div class="mt-2"><b>Motel Address:</b>@m.Address, @m.City, @m.Province, @m.PostalCode</div>
                     <a class="btn btn-primary" asp-action="CityMotelDetail" asp-route-id="@m.Id"><b>View Detail</b></a>
                 </div>
-
             </div>
         }
+
+        <div id="map" style="width: 100%; height: 600px;margin-top:1rem"></div>
+
+        <script>S
+        setTimeout(function () {
+            document.getElementById("searchResOption").style.display = "none";
+        }, 3000);
+
+        function initMap() {
+            var motelLocations = @Html.Raw(Json.Serialize(ViewBag.motelLocations));
+            console.log(motelLocations);
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: @ViewBag.center.Latitude, lng: @ViewBag.center.Longitude },
+                zoom: 12
+            });
+            var markers = [];
+
+            for (var i = 0; i < motelLocations.length; i++) {
+                var latitude = parseFloat(motelLocations[i].latitude);
+                var longitude = parseFloat(motelLocations[i].longitude);
+                markers.push({ lat: latitude, lng: longitude });
+            }
+
+            var address = motelLocations[0].address;
+            for (var j = 0; j < markers.length; j++) {
+                var marker = new google.maps.Marker({
+                    position: markers[j],
+                    map: map,
+                    title: motelLocations[j].address
+                });
+            }
+        }
+
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
+        async defer></script>
+
     </div>
+    }
 </div>
 
-<div id="map" style="width: 100%; height: 600px;margin-top:1rem"></div>
 
-<script>
-    setTimeout(function () {
-        document.getElementById("searchResOption").style.display = "none";
-    }, 3000);
-
-    function initMap() {
-        var motelLocations = @Html.Raw(Json.Serialize(ViewBag.motelLocations));
-        console.log(motelLocations);
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: @ViewBag.center.Latitude, lng: @ViewBag.center.Longitude },
-            zoom: 12
-        });
-        var markers = [];
-
-        for (var i = 0; i < motelLocations.length; i++) {
-            var latitude = parseFloat(motelLocations[i].latitude);
-            var longitude = parseFloat(motelLocations[i].longitude);
-            markers.push({ lat: latitude, lng: longitude });
-        }
-
-        var address = motelLocations[0].address;
-        for (var j = 0; j < markers.length; j++) {
-            var marker = new google.maps.Marker({
-                position: markers[j],
-                map: map,
-                title: motelLocations[j].address
-            });
-        }
-    }
-
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEkj_2tqmLNrPm43uCX0_PjuWU0inMq4&callback=initMap"
-        async defer></script>
 
 
 

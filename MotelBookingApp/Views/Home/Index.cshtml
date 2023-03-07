@@ -1,4 +1,5 @@
-﻿
+﻿@using MotelBookingApp.Data.ViewModels
+@model CustomerSearchVM
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -22,57 +23,25 @@
             <form method="post">
                 <div class="row">
                     <div class="col-lg-3 mb-3">
-                        @if (string.IsNullOrEmpty(ViewBag.city))
-                        {
-                            <input class="form-control" id="city" name="city" />
-                        }
-                        else
-                        {
-                            <input class="form-control" value=@ViewBag.city id="city" name="city" />
-                        }
+                            <input class="form-control" id="city" placeholder="input city name..." asp-for="City" name="city" />
                     </div>
 
                     <div class="col-lg-3 mb-3">
-                        @if (string.IsNullOrEmpty(ViewBag.checkin))
-                        {
-                            <input type="date" class="form-control" name="checkin" id="check-in">
-                        }
-                        else
-                        {
-                            <input type="date" class="form-control" value=@ViewBag.checkin name="checkin" id="check-in">
-                        }
+                       
+                            <input type="date" class="form-control" asp-for="CheckinDate" name="checkin" id="check-in">
+                         
                     </div>
                     <div class="col-lg-3 mb-3">
-                        @if (string.IsNullOrEmpty(ViewBag.checkout))
-                        {
-                            <input type="date" class="form-control" name="checkout" id="check-out">
-                        }
-                        else
-                        {
-                            <input type="date" class="form-control" value=@ViewBag.checkout name="checkout" id="check-out">
-                        }
+                            <input type="date" class="form-control" asp-for="CheckoutDate" name="checkout" id="check-out">   
                     </div>
                     <div class="col-lg-2 mb-2">
-                        @if (string.IsNullOrEmpty(ViewBag.roomType))
-                        {
-                            <select class="form-select" id="room-type" name="roomType">
+                        <select class="form-select" id="room-type" asp-for="SearchType" name="roomType">
                                 <option value=""></option>
-                                @foreach (var rt in ViewBag.RoomTypeList)
+                                @foreach (var rt in Model.RoomTypeList)
                                 {
                                     <option value=@rt.Name>@rt.Name</option>
                                 }
                             </select>
-                        }
-                        else
-                        {
-                            <select class="form-select" id="room-type" value=@ViewBag.roomType name="roomType">
-                                <option value=""></option>
-                                @foreach (var rt in ViewBag.RoomTypeList)
-                                {
-                                    <option value=@rt.Name>@rt.Name</option>
-                                }
-                            </select>
-                        }
                     </div>
                     <div class="col-lg-1 mb-1">
                         <button type="submit" class="btn btn-primary">Search</button>

@@ -17,7 +17,8 @@ namespace MotelBookingApp.Data.ViewModels
         public string? RoomTypeName { get; set; }
 
         public string? RoomTypeImage { get; set; } = String.Empty;
- 
+
+        public Motel? Motel { get; set; }
         public string? MotelName { get; set; }
 
         public Boolean? IfBooded { get; set; } = false;
