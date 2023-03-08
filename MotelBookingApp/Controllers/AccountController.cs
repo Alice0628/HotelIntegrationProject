@@ -45,19 +45,6 @@ namespace MotelBookingApp.Controllers
                         var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                         if (result.Succeeded)
                         {
-                            var roleId = _context.Roles.Where(r => r.Name == "Staff").FirstOrDefault().Id;
-                            var roleList = await _context.UserRoles.Where(ur => ur.RoleId == roleId).ToListAsync();
-
-                            List<AppUser> staffList = new List<AppUser>();
-                            for (int i = 0; i < roleList.Count; i++)
-                            {
-                                var staff = _context.Users.Include("Motel").Where(s => s.Id == roleList[i].UserId).FirstOrDefault();
-                                staffList.Add(staff);
-                            }
-                            if (!staffList.Contains(user))
-                            {
-                                HttpContext.Session.SetString("UserName", user.UserName);
-                            }
                             return RedirectToAction("Index", "Home");
                         }
                     }

@@ -50,18 +50,11 @@ namespace MotelBookingApp.Controllers
             else
             {
                 string[] name = info.Principal.FindFirst(ClaimTypes.Name).Value.Split(' ');
-                DateTime dbo = DateTime.Now;
-
-                //if (!string.IsNullOrEmpty(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value))
-                //{
-                //    dbo = DateTime.Parse(info.Principal.FindFirst(ClaimTypes.DateOfBirth).Value); ;
-                //}
-
                 AppUser user = new AppUser
                 {
                     FirstName = name[1],
                     LastName = name[0],
-                    DOB = dbo,
+                    DOB = DateTime.Now,
                     Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     UserName = info.Principal.FindFirst(ClaimTypes.Email).Value,
                     EmailConfirmed = true

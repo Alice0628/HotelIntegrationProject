@@ -289,7 +289,6 @@ namespace MotelBookingApp.Controllers
                         var newCount = int.Parse(HttpContext.Session.GetString("count")) + 1;
                         HttpContext.Session.SetString("count", newCount.ToString());
                         ViewBag.Count = newCount;
-                        HttpContext.Session.SetString("count", count.ToString());
                         TempData["addtocart"] = $"Room {room.RoomNum} has been added to cart";
                         return RedirectToAction(nameof(SearchRoom));
                     }
