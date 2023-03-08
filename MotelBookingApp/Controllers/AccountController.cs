@@ -45,7 +45,6 @@ namespace MotelBookingApp.Controllers
                         var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                         if (result.Succeeded)
                         {
-                            HttpContext.Session.SetString("UserName", user.UserName);
                             return RedirectToAction("Index", "Home");
                         }
                     }
