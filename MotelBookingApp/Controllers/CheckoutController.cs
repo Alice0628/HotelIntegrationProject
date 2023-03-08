@@ -104,7 +104,7 @@ namespace MotelBookingApp.Controllers
             var sessionService = new SessionService();
             Session session = sessionService.Get(session_id);
 
-            var userName = _userManager.GetUserName(User);
+            var userName = HttpContext.Session.GetString("UserName");
             var user = _context.Users.Where(u => u.UserName == userName).FirstOrDefault();
 
             var purchaseConfirmationCode = session.PaymentIntentId;
@@ -123,7 +123,7 @@ namespace MotelBookingApp.Controllers
                 {
                     CheckinDate = pr.CheckinDate,
                     CheckoutDate = pr.CheckoutDate,
-                    OccupantName = HttpContext.Session.GetString("UserName"),
+                    OccupantName = pr.AppUser.UserName,
                     Room = pr.Room,
                     Price = Math.Round(pr.Room.Price * (pr.CheckoutDate-pr.CheckinDate).Days * (decimal)1.14975, 2),
                     Booking = booking,

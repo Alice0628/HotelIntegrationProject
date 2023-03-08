@@ -227,7 +227,7 @@ body {
     box-shadow: 1px 1px 5px black;
 }
 
-@media all and (max-width:1332px) {
+@media all and (max-width:2560px) {
     .divimg {
         height: auto;
         width: 50%;
