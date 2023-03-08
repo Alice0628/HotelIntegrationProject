@@ -351,7 +351,7 @@ namespace MotelBookingApp.Controllers
                 }
                 else
                 {
-                    var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
+                    var user = await _context.AppUsers.Where(u => u.UserName == userName).FirstOrDefaultAsync();
                     FavoriteMotelList newfavMotel = new FavoriteMotelList
                     {
                         Owner = user,
@@ -389,7 +389,7 @@ namespace MotelBookingApp.Controllers
         {
             var motel = await _context.Motels.FirstOrDefaultAsync(m => m.Id == id);
             var userName = _userManager.GetUserName(User);
-            var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
+            var user = await _context.AppUsers.Where(u => u.UserName == userName).FirstOrDefaultAsync();
             var comment = new Comment
             {
                 User = user,
@@ -525,13 +525,13 @@ namespace MotelBookingApp.Controllers
             ViewBag.Count = HttpContext.Session.GetString("Count");
             List<BookingCart> cartItems = new List<BookingCart>();
             if (User.IsInRole("Staff")){
-                var email = HttpContext.Session.GetString("userEmail");
-                if(email == null)
+                var username = HttpContext.Session.GetString("UserName");
+                if(username == null)
                 {
                     TempData["CartOption"] = "No customer specified";
                     return View(new List<BookingCart>());
                 }
-                cartItems = await _context.BookingCarts.Include("AppUser").Include("Room").Where(bc => bc.AppUser.Email == email).ToListAsync();
+                cartItems = await _context.BookingCarts.Include("AppUser").Include("Room").Where(bc => bc.AppUser.UserName == username).ToListAsync();
             }
             else { 
             var userName = _userManager.GetUserName(User);
@@ -559,7 +559,7 @@ namespace MotelBookingApp.Controllers
             await _context.SaveChangesAsync();
             var count = int.Parse(HttpContext.Session.GetString("count")) - 1;
             HttpContext.Session.SetString("count", count.ToString());
-            ViewBag.count = count.ToString();
+            ViewBag.Count = count.ToString();
             return RedirectToAction(nameof(Cart));
         }
 
@@ -581,7 +581,7 @@ namespace MotelBookingApp.Controllers
                 }
                 // todo
                 var userName = _userManager.GetUserName(User);
-                var user = await _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
+                var user = await _context.AppUsers.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
                 BookingCart bookingCart = new BookingCart
                 {
                     AppUser = user,
@@ -627,7 +627,7 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> DeleteFavoriteMote(int id)
         {   
             var userName = _userManager.GetUserName(User); 
-            var user = await _context.Users.Where(u => u.UserName == userName).FirstOrDefaultAsync();
+            var user = await _context.AppUsers.Where(u => u.UserName == userName).FirstOrDefaultAsync();
             var favoriteMotel = await _context.FavoriteMotelLists.Include("Owner").Include("Motel").Where(fm => fm.Motel.Id == id && fm.Owner.UserName == userName).FirstOrDefaultAsync();
             _context.FavoriteMotelLists.Remove(favoriteMotel);
             await _context.SaveChangesAsync();

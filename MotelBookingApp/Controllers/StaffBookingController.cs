@@ -45,10 +45,10 @@ namespace MotelBookingApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegisterVM registerVM)
         {
-            var user = await _userManager.FindByEmailAsync(registerVM.Email);
+            var user = await _context.AppUsers.Where(u => u.UserName == registerVM.UserName).FirstOrDefaultAsync();
             if (user != null)
             {
-                HttpContext.Session.SetString("userEmail", registerVM.Email);
+                HttpContext.Session.SetString("UserName", registerVM.UserName);
                 return RedirectToAction(nameof(SearchRoom));
             }
             if (!ModelState.IsValid) return View(registerVM);
@@ -73,7 +73,9 @@ namespace MotelBookingApp.Controllers
                     // set EmailConfirmation to true
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var result = await _userManager.ConfirmEmailAsync(newUser, code);
-                    HttpContext.Session.SetString("userEmail", registerVM.Email);
+                    HttpContext.Session.SetString("UserName", registerVM.UserName);
+                    var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.UserName == username).ToList().Count.ToString();
+                    HttpContext.Session.SetString("count", count);
                     return RedirectToAction(nameof(SearchRoom));
                 }
                 else
@@ -133,7 +135,7 @@ namespace MotelBookingApp.Controllers
             {
                 //List<Motel> motels = await _context.Motels.Where(m => m.City == searchCity).ToListAsync();
                 var userName = _userManager.GetUserName(User);
-                var user = await _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
+                var user = await _context.AppUsers.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
                 List<Room> rooms = await _context.Rooms.Include("Motel").Include("RoomType").Where(r => r.Motel.Name == user.Motel.Name && r.RoomType.Name == roomType).ToListAsync();
                 ViewBag.RoomMotel = user.Motel.Name;
                 var unavailableList = new List<Room>();
@@ -264,17 +266,15 @@ namespace MotelBookingApp.Controllers
                         TempData["addtocart"] = "no room found";
                         return View();
                     }
-                    var email = HttpContext.Session.GetString("userEmail");
-                    if (email != null)
+                    var username = HttpContext.Session.GetString("UserName");
+                    if (username != null)
                     {
-                        var user = await _context.Users.Include("Motel").Where(u => u.Email == email).FirstOrDefaultAsync();
+                        var user = await _context.AppUsers.Include("Motel").Where(u => u.UserName == username).FirstOrDefaultAsync();
                         if (user == null)
                         {
                             TempData["CreateCustomer"] = "User does not exist";
                             return RedirectToAction(nameof(Index));
                         }
-                        var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.Email == email).ToList().Count.ToString();
-                        HttpContext.Session.SetString("count", count);
                         BookingCart bookingCart = new BookingCart
                         {
                             AppUser = user,
