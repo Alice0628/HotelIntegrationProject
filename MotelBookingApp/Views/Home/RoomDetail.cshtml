@@ -5,12 +5,6 @@
 }
 <div class="container">
     <div class="col-lg-10">
-        @if (TempData["addtocart"] != null)
-        {
-            <div id="addtocart" class="flash alert alert-warning">
-                @TempData["addtocart"];
-            </div>
-        }
         <div class="register-photo">
             <div class="container">
                 <img src="https://ninamagon.com/wp-content/uploads/2020/02/Hotel-Header-Image.png" alt="" width="100%" />
@@ -36,8 +30,4 @@
         </div>
     </div>
 </div>
-<script>
-    setTimeout(function () {
-        document.getElementById("addtocart").style.display = "none";
-    }, 3000);
-<script>
+ 
