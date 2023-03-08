@@ -50,7 +50,17 @@ namespace MotelBookingApp.Controllers
         {
             ViewBag.Count = Convert.ToInt32(HttpContext.Session.GetString("Count"));
 
-            var userName = _userManager.GetUserName(User);
+            string userName;
+
+            if (User.IsInRole("Staff"))
+            {
+                userName = HttpContext.Session.GetString("UserName");
+            }
+            else
+            {
+                userName = _userManager.GetUserName(User);
+            }
+
             PlannedList = _context.BookingCarts.Include("AppUser").Include("Room").Include("Room.Motel").Include("Room.RoomType").Where(u => u.AppUser.UserName == userName).ToList();
             List<SessionLineItemOptions> lineItems = new List<SessionLineItemOptions>();
 
@@ -104,7 +114,21 @@ namespace MotelBookingApp.Controllers
             var sessionService = new SessionService();
             Session session = sessionService.Get(session_id);
 
+<<<<<<< Updated upstream
             var userName = HttpContext.Session.GetString("UserName");
+=======
+            string userName;
+
+            if (User.IsInRole("Staff"))
+            {
+                userName = HttpContext.Session.GetString("UserName");
+            }
+            else
+            {
+                userName = _userManager.GetUserName(User);
+            }
+
+>>>>>>> Stashed changes
             var user = _context.Users.Where(u => u.UserName == userName).FirstOrDefault();
 
             var purchaseConfirmationCode = session.PaymentIntentId;
