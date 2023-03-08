@@ -114,9 +114,6 @@ namespace MotelBookingApp.Controllers
             var sessionService = new SessionService();
             Session session = sessionService.Get(session_id);
 
-<<<<<<< Updated upstream
-            var userName = HttpContext.Session.GetString("UserName");
-=======
             string userName;
 
             if (User.IsInRole("Staff"))
@@ -128,7 +125,6 @@ namespace MotelBookingApp.Controllers
                 userName = _userManager.GetUserName(User);
             }
 
->>>>>>> Stashed changes
             var user = _context.Users.Where(u => u.UserName == userName).FirstOrDefault();
 
             var purchaseConfirmationCode = session.PaymentIntentId;

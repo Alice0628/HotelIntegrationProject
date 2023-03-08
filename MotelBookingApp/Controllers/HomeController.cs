@@ -373,8 +373,6 @@ namespace MotelBookingApp.Controllers
         }
 
 
-
-
         [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<IActionResult> AddAComment(int id)
@@ -557,13 +555,10 @@ namespace MotelBookingApp.Controllers
             }
             _context.BookingCarts.Remove(cartItem);
             await _context.SaveChangesAsync();
-<<<<<<< Updated upstream
-            var count = int.Parse(HttpContext.Session.GetString("count")) - 1;
-            HttpContext.Session.SetString("count", count.ToString());
-=======
+
             var count = int.Parse(HttpContext.Session.GetString("Count")) - 1;
             HttpContext.Session.SetString("Count", count.ToString());
->>>>>>> Stashed changes
+
             ViewBag.Count = count.ToString();
             return RedirectToAction(nameof(Cart));
         }

@@ -74,8 +74,8 @@ namespace MotelBookingApp.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var result = await _userManager.ConfirmEmailAsync(newUser, code);
                     HttpContext.Session.SetString("UserName", registerVM.UserName);
-                    var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.UserName == username).ToList().Count.ToString();
-                    HttpContext.Session.SetString("count", count);
+                    var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.UserName == newUser.UserName).ToList().Count.ToString();
+                    HttpContext.Session.SetString("Count", count);
                     return RedirectToAction(nameof(SearchRoom));
                 }
                 else
@@ -97,7 +97,7 @@ namespace MotelBookingApp.Controllers
         public async Task<IActionResult> SearchRoom()
         {
             StaffBookingVM searchModel = new StaffBookingVM();
-            ViewBag.count = HttpContext.Session.GetString("count");
+            ViewBag.Count = HttpContext.Session.GetString("Count");
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             searchModel.RoomTypeList = roomTypeList;
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("checkin")))
@@ -287,7 +287,7 @@ namespace MotelBookingApp.Controllers
                         await _context.SaveChangesAsync();
 
                         var newCount = int.Parse(HttpContext.Session.GetString("count")) + 1;
-                        HttpContext.Session.SetString("count", newCount.ToString());
+                        HttpContext.Session.SetString("Count", newCount.ToString());
                         ViewBag.Count = newCount;
                         TempData["addtocart"] = $"Room {room.RoomNum} has been added to cart";
                         return RedirectToAction(nameof(SearchRoom));
