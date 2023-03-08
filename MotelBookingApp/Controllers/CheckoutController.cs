@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MotelBookingApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class CheckoutController : Controller
     {
         private readonly MotelDbContext _context;
