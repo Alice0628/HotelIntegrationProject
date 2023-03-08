@@ -63,7 +63,7 @@ namespace MotelBookingApp.Controllers
 
                     if (purchases.Count <= 0)
                     {
-                        TempData["HistoryNotFound"] = "No related purchase Found!";
+                        TempData["CHNotFound"] = "No related purchase Found!";
                     }
                 }
                 ViewBag.Count = HttpContext.Session.GetString("Count");
@@ -95,7 +95,7 @@ namespace MotelBookingApp.Controllers
 
                     if (purchases.Count <= 0)
                     {
-                        TempData["HistoryNotFound"] = "No related purchase Found!";
+                        TempData["CHNotFound"] = "No related purchase Found!";
                     }
                 }
                 ViewBag.Count = HttpContext.Session.GetString("Count");
@@ -108,39 +108,5 @@ namespace MotelBookingApp.Controllers
             }
 
         }
-
-        // All PurchasedFlight 
-        //public async Task<IActionResult> AdminIndex(string searchString)
-        //{
-        //    if (_context.PurchasedFlights == null) return Problem("No purchases found.");
-        //    var purchases = await _context.PurchasedFlights
-        //        .Include(pf => pf.Flight).ThenInclude(f => f.Airline)
-        //        .Include(pf => pf.Flight).ThenInclude(f => f.Origin)
-        //        .Include(pf => pf.Flight).ThenInclude(f => f.Destination)
-        //        .Include(pf => pf.Purchase).ThenInclude(u => u.User)
-        //        .ToListAsync();
-
-        //    if (!String.IsNullOrEmpty(searchString))
-        //    {
-        //        searchString = searchString.ToLower();
-        //        purchases = await _context.PurchasedFlights.Where(pf =>
-        //            pf.Purchase.User.UserName.ToLower().Contains(searchString) ||
-        //            pf.Flight.Number.ToLower().Contains(searchString) ||
-        //            pf.Flight.Airline.AirlineName.ToLower().Contains(searchString) ||
-        //            pf.Flight.Origin.Name.ToLower().Contains(searchString) ||
-        //            pf.Flight.Destination.Name.ToLower().Contains(searchString) ||
-        //            pf.Purchase.WhenPaid.ToString().Contains(searchString) ||
-        //            pf.DepartureDate.ToString().Contains(searchString)
-        //            )
-        //            .ToListAsync();
-
-        //        if (purchases.Count <= 0)
-        //        {
-        //            TempData["notfound"] = "No related purchase Found!";
-        //        }
-        //    }
-        //    return View(purchases);
-        //}
-
     }
 }
