@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TravelBooking.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class CartController : Controller
     {
         private readonly MotelDbContext _context;

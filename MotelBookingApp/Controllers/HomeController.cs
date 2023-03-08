@@ -373,8 +373,6 @@ namespace MotelBookingApp.Controllers
         }
 
 
-
-
         [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<IActionResult> AddAComment(int id)

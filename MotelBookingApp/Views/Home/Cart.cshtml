@@ -5,7 +5,7 @@
 }
 
 
-<div class="container col-12">
+<div class="container col-12 mb-5">
     <div class="col-12">
         <div style="width:100%; height:14rem; margin-bottom: 1rem; background-image:url(https://ninamagon.com/wp-content/uploads/2020/02/Hotel-Header-Image.png);background-position:center; background-size:cover"></div>
         <h2 class="text-center text-primary">Your Cart Items</h2>
@@ -48,10 +48,10 @@
                         @foreach (BookingCart bc in Model)
                         {
                             <tr>
-                                <td class="text-center">
+                                <td class="text-center notranslate">
                                     @bc.AppUser.UserName
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center notranslate">
                                     @bc.Room.RoomNum
                                 </td>
                                 <td class="text-center">
@@ -64,31 +64,29 @@
                                     $@bc.Room.Price
                                 </td>
                                 <td class="notranslate">
-                                    $@(
-                               bc.Room.Price * (bc.CheckoutDate - bc.CheckinDate).Days
-                               )
+                                    $@(bc.Room.Price * (bc.CheckoutDate - bc.CheckinDate).Days)
                                 </td>
                                 <td class="d-flex justify-content-center">
-                                        <a asp-controller="Cart" asp-action="Remove" asp-route-Id="@bc.Id" class="btn btn-sm btn-danger">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
+                                    <a asp-controller="Cart" asp-action="Remove" asp-route-Id="@bc.Id" class="btn btn-sm btn-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         }
                         <tr>
                             <td colspan="5" class="text-end">
-                            Total Price:
-                        </td>
-                        <td colspan="2" class="notranslate">
-                            $@ViewBag.Total
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                                Total Price:
+                            </td>
+                            <td colspan="2" class="notranslate">
+                                $@ViewBag.Total
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
         <div class="d-flex justify-content-end">
-            <span><b>Total:</b> $ @ViewBag.Total</span>
+            <span class="notranslate"><b>Total:</b> $ @ViewBag.Total</span>
         </div>
         <div class="d-flex justify-content-end pt-5 pb-5">
             <form method="post" asp-action="CreateCheckoutSession" asp-controller="Checkout">

@@ -5,7 +5,7 @@
     ViewData["Title"] = "Staff Info";
 }
 
-<div class="col-12 justify-content-center">
+<div class="col-12 justify-content-center mb-5">
     <div class="register-photo">
         <div class="container col-md-8">
             <img src="https://media.licdn.com/dms/image/C4E12AQHFQZv1viZcbw/article-cover_image-shrink_600_2000/0/1526901637188?e=2147483647&v=beta&t=307kuoZQRustj0H5x4YPQFva3n3VxCkYHI065DxsF00" alt="" width="100%" />
@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-4">
                             <label asp-for="Motel" class="control-label mt-2"></label>
-                            <select asp-for="Motel" class="form-control" readonly>
+                            <select asp-for="Motel" class="form-control notranslate" readonly>
                                 @foreach (Motel a in Model.MotelList)
                                 {
                                     <option value=@a.Id hidden>@a.Name</option>

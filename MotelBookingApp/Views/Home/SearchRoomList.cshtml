@@ -6,7 +6,7 @@
 }
 
 
-<div class="container">
+<div class="container d-flex justify-content-center mb-5">
     <div class="col-10">
         <div class="register-photo">
             <div class="container">
@@ -29,7 +29,7 @@
                             <tr>
                                 <th class="col-3">Image</th>
                                 <th class="col-2">Type</th>
-                                <th class="col-3">Room Number</th>
+                                <th class="col-3 notranslate">Room Number</th>
                                 <th class="col-2">Price</th>
                                 <th class="col-2"><i class="fa-regular fa-hand"></i>Action</th>
                             </tr>
@@ -45,14 +45,14 @@
                                     <td class="col-2">
                                         @r.RoomTypeName
                                     </td>
-                                    <td class="col-3">
+                                    <td class="col-3 notranslate">
                                         @r.RoomNum
                                     </td>
-                                    <td class="col-2">
+                                    <td class="col-2 notranslate">
                                         $ @r.Price
                                     </td>
                                     <td class="col-2">
-                                        <a class="btn btn-outline-primary" asp-action="RoomDetail" asp-route-id="@r.Id"> Book </a>
+                                        <a class="btn btn-outline-primary" asp-action="RoomDetail" asp-route-id="@r.Id"> To Book </a>
                                     </td>
                                 </tr>
                             }

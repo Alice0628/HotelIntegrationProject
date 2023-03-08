@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Motel search result";
 }
-<div class="container">
+<div class="container mb-5">
 
     <div class="col-10 m-3 border">
 
@@ -14,7 +14,7 @@
                     <img src=@Model.Motel.ImageUrl width="150" heiht="150" alt="Motel picture" />
                 </div>
                 <div style="margin-right:1rem">
-                    <p>@Model.Motel.Name</p>
+                    <p class="notranslate">@Model.Motel.Name</p>
                     <p>@Model.Motel.Address, @Model.Motel.City, @Model.Motel.Province, @Model.Motel.PostalCode</p>
                 </div>
                 <div>
@@ -31,7 +31,7 @@
                     <div class="m-2 border">
                         <div style="position:relative">
                             <div class="d-flex justify-content-between">
-                                <p>
+                                <p class="notranslate">
                                     @c.User.UserName
                                 </p>
                                 <div>
