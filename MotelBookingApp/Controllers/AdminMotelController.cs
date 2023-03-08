@@ -58,7 +58,7 @@ namespace MotelBookingApp.Controllers
                 {
                     TempData["MotelOption"] = "No search results";
                 }
-                return View(new List<Motel>());
+                return View(searcheRes);
             }
         }
         // GET: AdminAirport/Details/5
