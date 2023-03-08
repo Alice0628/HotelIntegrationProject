@@ -9,9 +9,7 @@ using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Identity;
 using Geocoding;
 using Geocoding.Google;
-using GoogleApi.Entities.Search.Video.Common;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
+ 
 
 namespace MotelBookingApp.Controllers
 {
@@ -198,6 +196,7 @@ namespace MotelBookingApp.Controllers
                         Longitude = cityCenter.First().Coordinates.Longitude,
                         Address = city
                     };
+
                     ViewBag.center = center;
                     ViewBag.motelLocations = motelLocations;
                     searchModel.AvailableMotels = motelList;
@@ -297,7 +296,9 @@ namespace MotelBookingApp.Controllers
             }
             motelDetail.Motel = newMotel;
             var address = motel.Address + "," + motel.City + "," + motel.Province + motel.PostalCode;
+            var name = motel.Name;
             @ViewBag.Address = address;
+            ViewBag.Name = name;
             IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyCZClJxke6nBFR5PImzPBpjdUZn8FxxhDU" };
             var addresses = await geocoder.GeocodeAsync(address);
 
@@ -481,14 +482,11 @@ namespace MotelBookingApp.Controllers
                     }
                     else
                     {
-                        TempData["roomRes"] = "Sorry,no available rooms";
                         return View(new List<RoomInputModel>());
                     }
-
                 }
                 else
                 {
-                    TempData["roomRes"] = "Sorry,no available rooms";
                     return View(new List<RoomInputModel>());
                 }
             }

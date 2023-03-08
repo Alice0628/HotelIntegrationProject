@@ -133,7 +133,7 @@
             var marker = new google.maps.Marker({
                 position: { lat: latitude, lng: longitude },
                 map: map,
-                title: '@ViewBag.Address'
+                title: '@ViewBag.Name'+':'+'@ViewBag.Address'
             });
         }
     </script>
