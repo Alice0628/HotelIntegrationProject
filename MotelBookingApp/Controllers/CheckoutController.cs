@@ -98,8 +98,8 @@ namespace MotelBookingApp.Controllers
                 Mode = "payment",
                 AllowPromotionCodes = true,
 
-                SuccessUrl = "https://localhost:7267/Checkout/Success?session_id={CHECKOUT_SESSION_ID}",
-                CancelUrl = "https://localhost:7267/Checkout/Cancel",
+                SuccessUrl = "https://motelbookingapp20230227140306.azurewebsites.net/Checkout/Success?session_id={CHECKOUT_SESSION_ID}",
+                CancelUrl = "https://motelbookingapp20230227140306.azurewebsites.net/Checkout/Cancel",
             };
             var service = new SessionService();
             Session session = service.Create(options);
