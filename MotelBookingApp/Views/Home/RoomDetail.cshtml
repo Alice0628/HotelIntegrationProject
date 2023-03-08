@@ -3,19 +3,9 @@
 @{
     ViewData["Title"] = "Room detail";
 }
-<div class="container">
-    <div class="col-lg-10">
-        @if (TempData["addtocart"] != null)
-        {
-            <div id="addtocart" class="flash alert alert-warning">
-                @TempData["addtocart"];
-            </div>
-        }
-        <div class="register-photo">
-            <div class="container">
-                <img src="https://ninamagon.com/wp-content/uploads/2020/02/Hotel-Header-Image.png" alt="" width="100%" />
-            </div>
-        </div>
+<div class="container d-flex justify-content-center" ">
+    <div class="col-lg-10 mt-5">
+
         <div class="d-flex justify-content-around align-items-lg-center">
             <div>
                 <img src=@Model.RoomTypeImage width="400" heiht="400" alt="Motel picture" />
@@ -36,8 +26,4 @@
         </div>
     </div>
 </div>
-<script>
-    setTimeout(function () {
-        document.getElementById("addtocart").style.display = "none";
-    }, 3000);
-<script>
+
