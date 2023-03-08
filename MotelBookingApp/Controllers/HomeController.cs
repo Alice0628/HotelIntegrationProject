@@ -563,7 +563,7 @@ namespace MotelBookingApp.Controllers
             return RedirectToAction(nameof(Cart));
         }
 
-        [Authorize(Roles = "User,Staff")]
+        [Authorize(Roles = "User,User,Staff")]
         [HttpPost, ActionName("RoomDetail")]
         public async Task<ActionResult> AddToCart(int id)
         {
