@@ -42,7 +42,7 @@ namespace MotelBookingApp.Controllers
             var roomTypeList = await _context.RoomTypes.ToListAsync();
             recordModel.RoomTypeList = roomTypeList;
             var userName = _userManager.GetUserName(User);
-            var user = await _context.Users.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
+            var user = await _context.AppUsers.Include("Motel").Where(u => u.UserName == userName).FirstOrDefaultAsync();
             var bookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name).ToListAsync();
             recordModel.BookedRooms = bookedRooms;
             
@@ -171,7 +171,7 @@ namespace MotelBookingApp.Controllers
                 searchBookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Booking.AppUser.UserName == username).ToListAsync();
             }
             //by date period
-            else if (string.IsNullOrEmpty(username) && checkin.Year == 0001 && checkout.Year == 0001 && string.IsNullOrEmpty(roomType))
+            else if (string.IsNullOrEmpty(username) && checkin.Year != 0001 && checkout.Year != 0001 && string.IsNullOrEmpty(roomType))
             {
                 recordModel.CheckinDate = checkin;
                 recordModel.CheckoutDate = checkout;
@@ -189,7 +189,7 @@ namespace MotelBookingApp.Controllers
                 searchBookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Room.RoomType.Name == roomType).ToListAsync();
             }
             //by username and date period
-            else if (!string.IsNullOrEmpty(username) && checkin.Year == 0001 && checkout.Year == 0001 && string.IsNullOrEmpty(roomType))
+            else if (!string.IsNullOrEmpty(username) && checkin.Year != 0001 && checkout.Year != 0001 && string.IsNullOrEmpty(roomType))
             {
                 recordModel.UserName = username;
                 recordModel.CheckinDate = checkin;
@@ -209,7 +209,7 @@ namespace MotelBookingApp.Controllers
                 searchBookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Booking.AppUser.UserName == username && br.Room.RoomType.Name == roomType).ToListAsync(); 
             }
             // by date period and room type
-            else if (string.IsNullOrEmpty(username) && checkin.Year == 0001 && checkout.Year == 0001 && !string.IsNullOrEmpty(roomType))
+            else if (string.IsNullOrEmpty(username) && checkin.Year != 0001 && checkout.Year != 0001 && !string.IsNullOrEmpty(roomType))
             {
                 recordModel.CheckinDate = checkin;
                 recordModel.CheckoutDate = checkout;
@@ -222,7 +222,7 @@ namespace MotelBookingApp.Controllers
                 searchBookedRooms = await _context.BookedRecords.Include("Room").Include("Booking").Where(br => br.Room.Motel.Name == user.Motel.Name && br.Room.RoomType.Name == roomType && (br.CheckinDate > checkin && br.CheckoutDate < checkout)).ToListAsync(); 
             }
             // by username and date period and room type
-            else if (!string.IsNullOrEmpty(username) && checkin.Year == 0001 && checkout.Year == 0001 && !string.IsNullOrEmpty(roomType))
+            else if (!string.IsNullOrEmpty(username) && checkin.Year != 0001 && checkout.Year != 0001 && !string.IsNullOrEmpty(roomType))
             {
                 recordModel.UserName = username;
                 recordModel.CheckinDate = checkin;

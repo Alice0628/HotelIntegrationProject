@@ -37,7 +37,7 @@ namespace MotelBookingApp.Controllers
 
             return View(viewCustomer);
         }
-
+ 
         public async Task<IActionResult> Edit(int? id)
         {
             try

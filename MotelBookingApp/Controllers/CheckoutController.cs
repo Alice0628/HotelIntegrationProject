@@ -113,10 +113,6 @@ namespace MotelBookingApp.Controllers
         {
             var sessionService = new SessionService();
             Session session = sessionService.Get(session_id);
-
-<<<<<<< Updated upstream
-            var userName = HttpContext.Session.GetString("UserName");
-=======
             string userName;
 
             if (User.IsInRole("Staff"))
@@ -128,14 +124,14 @@ namespace MotelBookingApp.Controllers
                 userName = _userManager.GetUserName(User);
             }
 
->>>>>>> Stashed changes
-            var user = _context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+            var user = _context.AppUsers.Where(u => u.UserName == userName).FirstOrDefault();
 
             var purchaseConfirmationCode = session.PaymentIntentId;
             var whenPaid = DateTime.Now;
             var TotalAmount = Math.Round((decimal)session.AmountTotal / 100, 2);
             var newPurchase = new Booking { AppUser = user, ConfirmCode = purchaseConfirmationCode, PayTime = whenPaid, TotalAmount = TotalAmount };
-            _context.Add(newPurchase);
+            _context.Bookings.Add(newPurchase);
             await _context.SaveChangesAsync();
 
             var booking = _context.Bookings.Include("AppUser").Where(p => p.ConfirmCode == purchaseConfirmationCode && p.AppUser.UserName == userName).FirstOrDefault();

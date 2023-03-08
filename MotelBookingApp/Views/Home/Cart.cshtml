@@ -95,7 +95,7 @@
                 <input type="text" id="TextBox1" placeholder="amount" name="amount" value="@ViewBag.Total" hidden />
                 @if (User.IsInRole("Staff"))
                 {
-                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="StaffBooking" asp-action="Index">Continue Booking</a>
+                    <a style="margin-right:1rem" class="btn btn-warning" asp-controller="StaffBooking" asp-action="SearchRoom">Continue Booking</a>
                 }
                 else
                 {
