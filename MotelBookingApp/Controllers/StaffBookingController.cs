@@ -74,7 +74,7 @@ namespace MotelBookingApp.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var result = await _userManager.ConfirmEmailAsync(newUser, code);
                     HttpContext.Session.SetString("UserName", registerVM.UserName);
-                    var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.UserName == username).ToList().Count.ToString();
+                    var count = _context.BookingCarts.Include("AppUser").Where(bc => bc.AppUser.UserName == registerVM.UserName).ToList().Count.ToString();
                     HttpContext.Session.SetString("count", count);
                     return RedirectToAction(nameof(SearchRoom));
                 }
